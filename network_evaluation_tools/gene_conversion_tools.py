@@ -33,12 +33,12 @@ def query_constructor(gene_list, exclude_prefixes=None, print_invalid_genes=Fals
 	valid_query_genes = [get_identifier_without_prefix(gene) for gene in gene_list if exclude_id(gene, exclude_prefixes)==None]
 	# Find all genes that have invalid names
 	invalid_query_genes = [gene for gene in gene_list if exclude_id(gene, exclude_prefixes)!=None]
-	print len(valid_query_genes), "Valid Query Genes"
+	print(len(valid_query_genes), "Valid Query Genes")
 	if print_invalid_genes:
-		print len(invalid_query_genes), "Invalid Query Genes:"
-		print invalid_query_genes
+		print(len(invalid_query_genes), "Invalid Query Genes:")
+		print(invalid_query_genes)
 	else:
-		print len(invalid_query_genes), "Invalid Query Genes"
+		print(len(invalid_query_genes), "Invalid Query Genes")
 	query_string = ' '.join(valid_query_genes) # Build string of names to input into MyGene.Info
 	return query_string, valid_query_genes, invalid_query_genes
 
@@ -72,8 +72,8 @@ def query_batch(query_string, tax_id='9606', scopes="symbol, entrezgene, alias, 
 		        	'q': chunk}
 		    res = requests.post('http://mygene.info/v3/query', data)
 		    json = json+res.json()		    
-	print len(json), 'Matched query results'
-	print 'Batch query complete:', round(time.time()-query_time,2), 'seconds'
+	print(len(json), 'Matched query results')
+	print('Batch query complete:', round(time.time()-query_time,2), 'seconds')
 	return json
 
 # Construct matched queries maps
@@ -95,10 +95,10 @@ def construct_query_map_table(query_result, query_genes, display_unmatched_queri
 				matched_data.append([match.get('query'), match.get('_score'), match.get('symbol'), str(match.get('entrezgene'))])
 			else:
 				matched_data.append([match.get('query'), match.get('_score'), match.get('symbol'), match.get('entrezgene')])
-	print 'Queries without full matching results found:', len(partial_match_results)
+	print('Queries without full matching results found:', len(partial_match_results))
 	if display_unmatched_queries:
 		for entry in partial_match_results:
-			print entry
+			print(entry)
 	# Convert matched data list into data frame table
 	match_table = pd.DataFrame(data=matched_data, columns=['Query','Score','Symbol','EntrezID'])
 	match_table = match_table.set_index('Query')
@@ -108,8 +108,8 @@ def construct_query_map_table(query_result, query_genes, display_unmatched_queri
 	for gene in query_genes:
 		if type(match_table.ix[gene])==pd.DataFrame:
 			duplicate_matched_genes.append(gene)
-	print
-	print len(duplicate_matched_genes), "Queries with mutliple matches found"
+	print()
+	print(len(duplicate_matched_genes), "Queries with mutliple matches found")
 	# Construct mapping table of genes with only one full result
 	single_match_genes = [gene for gene in query_genes if gene not in duplicate_matched_genes]
 	match_table_single = match_table.ix[single_match_genes]
@@ -129,8 +129,8 @@ def construct_query_map_table(query_result, query_genes, display_unmatched_queri
 	# Construct query map dictionaries
 	query_to_symbol = match_table_trim['Symbol'].to_dict()
 	query_to_entrez = match_table_trim['EntrezID'].to_dict()
-	print
-	print 'Query mapping table/dictionary construction complete:', round(time.time()-construction_time,2), 'seconds'
+	print()
+	print('Query mapping table/dictionary construction complete:', round(time.time()-construction_time,2), 'seconds')
 	return match_table_trim, query_to_symbol, query_to_entrez
 
 # Filter edgelist to remove all genes that contain invalid query names
@@ -143,7 +143,7 @@ def filter_query_edgelist(query_edgelist, invalid_genes):
 			count+=1
 		else:
 			edgelist_filt.append(edge)
-	print count, '/', len(query_edgelist), 'edges with invalid nodes removed'
+	print(count, '/', len(query_edgelist), 'edges with invalid nodes removed')
 	return edgelist_filt
 
 # Convert network edge lists
@@ -180,18 +180,18 @@ def convert_custom_namelist(names, field, match_table):
 # Filter converted edge lists
 def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False):
 	filter_time = time.time()
-	print len(edgelist),'input edges'
+	print(len(edgelist),'input edges')
 	# Remove self-edges
 	if remove_self_edges:
 		edgelist_filt1 = [edge for edge in edgelist if edge[0]!=edge[1]]
-		print len(edgelist)-len(edgelist_filt1), 'self-edges removed'
+		print(len(edgelist)-len(edgelist_filt1), 'self-edges removed')
 	else:
 		edgelist_filt1 = edgelist
-		print 'Self-edges not removed'
+		print('Self-edges not removed')
 	if weighted:
 		# Remove edges where one or both nodes are "None"
 		edgelist_filt2 = pd.DataFrame(data=edgelist_filt1).dropna().values.tolist()
-		print len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed'
+		print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
 		# Remove duplicates by keeping the max score
 		edgelist_filt3_scoremap = {}
 		for edge in edgelist_filt2:
@@ -203,16 +203,16 @@ def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False):
 		edgelist_filt3 = []
 		for edge in edgelist_filt3_scoremap:
 			edgelist_filt3.append(edge.split('+')+[edgelist_filt3_scoremap[edge]])
-		print len(edgelist_filt2)-len(edgelist_filt3), 'duplicate edges removed'
+		print(len(edgelist_filt2)-len(edgelist_filt3), 'duplicate edges removed')
 	else:
 		# Remove edges where one or both nodes are "None"
 		edgelist_filt2 = pd.DataFrame(data=edgelist_filt1).dropna()
-		print len(edgelist_filt1)-edgelist_filt2.shape[0], 'edges with un-mapped genes removed'
+		print(len(edgelist_filt1)-edgelist_filt2.shape[0], 'edges with un-mapped genes removed')
 		# Remove duplicate edges
 		edgelist_filt3 = edgelist_filt2.drop_duplicates().values.tolist()
-		print edgelist_filt2.shape[0]-len(edgelist_filt3), 'duplicate edges removed'
-	print 'Edge list filtered:',round(time.time()-filter_time,2),'seconds'
-	print len(edgelist_filt3), 'Edges remaining'
+		print(edgelist_filt2.shape[0]-len(edgelist_filt3), 'duplicate edges removed')
+	print('Edge list filtered:',round(time.time()-filter_time,2),'seconds')
+	print(len(edgelist_filt3), 'Edges remaining')
 	return edgelist_filt3
 
 # Write edgelist to file
@@ -225,4 +225,4 @@ def write_edgelist(edgelist, output_file, delimiter='\t', binary=True):
 		else:
 			f.write(delimiter.join([str(val) for val in edge])+'\n')
 	f.close()
-	print 'Edge list saved:', round(time.time()-write_time,2),'seconds'
+	print('Edge list saved:', round(time.time()-write_time,2),'seconds')

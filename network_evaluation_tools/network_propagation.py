@@ -46,7 +46,7 @@ def fast_random_walk(alpha, binary_mat, subgraph_norm, prop_data):
 def closed_form_network_propagation(network, binary_matrix, network_alpha, symmetric_norm=False,  verbose=False, save_path=None):
 	starttime=time.time()
 	if verbose:
-		print 'Alpha:', network_alpha
+		print('Alpha:', network_alpha)
 	# Separate network into connected components and calculate propagation values of each sub-sample on each connected component
 	subgraphs = list(nx.connected_component_subgraphs(network))
 	# Initialize propagation results by propagating first subgraph
@@ -68,10 +68,10 @@ def closed_form_network_propagation(network, binary_matrix, network_alpha, symme
 	prop_data_df = pd.DataFrame(data=prop_data[:,1:], index = binary_matrix.index, columns=prop_data_node_order)
 	if save_path is None:
 		if verbose:
-			print 'Network Propagation Complete:', time.time()-starttime, 'seconds'		
+			print('Network Propagation Complete:', time.time()-starttime, 'seconds')
 		return prop_data_df
 	else:
 		prop_data_df.to_csv(save_path)
 		if verbose:
-			print 'Network Propagation Complete:', time.time()-starttime, 'seconds'				
+			print('Network Propagation Complete:', time.time()-starttime, 'seconds')
 		return prop_data_df

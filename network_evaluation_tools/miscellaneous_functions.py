@@ -36,7 +36,7 @@ def calculate_confusion_matrix_serial(prop_geno, p, n, node_set_name, node_set, 
 			confusion_matrix['TN'].append(TN)
 		confusion_matrices[i]=confusion_matrix
 	if verbose:
-		print 'Confusion matrices calculated for node set', node_set_name, 'complete.', repr(len(intersect))+' nodes in network,', round(time.time()-runtime, 2), 'seconds.'
+		print('Confusion matrices calculated for node set', node_set_name, 'complete.', repr(len(intersect))+' nodes in network,', round(time.time()-runtime, 2), 'seconds.')
 	return confusion_matrices
 
 # Calculate confusion matrix (true positive, false negatives, false positives, true negatives) of node set recovery for given node set 
@@ -66,7 +66,7 @@ def calculate_confusion_matrix_parallel(node_set_params):
 			confusion_matrix['TN'].append(TN)
 		confusion_matrices[i]=confusion_matrix
 	if verbose:
-		print 'Confusion matrices calculated for node set', node_set_name, 'complete.', repr(len(intersect))+' nodes in network,', round(time.time()-runtime, 2), 'seconds.'
+		print('Confusion matrices calculated for node set', node_set_name, 'complete.', repr(len(intersect))+' nodes in network,', round(time.time()-runtime, 2), 'seconds.')
 	return [node_set_name, confusion_matrices]
 
 # Wapper for calculating the confusion matrices for input node set file and network (has parallel option)
@@ -96,12 +96,12 @@ def confusion_matrix_construction_wrapper(network_file, node_set_file, sample_p,
 		node_set_conf_mat = {result[0]:result[1] for result in conf_mat_results}
 	if save_path is None:
 		if verbose:
-			print 'Network confusion matrix values calcualted:', round(time.time()-starttime, 2), 'seconds'			
+			print('Network confusion matrix values calcualted:', round(time.time()-starttime, 2), 'seconds')
 		return node_set_conf_mat
 	else:
 		p.dump(node_set_conf_mat, open(save_path, 'wb'))
 		if verbose:
-			print 'Network confusion matrix values calcualted:', round(time.time()-starttime, 2), 'seconds'					
+			print('Network confusion matrix values calcualted:', round(time.time()-starttime, 2), 'seconds')
 		return node_set_conf_mat
 
 # Use confusion matrix results to calculate odds ratio, risk ratio, accuracy or precision at a given recall threshold
@@ -117,7 +117,7 @@ def confusion_matrix_analysis(confusion_matrix_input, calculation, recall_thresh
 	cohort_calculated_values_mean, cohort_calculated_values_var = {}, {}
 	# For each cohort tested
 	for cohort in confusion_matrix:
-		print cohort
+		print(cohort)
 		n = len(confusion_matrix[cohort])
 		calculation_values = []
 		# For all sub-sample iterations
@@ -147,12 +147,12 @@ def confusion_matrix_analysis(confusion_matrix_input, calculation, recall_thresh
 												pd.Series(cohort_calculated_values_var, name=calculation+' Var')], axis=1)
 	if save_path is None:
 		if verbose:
-			print calculation, 'calculation completed for all cohorts', round(time.time()-runtime, 2), 'seconds.'
+			print(calculation, 'calculation completed for all cohorts', round(time.time()-runtime, 2), 'seconds.')
 		return cohort_calculated_values_table
 	else:
 		cohort_calculated_values_table.to_csv(save_path)
 		if verbose:
-			print calculation, 'calculation completed for all cohorts', round(time.time()-runtime, 2), 'seconds.'		
+			print(calculation, 'calculation completed for all cohorts', round(time.time()-runtime, 2), 'seconds.')
 		return cohort_calculated_values_table
 
 

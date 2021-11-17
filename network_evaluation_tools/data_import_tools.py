@@ -14,11 +14,11 @@ def filter_weighted_network_sif(network_file_path, nodeA_col=0, nodeB_col=1, sco
     # Filter edges by score quantile
     q_score = data[score_col].quantile(q)
     if verbose:
-        print str(round(q*100,2))+'%', 'score:', q_score
+        print(str(round(q*100,2))+'%', 'score:', q_score)
     data_filt = data[data[score_col]>q_score][data.columns[[nodeA_col, nodeB_col, score_col]]]
     data_filt.columns = ['nodeA', 'nodeB', 'edgeScore']
     if verbose:
-        print data_filt.shape[0], '/', data.shape[0], 'edges retained'
+        print(data_filt.shape[0], '/', data.shape[0], 'edges retained')
     if save_path is not None:
         data_filt.to_csv(save_path, sep='\t', header=False, index=False)
     return data_filt
@@ -29,7 +29,7 @@ def filter_weighted_network_sif(network_file_path, nodeA_col=0, nodeB_col=1, sco
 def load_network_file(network_file_path, delimiter='\t', verbose=False):
 	network = nx.read_edgelist(network_file_path, delimiter=delimiter, data=False)
 	if verbose:
-		print 'Network File Loaded:', network_file_path
+		print('Network File Loaded:', network_file_path)
 	return network
 
 # Get full paths to all networks in directory with a given file name structure:
@@ -65,7 +65,7 @@ def load_networks(network_file_map, delimiter='\t', verbose=False):
 		# Construct network edge list
 		network_edges[network_name] = network.edges()
 	if verbose:
-		print 'All given network files loaded'
+		print('All given network files loaded')
 	# Return data structure
 	return networks, network_edges, network_nodes
 
@@ -103,7 +103,7 @@ def process_TCGA_MAF(maf_file, save_path, filetype='matrix', gene_naming='Symbol
 			f.write(sm[0][:12]+'\t'+sm[1]+'\n')
 		f.close()
 		if verbose:
-			print 'Binary somatic mutations list saved'
+			print('Binary somatic mutations list saved')
 	else:
 		# Save non-duplicate patients' binary TCGA somatic mutation matrix to csv
 		TCGA_sm_mat_filt = TCGA_sm_mat.ix[non_dup_IDs]
@@ -115,9 +115,9 @@ def process_TCGA_MAF(maf_file, save_path, filetype='matrix', gene_naming='Symbol
 		TCGA_sm_mat_filt3 = TCGA_sm_mat_filt2[nonempty_cols]
 		TCGA_sm_mat_filt3.to_csv(save_path)
 		if verbose:
-			print 'Binary somatic mutation matrix saved'
+			print('Binary somatic mutation matrix saved')
 	if verbose:
-		print 'MAF file processed:', maf_file, round(time.time()-loadtime, 2), 'seconds.'
+		print('MAF file processed:', maf_file, round(time.time()-loadtime, 2), 'seconds.')
 	return
 
 # Load binary mutation data with 2 file types (filetype= 'matrix' or 'list')
@@ -135,7 +135,7 @@ def load_binary_mutation_data(filename, filetype='matrix', delimiter=',', verbos
 	else:
 		binary_mat = pd.read_csv(filename, delimiter=delimiter, index_col=0).astype(int)
 	if verbose:
-	   print 'Binary Mutation Matrix Loaded:', filename
+	   print('Binary Mutation Matrix Loaded:', filename)
 	return binary_mat
 
 # Concatinate multiple mutation matrices together
@@ -144,7 +144,7 @@ def concat_binary_mutation_matrices(filename_list, filetype='matrix', delimiter=
 	binary_mat_list = [load_binary_mutation_data(fn, filetype=filetype, delimiter=delimiter, verbose=verbose) for fn in filename_list]  
 	binary_mat_concat = pd.concat(binary_mat_list).fillna(0)
 	if verbose:
-		print 'All binary mutation matrices loaded and concatenated'
+		print('All binary mutation matrices loaded and concatenated')
 	if save_path==None:
 		return binary_mat_concat
 	else:
@@ -161,5 +161,5 @@ def load_node_sets(node_set_file, delimiter='\t', verbose=False):
 	f.close()
 	node_sets = {node_set[0]:set(node_set[1:]) for node_set in node_set_lines_split}
 	if verbose:
-		print 'Node cohorts loaded:', node_set_file
+		print('Node cohorts loaded:', node_set_file)
 	return node_sets
