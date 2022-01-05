@@ -67,7 +67,7 @@ def query_batch(query_string, tax_id='9606', scopes="symbol,entrezgene,alias,uni
             start_i, end_i = i*1000, (i+1)*1000
             query_chunks.append(','.join(query_split[start_i:end_i]))
         results = []
-        for chunk in query_chunks:
+        for chunk in tqdm(query_chunks):
             headers = {'content-type': 'application/x-www-form-urlencoded'}
             req = 'q='+chunk+"&scopes="+scopes+'&fields='+fields+"&taxid="+tax_id
             res = requests.post('http://mygene.info/v3/query', data=req, headers=headers)
@@ -152,12 +152,17 @@ def filter_query_edgelist(query_edgelist, invalid_genes):
 # Convert network edge lists
 # Third column is for weights if desired to pass weights forward
 def convert_edgelist(query_edgelist, query_to_symbol, weighted=False, fill_na=False):
-    edge_df = pd.DataFrame(query_edgelist, columns=["n1", "n2", "weight"])
+    if len(query_edgelist[0]) == 3:
+        edge_df = pd.DataFrame(query_edgelist, columns=["n1", "n2", "weight"])
+        final_cols = ["n1", "n2", "weight", "symbol_n1", "symbol_n2"]
+    else:
+        edge_df = pd.DataFrame(query_edgelist, columns=["n1", "n2"])
+        final_cols = ["n1", "n2", "symbol_n1", "symbol_n2"]
     gene_map = pd.DataFrame.from_dict(query_to_symbol, orient='index')
     gene_map.columns=['symbol']
     edge_df = edge_df.merge(gene_map, left_on="n1", right_index=True, how="left", suffixes=("", "_n1"))
     edge_df = edge_df.merge(gene_map, left_on="n2", right_index=True, how="left", suffixes=("", "_n2"))
-    edge_df.columns = ["n1", "n2", "weight", "symbol_n1", "symbol_n2"]
+    edge_df.columns = final_cols
     if fill_na:
         edge_df.loc[edge_df.symbol_n1.isna(), "symbol_n1"] = edge_df.loc[edge_df.symbol_n1.isna(), ("n1")]
         edge_df.loc[edge_df.symbol_n1.isna(), "symbol_n2"] = edge_df.loc[edge_df.symbol_n1.isna(), ("n2")]
@@ -191,36 +196,38 @@ def convert_custom_namelist(names, field, match_table):
 			return conversion[conversion['Score']==max_score].ix[0]['EntrezID']
 
 # Filter converted edge lists
-def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False):
-	filter_time = time.time()
-	print(len(edgelist),'input edges')
-	# Remove self-edges
-	if remove_self_edges:
-		edgelist_filt1 = edgelist.loc[(edgelist.symbol_n1 != edgelist.symbol_n2)]
-		print(len(edgelist)-len(edgelist_filt1), 'self-edges removed')
-	else:
-		edgelist_filt1 = edgelist
-		print('Self-edges not removed')
-	if weighted:
-		# Remove edges where one or both nodes are "None"
-		edgelist_filt2 = edgelist_filt1.dropna()
-		print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
-		# Remove duplicates by keeping the max score
-		edgelist_filt3_scoremap = {}
-		edgelist_filt2 = edgelist_filt2.sort_values(by="weight", ascending=False)
-		edgelist_filt3 = edgelist_filt2.drop_duplicates(subset=['symbol_n1', 'symbol_n2'], keep='first')
-		# Convert dictionary of scores to list
-		print(len(edgelist_filt2)-len(edgelist_filt3), 'duplicate edges removed')
-	else:
-		# Remove edges where one or both nodes are "None"
-		edgelist_filt2 = edgelist_filt1.dropna()
-		print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
-		# Remove duplicate edges
-		edgelist_filt3 = edgelist_filt2.drop_duplicates()
-		print(edgelist_filt2.shape[0]-len(edgelist_filt3), 'duplicate edges removed')
-	print('Edge list filtered:',round(time.time()-filter_time,2),'seconds')
-	print(len(edgelist_filt3), 'Edges remaining')
-	return edgelist_filt3
+def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False, node_cols=['symbol_n1', 'symbol_n2']):
+    filter_time = time.time()
+    print(len(edgelist),'input edges')
+    # Remove self-edges
+    if remove_self_edges:
+        edgelist_filt1 = edgelist.loc[(edgelist[node_cols[0]] != edgelist[node_cols[1]])]
+        print(len(edgelist)-len(edgelist_filt1), 'self-edges removed')
+    else:
+        edgelist_filt1 = edgelist
+        print('Self-edges not removed')
+    if weighted:
+        # Remove edges where one or both nodes are "None"
+        edgelist_filt2 = edgelist_filt1.dropna(subset=node_cols)
+        print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
+        # Remove duplicates by keeping the max score
+        # Create a sorted pair identifier to account for node 1-node 2 ordering
+        # edgelist_filt3_scoremap = {}
+        edgelist_filt2 = edgelist_filt2.assign(symbol_pair=["--".join(sorted(pair)) for pair in zip(edgelist_filt2[node_cols[0]], edgelist_filt2[node_cols[1]])])
+        edgelist_filt2 = edgelist_filt2.sort_values(by=['symbol_pair', 'weight'], ascending=False)
+        edgelist_filt3 = edgelist_filt2.drop_duplicates(subset=['symbol_pair'], keep='first')
+        print(len(edgelist_filt2)-len(edgelist_filt3), 'duplicate edges removed')
+    else:
+        # Remove edges where one or both nodes are "None"
+        edgelist_filt2 = edgelist_filt1.dropna(subset=node_cols)
+        print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
+        # Remove duplicate edges
+        edgelist_filt2 = edgelist_filt2.assign(symbol_pair=["--".join(sorted(pair)) for pair in zip(edgelist_filt2[node_cols[0]], edgelist_filt2[node_cols[1]])])
+        edgelist_filt3 = edgelist_filt2.drop_duplicates(subset=['symbol_pair'])
+        print(edgelist_filt2.shape[0]-len(edgelist_filt3), 'duplicate edges removed')
+    print('Edge list filtered:',round(time.time()-filter_time,2),'seconds')
+    print(len(edgelist_filt3), 'Edges remaining')
+    return edgelist_filt3
 
 # Write edgelist to file
 def write_edgelist(edgelist, output_file, delimiter='\t', binary=True):
