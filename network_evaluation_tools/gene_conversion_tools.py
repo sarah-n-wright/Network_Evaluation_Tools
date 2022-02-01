@@ -270,8 +270,22 @@ def filter_query_edgelist(query_edgelist, invalid_genes):
 	return edgelist_filt
 
 # Convert network edge lists
+def convert_edgelist(query_edgelist, query_to_symbol, node_cols=[0,1]):
+    if not isinstance(query_edgelist, pd.DataFrame):
+        edge_df = pd.DataFrame(query_edgelist)
+    else:
+        edge_df = query_edgelist.copy(deep=True)
+    node_names = [edge_df.columns[i] for i in node_cols]
+    edge_df.dropna(subset=node_names, inplace=True)
+    edge_df[node_names[0]] = edge_df[node_names[0]].astype(str)
+    edge_df[node_names[1]] = edge_df[node_names[1]].astype(str) 
+    edge_df[node_names[0]] = edge_df[node_names[0]].map(query_to_symbol, na_action="ignore")
+    edge_df[node_names[1]] = edge_df[node_names[1]].map(query_to_symbol, na_action="ignore")
+    return edge_df
+    
+
 # Third column is for weights if desired to pass weights forward
-def convert_edgelist(query_edgelist, query_to_symbol, weighted=False, fill_na=False):
+def convert_edgelist_old(query_edgelist, query_to_symbol, weighted=False, fill_na=False):
     if not isinstance(query_edgelist, pd.DataFrame):
         edge_df = pd.DataFrame(query_edgelist)
     else:
@@ -323,7 +337,7 @@ def convert_custom_namelist(names, field, match_table):
 			return conversion[conversion['Score']==max_score].ix[0]['EntrezID']
 
 # Filter converted edge lists
-def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False, node_cols=['symbol_n1', 'symbol_n2']):
+def filter_converted_edgelist_old(edgelist, remove_self_edges=True, weighted=False, node_cols=['symbol_n1', 'symbol_n2']):
     filter_time = time.time()
     print(len(edgelist),'input edges')
     # Remove self-edges
@@ -356,6 +370,31 @@ def filter_converted_edgelist(edgelist, remove_self_edges=True, weighted=False, 
     print(len(edgelist_filt3), 'Edges remaining')
     return edgelist_filt3
 
+
+def filter_converted_edgelist(edgelist, remove_self_edges=True, node_cols=['symbol_n1', 'symbol_n2'],
+                             weight_col=None):
+    filter_time = time.time()
+    node_indices = [edgelist.columns.get_loc(col) for col in node_cols]
+    print(len(edgelist),'input edges')
+    # Remove self-edges
+    if remove_self_edges:
+        edgelist_filt1 = edgelist.loc[(edgelist[node_cols[0]] != edgelist[node_cols[1]])]
+        print(len(edgelist)-len(edgelist_filt1), 'self-edges removed')
+    else:
+        edgelist_filt1 = edgelist
+        print('Self-edges not removed')
+    # remove edges with unmapped genes
+    edgelist_filt2 = edgelist_filt1.dropna(subset=node_cols)
+    print(len(edgelist_filt1)-len(edgelist_filt2), 'edges with un-mapped genes removed')
+    edgelist_filt2_sorted = sort_node_pairs(edgelist_filt2, node_indices)
+    if weight_col is not None:
+        edgelist_filt2_sorted = edgelist_filt2_sorted.sort_values(by=weight_col, ascending=False)
+    edgelist_filt3 = edgelist_filt2_sorted.drop_duplicates(subset=node_cols, keep="first")
+    print(len(edgelist_filt2_sorted)-len(edgelist_filt3), 'duplicate edges removed')    
+    print('Edge list filtered:',round(time.time()-filter_time,2),'seconds')
+    print(len(edgelist_filt3), 'Edges remaining')
+    return edgelist_filt3
+
 # Write edgelist to file
 def write_edgelist(edgelist, output_file, delimiter='\t', binary=True):
     write_time=time.time()
@@ -374,31 +413,13 @@ def write_edgelist(edgelist, output_file, delimiter='\t', binary=True):
             edgelist.to_csv(output_file, sep=delimiter, index=False, header=False)
     print('Edge list saved:', round(time.time()-write_time,2),'seconds')
     
-
-def summarize_changes(net_name, v1_suff, v2_suff, stat_types=["_Raw", "_edgelist_symbol_filt"], 
-                      stat_names=["Raw", "Filtered"]):
-    edge_statistics_v1 = {}
-    edge_statistics_v2 = {}
-    # extract the desired statistics (number of edges) from the available data 
-    for i, stat in enumerate(stat_types):
-        prefix = stat_names[i]
-        exec(f"{prefix}= len({net_name}_Raw{v1_suff})", globals(), edge_statistics_v1)
-        exec(f"{prefix}= len({net_name}_Raw{v2_suff})", globals(), edge_statistics_v2)
-        
-    stats_results = pd.DataFrame.from_dict({"v1":edge_statistics_v1, "v2":edge_statistics_v2})
-    # extract the number of nodes and the overlap between them
-    node_statistics = {}
-    exec(f"v1_nodes=set(np.array({net_name}_edgelist_symbol_filt{v1_suff})[:, 0]).union(set(np.array({net_name}_edgelist_symbol_filt{v1_suff})[:, 1]))", globals(), node_statistics)
-    exec(f"v2_nodes=set(np.array({net_name}_edgelist_symbol_filt{v2_suff})[:, 0]).union(set(np.array({net_name}_edgelist_symbol_filt{v2_suff})[:, 1]))", globals(), node_statistics)
-    nodes_v1 = node_statistics["v1_nodes"]
-    nodes_v2 = node_statistics["v2_nodes"]
-    node_results = [len(nodes_v1), len(nodes_v2), len(nodes_v2)-len(nodes_v1), len(nodes_v2.difference(nodes_v1)), 
-                    -1* len(nodes_v1.difference(nodes_v2))]
-    # plot the results
-    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14,5), tight_layout=True)
-    stats_results.plot.bar(ax=axes[0])
-    axes[1].bar(["v1", "v2", "total difference", "new V2", "removed V2"], node_results)
-    axes[1].set_ylabel("Number of nodes", fontsize=14)
-    axes[0].set_ylabel("Number of edges", fontsize=14)
-    return stats_results, node_results
     
+def sort_node_pairs(data, node_col_indices=[0,1]):
+    node_names = [data.columns[i] for i in node_col_indices]
+    node_array = data.iloc[:, node_col_indices].to_numpy()
+    node_array.sort()
+    sorted_data = pd.DataFrame(node_array)
+    sorted_data.columns = node_names
+    if data.shape[1] > 2:
+        sorted_data = pd.concat([sorted_data, data.drop(columns=node_names)], axis=1)
+    return sorted_data
