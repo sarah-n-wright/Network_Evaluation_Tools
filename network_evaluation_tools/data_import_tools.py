@@ -6,11 +6,12 @@ import pandas as pd
 import networkx as nx
 import time
 import os
+import matplotlib.pyplot as plt
 
 # Filter extended sif file where all edges are weighted by a specific quantile
 # Return the filtered network edge list and save it to a file if desired (for import by load_network_file)
 def filter_weighted_network_sif(network_file_path, nodeA_col=0, nodeB_col=1, score_col=2, q=0.9, delimiter='\t', verbose=False, save_path=None):
-    data = pd.read_csv(network_file_path, sep=delimiter, header=-1, low_memory=False)
+    data = pd.read_csv(network_file_path, sep=delimiter, header=None, low_memory=False)
     # Filter edges by score quantile
     q_score = data[score_col].quantile(q)
     if verbose:
@@ -106,7 +107,7 @@ def process_TCGA_MAF(maf_file, save_path, filetype='matrix', gene_naming='Symbol
 			print('Binary somatic mutations list saved')
 	else:
 		# Save non-duplicate patients' binary TCGA somatic mutation matrix to csv
-		TCGA_sm_mat_filt = TCGA_sm_mat.ix[non_dup_IDs]
+		TCGA_sm_mat_filt = TCGA_sm_mat.loc[non_dup_IDs]
 		# Remove all genes that have no more mutations after patient filtering
 		nonempty_cols = [col for col in TCGA_sm_mat_filt.columns if not all(TCGA_sm_mat_filt[col]==0)]
 		TCGA_sm_mat_filt2 = TCGA_sm_mat_filt[nonempty_cols]
@@ -163,3 +164,24 @@ def load_node_sets(node_set_file, delimiter='\t', verbose=False):
 	if verbose:
 		print('Node cohorts loaded:', node_set_file)
 	return node_sets
+
+
+def plot_changes_to_dataset(input_raw, input_raw_v2, edgelist_filt, edgelist_filt_v2, input_human=None, input_human_v2=None):
+    plt.rcParams['font.size'] = '14'
+    stats = pd.DataFrame({"v1":[len(input_raw)],
+                         "v2":[len(input_raw_v2)]}, index=["Input"])
+    if input_human is not None:
+        stats = pd.concat([stats, pd.DataFrame({"v1":len(input_human), "v2":len(input_human_v2)}, index=["Human only"])])
+    else:
+        print("No human filtering done")
+    stats = pd.concat([stats, pd.DataFrame({"v1":len(edgelist_filt), "v2":len(edgelist_filt_v2)}, index=["Filtered"])])
+    # get node stats
+    nodes_v1 = set(edgelist_filt["symbol_n1"].values).union(set(edgelist_filt["symbol_n2"].values))
+    nodes_v2 = set(edgelist_filt_v2["symbol_n1"].values).union(set(edgelist_filt_v2["symbol_n2"].values))
+    f, (ax1, ax2) = plt.subplots(1, 2, figsize=(15,5))
+    stats.plot.bar(ax=ax1, fontsize=14)
+    ax1.set_ylabel("Number of edges", fontsize=14 )
+    ax2.bar(["v1", "v2", "change", "+ V2", "- V2"], [len(nodes_v1), len(nodes_v2), len(nodes_v2)-len(nodes_v1),
+                                                           len(nodes_v2.difference(nodes_v1)), -1* len(nodes_v1.difference(nodes_v2))])
+    ax2.set
+    ax2.set_ylabel("Number of nodes")
