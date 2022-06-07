@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name='network_evaluation_tools',
-	version='1.0.2',
+	version='1.0.2.1',
 	description='Module to perform patient and molecular network evaluation as described in Huang and Carlin, et al. 2018',
 	url='https://github.com/idekerlab/Network_Evaluation_Tools',
 	author='Justin Huang',
@@ -20,7 +20,7 @@ setup(
 		'Intended Audience :: Science/Research',
 		'Topic :: Software Development :: Build Tools',
 		'License :: OSI Approved :: MIT License',
-		'Programming Language :: Python :: 2.7'
+		'Programming Language :: Python :: 3.10'
 	],
 	packages=find_packages(exclude=['copy', 'itertools', 'os', 're', 'time']),
 	install_requires=[
