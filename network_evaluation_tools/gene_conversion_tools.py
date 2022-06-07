@@ -176,7 +176,8 @@ def construct_query_map_table(query_result, query_genes, display_unmatched_queri
     if len(duplicated_data) > 0:
         unique_data = query_result.sort_values(by=["_score", "entrezgene", "symbol"])
         unique_data.drop_duplicates(subset="query", keep="first", inplace=True)
-    
+    else:
+        unique_data = query_result
     # UNMATCHED
     unmatched_genes = query_result[((query_result["symbol"].isna()) & (query_result["entrezgene"].isna()))]["query"].unique().tolist()
     print("Number of unmatched genes:", len(unmatched_genes))
@@ -281,6 +282,8 @@ def convert_edgelist(query_edgelist, query_to_symbol, node_cols=[0,1]):
     edge_df[node_names[1]] = edge_df[node_names[1]].astype(str) 
     edge_df[node_names[0]] = edge_df[node_names[0]].map(query_to_symbol, na_action="ignore")
     edge_df[node_names[1]] = edge_df[node_names[1]].map(query_to_symbol, na_action="ignore")
+    name_map = {node_names[0]:"symbol_n1", node_names[1]:"symbol_n2"}
+    edge_df.rename(columns=name_map, inplace=True)
     return edge_df
     
 
@@ -421,5 +424,5 @@ def sort_node_pairs(data, node_col_indices=[0,1]):
     sorted_data = pd.DataFrame(node_array)
     sorted_data.columns = node_names
     if data.shape[1] > 2:
-        sorted_data = pd.concat([sorted_data, data.drop(columns=node_names)], axis=1)
+        sorted_data = pd.concat([sorted_data.reset_index(drop=True), data.drop(columns=node_names).reset_index(drop=True)], axis=1)
     return sorted_data

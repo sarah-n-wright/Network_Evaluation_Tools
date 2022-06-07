@@ -22,14 +22,14 @@ def calculate_confusion_matrix_serial(prop_geno, p, n, node_set_name, node_set, 
 		sample = random.sample(intersect, sample_size)														 	# get node set sample
 		intersect_non_sample = [node for node in intersect if node not in sample]							   	# nodes in intersect not in sample
 		prop_geno_non_sample = list(prop_geno.index[~prop_geno.index.isin(sample)])							 	# nodes in network not in sample
-		prop_geno_sample_sum = prop_geno.ix[sample][prop_geno_non_sample].sum().sort_values(ascending=False)	# summed prop value for all nodes
+		prop_geno_sample_sum = prop_geno.loc[sample][prop_geno_non_sample].sum().sort_values(ascending=False)	# summed prop value for all nodes
 		y_actual = pd.Series(0, index=prop_geno_sample_sum.index, dtype=int)									# nodes sorted by mean prop value
-		y_actual.ix[intersect_non_sample]+=1																	# which nodes in sorted list are in intersect_non_sample
+		y_actual.loc[intersect_non_sample]+=1																	# which nodes in sorted list are in intersect_non_sample
 		intersect_non_sample_sorted = y_actual[y_actual==1].index											   	# intersect_non_sample sorted
 		confusion_matrix = {'TP':[], 'FN':[], 'FP':[], 'TN':[]}													# initialize true positive, false negative, false positive, true negative lists
 		for node in intersect_non_sample_sorted:															# Slide down sorted nodes by summed prop value by nodes that are in intersect_non_sample
 			TP, FN = sum(y_actual.ix[:node]), sum(y_actual.ix[node:])-1										   	# Calculate true positives and false negatives found at this point in list
-			FP, TN = len(y_actual.ix[:node])-TP, len(y_actual.ix[node:])-1-FN									# Calculate false positives and true negatives found at this point in list
+			FP, TN = len(y_actual.i[:node])-TP, len(y_actual.ix[node:])-1-FN									# Calculate false positives and true negatives found at this point in list
 			confusion_matrix['TP'].append(TP)
 			confusion_matrix['FN'].append(FN)
 			confusion_matrix['FP'].append(FP)
@@ -52,9 +52,9 @@ def calculate_confusion_matrix_parallel(node_set_params):
 		sample = random.sample(intersect, sample_size)														 	# get node set sample
 		intersect_non_sample = [node for node in intersect if node not in sample]							   	# nodes in intersect not in sample
 		prop_geno_non_sample = list(prop_geno.index[~prop_geno.index.isin(sample)])							 	# nodes in network not in sample
-		prop_geno_sample_sum = prop_geno.ix[sample][prop_geno_non_sample].sum().sort_values(ascending=False)	# summed prop value for all nodes
+		prop_geno_sample_sum = prop_geno.loc[sample][prop_geno_non_sample].sum().sort_values(ascending=False)	# summed prop value for all nodes
 		y_actual = pd.Series(0, index=prop_geno_sample_sum.index, dtype=int)									# nodes sorted by mean prop value
-		y_actual.ix[intersect_non_sample]+=1																	# which nodes in sorted list are in intersect_non_sample
+		y_actual.loc[intersect_non_sample]+=1																	# which nodes in sorted list are in intersect_non_sample
 		intersect_non_sample_sorted = y_actual[y_actual==1].index											   	# intersect_non_sample sorted
 		confusion_matrix = {'TP':[], 'FN':[], 'FP':[], 'TN':[]}													# initialize true positive, false negative, false positive, true negative lists
 		for node in intersect_non_sample_sorted:															# Slide down sorted nodes by summed prop value by nodes that are in intersect_non_sample
