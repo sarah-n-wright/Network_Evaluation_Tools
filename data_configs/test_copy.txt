@@ -1,5 +1,5 @@
 #Variable a
-a=
+a=100
 #Variable b
 b=
 #Variable c

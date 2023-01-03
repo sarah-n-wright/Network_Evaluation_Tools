@@ -1,4 +1,4 @@
-#Variable a
+#Variable a represents time
 a=
 #Variable b
 b=
