@@ -1,0 +1,6 @@
+#Variable a
+a=100
+#Variable b
+b=333
+#Variable c
+c=1234
