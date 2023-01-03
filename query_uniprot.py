@@ -155,7 +155,7 @@ def get_id_mapping_results_search(url, field=None):
         print_progress_batches(i, size, total)
     if file_format == "xml":
         return merge_xml_results(results)
-    if field is not None:
+    if (len(results['results']) > 0) and (field is not None):
         assert field in results['results'][0]['to'], field + "is not a valid field in the results"
         for i, entry in enumerate(results['results']):
             results['results'][i]['to'] = entry['to'][field]
@@ -179,7 +179,7 @@ def get_id_mapping_results_stream(url):
 
 def perform_uniprot_query(ids, from_db, to_db):
     # need to see how this performs for actual conversions
-    dbs = {"Entrez":'GeneID', "Ensembl": 'Ensembl', "Symbol": 'Gene_Name', "Uniprot": "UniProtKB"}
+    dbs = {"Entrez":'GeneID', "Ensembl": 'Ensembl', "Symbol": 'Gene_Name', "Uniprot": "UniProtKB", "DIP":"DIP"}
     field = 'primaryAccession' if to_db == "Uniprot" else None
     job_id = submit_id_mapping(
         from_db=from_db, to_db=dbs[to_db], ids=ids
