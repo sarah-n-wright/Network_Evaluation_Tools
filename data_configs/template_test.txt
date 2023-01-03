@@ -1,0 +1,6 @@
+#Variable a
+a=
+#Variable b
+b=
+#Variable c
+c=
