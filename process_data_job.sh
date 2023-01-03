@@ -14,7 +14,7 @@ srun -l python -m memory_profiler process_data.py -A "$nodeA_col" -B "$nodeB_col
     -i $input_id_type -t $target_id_type -N $name \
     --species "$species_col" --species_value "$species_values" \
     --score "$score_col" --header $header \
-    --sep $separator --testMode $test_mode \
+    --sep $separator --testMode $test_mode  --prefix "$node_prefix_separator" \
     -o $outpath $input_datafile
 
 
