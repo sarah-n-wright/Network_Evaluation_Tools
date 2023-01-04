@@ -59,10 +59,11 @@ if __name__=="__main__":
     parser.add_argument('--sep', default="\t")
     parser.add_argument('--prefix', default="None")
     args = parser.parse_args()    
-
+    print(args.A, args.B)
+    print(args.B.isnumeric())
     node_a = int(args.A) if args.A.isnumeric() else args.A
-    node_b = int(args.B) if args.B.isnumeric() else args.B
-    node_b = None if node_b == "None" else args.B
+    node_b = int(args.B) if args.B.isnumeric() else None if args.B == "None" else args.B
+    print(type(node_a), type(node_b))
 
     species, species_code = parse_species(args.species, args.species_value)
     
