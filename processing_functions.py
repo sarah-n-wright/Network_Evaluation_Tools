@@ -81,15 +81,20 @@ def update_nodes(nodes, id_type, keep="present", timer=None):
     timer.start("Update Nodes")
     updated_node_map = {}
     if id_type == "Uniprot":
-        results, failed = uni.perform_uniprot_query(ids = nodes, from_db="UniProtKB_AC-ID", to_db="Uniprot")
+        query_nodes = [node for node in nodes if (("_HUMAN" in node) or (re.fullmatch("[a-zA-Z0-9\.]+", node) is not None))]
+        results, failed = uni.perform_uniprot_query(ids = query_nodes, from_db="UniProtKB_AC-ID", to_db="Uniprot")
         print("DUPLICATED UNIPROT MAPPINGS")
         print(results.loc[results.duplicated()])
         #remove duplicates
+        failed = list(failed) + [node for node in nodes if node not in query_nodes]
         results = results.drop_duplicates(subset=["from"])
     elif id_type == "Symbol":
-        results, failed = hgnc.perform_hgnc_query(nodes, "Symbol", "Symbol")
+        exclude_prefix_suffix = ["CHEBI:", "_HUMAN"]
+        query_nodes = [node for node in list(nodes) if re.search("|".join(exclude_prefix_suffix), node) is None]
+        results, failed = hgnc.perform_hgnc_query(query_nodes, "Symbol", "Symbol")
         results = pd.DataFrame.from_dict(results, orient="index", columns = ["to"])
         results["from"] = results.index.values
+        failed = list(failed) + [node for node in list(nodes) if re.search("|".join(exclude_prefix_suffix), node) is not None]
     elif id_type in ["Ensembl", "EnsemblProtein"]:
         results, failed = ensg.get_latest_ensembl_id(nodes)
     elif id_type == "Entrez":
@@ -279,7 +284,7 @@ def clean_score(score):
 
 class NetworkData:
     def __init__(self, datafile, node_a, node_b, identifiers, target_id_type, net_name, score=None, species=None, species_code=None, sep="\t", header=0, test_mode=False, prefixes=None):
-        test_size=1000
+        test_size=10000
         self.T = Timer()
         self.T.start("Total")
         available_id_types = ["Symbol", "Entrez", "Uniprot", "Ensembl", "DIP", "Refseq", "EnsemblProtein"]
@@ -318,21 +323,32 @@ class NetworkData:
         
         # Load the data
         self.T.start("Load data")
-        if test_mode:
-            self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar='"')
-            self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar='"')
-            if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
+        chars = ['"', "@"]
+        for i, quotechar in enumerate(chars):
+            try:
+                if test_mode:
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
                 # Possible malformed file, first column being incorrectly used as an index? Force it to not assign index
-                self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar='"')
-                self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar='"')
+                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
                 
-        else:
-            self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar='"')
-            self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar='"')
-            if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
-                self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar='"')
-                self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar='"')
-        
+                else:
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
+                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                break
+            except:
+                print("WARNING: Data not able to be loaded with quotechar", quotechar)
+                if i == len(chars) - 1:
+                    raise pd.errors.ParserError("Data could not be loaded with available quote characters")
+                
+        # Intialize an index column:
+        self.data[net_name+"_ID"] = self.data.index.values
+        self.cols.append(net_name+"_ID")
         self.T.end("Load data")
         # Check that the columns are in the data
         print(self.raw_data.head())
@@ -414,7 +430,7 @@ class NetworkData:
         while separator is None:
             comp = self.data.iloc[idx][self.node_a]
             try:
-                separator = re.search("[:,\|]", comp).group()
+                separator = re.search("[:,\|_]", comp).group()
             except AttributeError:
                 idx += 1
         # Iterate over the rows of the input data frame to create a mapping of complex string to pairwise ids
@@ -485,8 +501,11 @@ class NetworkData:
         self.T.start("Convert nodes")
         gene_map = {}
         all_nodes = self.get_unique_nodes()
+        #add_nodes = ['CBWD2_HUMAN', 'BUB1_HUMAN', 'MYO3A_HUMAN', 'NUD10_HUMAN', 'NHLC1_HUMAN', 'SRP72_HUMAN', 'NOX4_HUMAN', 'CACO1_HUMAN', 'HDGF_HUMAN', 'ZC3HE_HUMAN', 'ABI2_HUMAN', 'UBN1_HUMAN', 'PI42C_HUMAN', 'DUOX2_HUMAN', 'Myosin 5A', 'SC24C_HUMAN', 'DHE4_HUMAN', 'THIO_HUMAN', 'CIP4_HUMAN', 'PLK4_HUMAN', 'TRI27_HUMAN', 'NOT7', 'Fibrocystin;PARD3', 'KCNA2_HUMAN', 'MTCH1_HUMAN', 'ZSWM7_HUMAN', 'FBLN3_HUMAN', 'PAHX_HUMAN', 'CAH2_HUMAN', 'CTDS2_HUMAN', 'UBP53_HUMAN', 'GRP75_HUMAN', 'TM9S1_HUMAN', 'NMT2_HUMAN', 'STXB1_HUMAN', 'NELL2_HUMAN', 'MMP8_HUMAN', 'U1SBP_HUMAN', 'RPP30_HUMAN', 'WFS1_HUMAN', 'AGO1_HUMAN', 'ERN1_HUMAN', 'CFTR_HUMAN', 'ACOD_HUMAN', 'QARS', 'UB2V1_HUMAN;Ubiquitin conjugating enzyme E2 Kua-UEV', 'CENPB_HUMAN', 'PP2AB_HUMAN', 'FLT3_HUMAN', 'DYL1_HUMAN', 'STX4_HUMAN', 'PNO1_HUMAN', 'HXA2_HUMAN', 'HIST1H2AC', 'NAPSA_HUMAN', 'CDK1_HUMAN', 'PSMF1_HUMAN', 'OLIG3_HUMAN', 'Clathrin adaptor complex AP2, MU subunit', 'PADC1_HUMAN', 'Chorionic gonadotropin beta polypeptide 5;Chorionic gonoadotropin, beta chain', 'FA86C_HUMAN', 'Intercellular adhesion molecule 5', 'GLRX2_HUMAN', 'SHIP1_HUMAN', 'DDX58_HUMAN', 'Transcription initiation factor IIB', 'SPYA_HUMAN', 'FOSB_HUMAN', 'HNF6_HUMAN', 'RD23B_HUMAN', 'CO8A1_HUMAN', 'CX04A_HUMAN', 'TPM1_HUMAN', 'EFHC1_HUMAN', 'COIA1_HUMAN', 'FGF receptor 3', 'Placental ribonuclease inhibitor']
+        #all_nodes = all_nodes.union(set(add_nodes))
         if self.mixed_identifiers:
             unmapped = all_nodes
+            print("# UNMAPPED", len(unmapped))
             for i, id_type in enumerate(self.identifiers):
                 if len(unmapped) > 0:
                     if self.prefix is not None:
@@ -499,8 +518,22 @@ class NetworkData:
                         id_map = {node: clean_map[clean_nodes[node]] for node in clean_nodes if clean_nodes[node] in clean_map}
                     else:
                         id_map = self.get_node_conversion_map(unmapped, id_type, self.target_id_type)
+                        print(len(id_map))
+                    # catch ids not in all_nodes
                     gene_map = {**gene_map, **id_map}
+                    print("# UNMAPPED - ID_MAP = ", len(unmapped) - len(id_map))
                     unmapped = all_nodes.difference(set(gene_map.keys()))
+                    modified = [node for node in id_map.keys() if node not in all_nodes]
+                    if len(modified) > 0:
+                        modified_map = {}
+                        for node in modified:
+                            match = [x for x in unmapped if node in x]
+                            if len(match) > 0:
+                                for matched_node in match:
+                                    unmapped.remove(matched_node)
+                                    modified_map[matched_node] = id_map[node]
+                    gene_map = {**gene_map, **modified_map}
+                    print("ACTUAL UNMAPPED", len(unmapped))
             node_map = gene_map
         else:
             node_map = self.get_node_conversion_map(all_nodes, self.identifiers, self.target_id_type)
@@ -589,7 +622,7 @@ class NetworkData:
     def write_network_data(self, outpath, percentile=95):
         # rename columns
         self.T.start("Write data")
-        final_names= {self.node_a: self.target_id_type + "_A", self.node_b: self.target_id_type + "_B"}
+        final_names= {self.node_a: self.target_id_type + "_A", self.node_b: self.target_id_type + "_B", self.net_name+"_ID": "ID"}
         if self.score is not None:
             final_names[self.score] = "Score"
         if self.score is not None:
@@ -611,8 +644,22 @@ class NetworkData:
         self.T.print_all_times()
         
 
-
+    
 #if __name__=="__main__":
+
+if False:
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons12_uniprot_test.txt"
+    nd = NetworkData(datafile, node_a=0, node_b=2, 
+                    target_id_type='Entrez',  identifiers=['Uniprot', 'Symbol'], 
+                    header=None, net_name="hprd_test", test_mode=True, sep="\t")
+    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
+    nd.clean_data()
+    nd.convert_nodes()
+    final_nodes = nd.get_unique_nodes()
+    nd.write_network_data(outpath)
+    nd.write_stats(outpath)
+    
+    
 if False:
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/ConsensusPathDB_human_PPI_v35.tsv"
     nd = NetworkData(datafile, node_a="interaction_participants", node_b=None, score=None,
@@ -735,6 +782,19 @@ if False:
     nd = NetworkData(datafile, node_a="Entrez Gene Interactor A", node_b="Entrez Gene Interactor B", species="Organism ID Interactor A", 
                     target_id_type='Symbol',  identifiers='Entrez', species_code=9606, 
                     score="Score", header=0, net_name="BIOGRID_entrex_test", test_mode=True, sep="\t")
+    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
+    nd.clean_data()
+    nd.convert_nodes()
+    final_nodes = nd.get_unique_nodes()
+    nd.write_network_data(outpath)
+    nd.write_stats(outpath)
+
+
+if False:
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons.8.bind.BINARY_SIF.hgnc.txt.sif"
+    nd = NetworkData(datafile, node_a=0, node_b=2, species=None, 
+                    target_id_type='Entrez',  identifiers='Symbol', 
+                    header=None, net_name="bind_test", test_mode=True, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()
     nd.convert_nodes()
