@@ -1,9 +1,24 @@
 import pandas as pd
 import httplib2 as http
 import json
+import mygene
 
 from urllib.parse import urlparse
 http.RETIRES=10
+
+def query_mygene(gene_list, scopes, fields):
+    mg = mygene.MyGeneInfo()
+    results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
+                                returnall=True, verbose=False, as_dataframe=True, entrezonly=True)
+    mapped = results_df["out"]
+    dups = results_df["dup"]
+    missing = results_df["missing"]
+    unmapped = []
+    if len(dups) > 0:
+        unmapped += list(results_df["dup"]["query"].values)
+    if len(missing) > 0:
+        unmapped += list(results_df["missing"]["query"].values)
+    return mapped, unmapped
 
 def search_approved_symbols(ids):
     headers = {'Accept': 'application/json'}
@@ -26,11 +41,10 @@ def search_approved_symbols(ids):
         missing = set(ids).difference(set(approved_ids))
     else:
         print('Error detected: ' + response['status'])
-    return approved_map, missing
+    return approved_map, missing, approved_df
 
 
-
-def query_previous_symbols(ids):
+def query_previous_symbols(ids, approved_df=pd.DataFrame()):
     headers = {'Accept': 'application/json'}
     uri = 'http://rest.genenames.org'
     previous_map = {}
@@ -38,21 +52,20 @@ def query_previous_symbols(ids):
     print("Number of ids to check", len(ids))
     print(ids)
     #raise TimeoutError
-    for symbol in ids:
-        print("Previous")
-        path = '/fetch/prev_symbol/' + symbol
+    for i, symbol in enumerate(ids):
+        print(i, "Previous")
+        path = '/search/prev_symbol/' + symbol
         target = urlparse(uri+path)
         method = 'GET'
         body = ''
         h = http.Http()
         response, content = h.request(target.geturl(), method, body, headers)
         if response['status'] == '200':
-            print("Response received.")
 # assume that content is a json reply
 # parse content with the json module 
             data = json.loads(content)
             for entry in data['response']['docs']:
-                if entry['status'] == "Approved":
+                if entry['symbol'] in approved_df.symbol.values:
                     previous_map[symbol] = entry['symbol']
         else:
             print('Error detected: ' + response['status'])
@@ -60,13 +73,13 @@ def query_previous_symbols(ids):
     return previous_map, missing
 
 
-def query_alias_symbols(ids):
+def query_alias_symbols(ids, approved_df=pd.DataFrame()):
     headers = {'Accept': 'application/json'}
     uri = 'http://rest.genenames.org'
     alias_map = {}
     print("Searching aliases")
     for symbol in ids:
-        path = '/fetch/alias_symbol/' + symbol
+        path = '/search/alias_symbol/' + symbol
         target = urlparse(uri+path)
         method = 'GET'
         body = ''
@@ -77,7 +90,7 @@ def query_alias_symbols(ids):
 # parse content with the json module 
             data = json.loads(content)
             for entry in data['response']['docs']:
-                if entry['status'] == "Approved":
+                if entry['symbol'] in approved_df.symbol.values:
                     alias_map[symbol] = entry['symbol']
         else:
             print('Error detected: ' + response['status'])
@@ -105,19 +118,34 @@ def query_other_id(ids, target_id):
             data = json.loads(content)
             for entry in data['response']['docs']:
                 if entry['status'] == "Approved":
-                    target_map[symbol] = entry[field]
+                    if field in entry.keys():
+                        target_map[symbol] = entry[field]
         else:
             print('Error detected: ' + response['status'])
     missing = set(ids).difference(set(target_map.keys()))
     return target_map, missing
 
 
+def search_gene_names(ids, approved_df=pd.DataFrame()):
+    name_df, _ = query_mygene(ids, scopes="name,other_names", fields='symbol')
+    name_df = name_df.dropna(subset=['symbol'])
+    name_df = name_df.sort_values(by='_score', ascending=False)
+    name_df = name_df[~name_df.index.duplicated(keep='first')]
+    name_map = name_df['symbol'].to_dict()
+    missing = [g for g in ids if g not in name_map.keys()]
+    return name_map, missing
+
 def perform_hgnc_query(ids, from_id, to_id):
     if (from_id == "Symbol") and (to_id == "Symbol"):
-        approved_map, missing = search_approved_symbols(ids)
-        previous_map, missing = query_previous_symbols(missing)
-        alias_map, missing = query_alias_symbols(missing)
-        id_map = {**approved_map, **alias_map, **previous_map}
+        print("Initial Ids", len(ids))
+        approved_map, missing, approved_df = search_approved_symbols(ids)
+        print("Check names", len(missing))
+        name_map, missing = search_gene_names(missing, approved_df)        
+        print("Previous Ids", len(missing))
+        previous_map, missing = query_previous_symbols(missing, approved_df)
+        print("Alias Ids", len(missing))
+        alias_map, missing = query_alias_symbols(missing, approved_df)
+        id_map = {**approved_map, **alias_map, **previous_map, **name_map}
         return id_map, missing
     else:
         # use my gene info to retrieve Entrez ids
@@ -125,3 +153,9 @@ def perform_hgnc_query(ids, from_id, to_id):
         # then any missing query HGNC on a case by case basis
         
         raise(NotImplementedError, "Only symbol updating supported")
+
+
+if False:
+    genes = ['CO041_HUMAN', 'Mastermind like 1', 'Cyclin dependent kinase 6', 'AMY1_HUMAN', 'RPL9P9', 'Protein farnesyltransferase alpha subunit', 'Deoxyribonuclease III', 'WDYHV1', 'Cadherin 23', 'PARTICIPANT', 'Suppressor of Ty 4 homolog 1', 'Cystathionine beta synthase', 'PRKC, apoptosis, WT1, regulator', 'GLCM_HUMAN', 'ERF1', 'C11orf1', 'Pyruvate dehydrogenase, beta polypeptide', 'ST5_HUMAN', 'Myeloid cell leukemia 1', 'Interleukin 5 receptor, alpha', 'Interferon induced protein with tetratricopeptide repeats 2', 'Ubiquitin conjugating enzyme E2N', 'C43BP_HUMAN', 'Neurexin 1', 'Keratin 14', 'TERF1 interacting nuclear factor 2']
+    a,b = search_gene_names(genes)
+    print(len(b))
