@@ -1,6 +1,0 @@
-#Variable a represents time
-a=
-#Variable b
-b=
-#Variable c
-c=
