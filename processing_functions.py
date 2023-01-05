@@ -295,11 +295,21 @@ class NetworkData:
         self.two_species_cols = True if type(species) == list else False
             
         self.score = score
+        if self.score is not None:
+            if "[p]" in self.score:
+                self.score = self.score.split("[p]")[0]
+                self.score = int(self.score) if self.score.isnumeric() else self.score
+                self.score_is_p = True
+            else:
+                self.score_is_p = False
+        else:
+            self.score_is_p = False
+            
         self.node_a = node_a
         self.node_b = node_b
         self.complexes = True if self.node_b is None else False
         
-        all_cols = [node_a, node_b, score] + species if self.two_species_cols else [node_a, node_b, score, species]
+        all_cols = [self.node_a, self.node_b, self.score] + self.species if self.two_species_cols else [self.node_a, self.node_b, self.score, self.species]
         self.cols = [col for col in all_cols if col is not None]
         
         self.species_code = species_code
@@ -407,6 +417,11 @@ class NetworkData:
                 self.data.drop(columns=[self.score])
                 self.cols.remove(self.score)
                 self.score = None
+            elif self.score_is_p:
+                # set pseudo count to 1/100 smallest non-zero p-value.
+                lowest_score = self.data[self.data[self.score] > 0][self.score].min()
+                self.data[self.score] = self.data[self.score].apply(lambda x: -1 * np.log10(x + lowest_score/100))
+                self.data.sort_values(by=self.score, ascending=False, inplace=True)
             else:
                 try:
                     self.data[self.score] = self.data[self.score].astype(float)
@@ -430,7 +445,10 @@ class NetworkData:
         while separator is None:
             comp = self.data.iloc[idx][self.node_a]
             try:
-                separator = re.search("[:,\|_]", comp).group()
+                if "_HUMAN" in comp:
+                    separator = re.search("[:,\|]", comp).group()
+                else:
+                    separator = re.search("[:,\|_]", comp).group()
             except AttributeError:
                 idx += 1
         # Iterate over the rows of the input data frame to create a mapping of complex string to pairwise ids
@@ -544,8 +562,6 @@ class NetworkData:
         print("END UNMAPPED NODES")
         self.stats["nodes"]["unmapped"] = len(unmapped_nodes)
         self.stats["nodes"]["mapped"] = len(all_nodes) - len(unmapped_nodes)
-        for node in node_map:
-            int(node_map[node])
         self.convert_edges(node_map, unmapped_nodes)
         print("Converted")
         self.T.end("Convert nodes")
@@ -612,6 +628,9 @@ class NetworkData:
 
     def subset_on_score(self, score_col, percentile):
         if self.score is not None:
+            # assign minimum score to NA values 
+            replace_na = min(0, self.data[self.score].min())
+            self.data.loc[self.data[self.score].isna(), self.score] = replace_na
             cutoff = np.percentile(self.data[self.score].values, percentile)
             # are all scores high=better?
             self.score_subset = self.data.loc[self.data[self.score] > cutoff]
@@ -646,6 +665,19 @@ class NetworkData:
 
     
 #if __name__=="__main__":
+if False:
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PROPER_v1.csv"
+    nd = NetworkData(datafile, node_a="Gene1", node_b="Gene2", 
+                    target_id_type='Entrez',  identifiers='Symbol', species= "Cell line specificity", 
+                    species_code="shared", score="BH-corrected p-value[p]",
+                    header=0, net_name="proper", test_mode=True, sep=",")
+    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
+    nd.clean_data()
+    nd.convert_nodes()
+    final_nodes = nd.get_unique_nodes()
+    nd.write_network_data(outpath)
+    nd.write_stats(outpath)
+
 
 if False:
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons12_uniprot_test.txt"
@@ -780,7 +812,7 @@ if False:
 if False:
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/BIOGRID/BIOGRID-ORGANISM-Homo_sapiens-4.4.213.tab3.txt"
     nd = NetworkData(datafile, node_a="Entrez Gene Interactor A", node_b="Entrez Gene Interactor B", species="Organism ID Interactor A", 
-                    target_id_type='Symbol',  identifiers='Entrez', species_code=9606, 
+                    target_id_type='Entrez',  identifiers='Entrez', species_code=9606, 
                     score="Score", header=0, net_name="BIOGRID_entrex_test", test_mode=True, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()

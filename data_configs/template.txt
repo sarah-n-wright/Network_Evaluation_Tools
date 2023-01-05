@@ -1,6 +1,0 @@
-#Variable A
-a=
-#Variable B
-b=
-#Variable C
-c=
