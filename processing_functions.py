@@ -7,6 +7,7 @@ import mygene
 import csv
 import re
 from itertools import combinations
+import os
 
 from datetime import datetime
 
@@ -306,6 +307,7 @@ class NetworkData:
         test_size=10000
         self.T = Timer()
         self.T.start("Total")
+        assert os.path.exists(datafile), "File not found, check path"
         available_id_types = ["Symbol", "Entrez", "Uniprot", "Ensembl", "DIP", "Refseq", "EnsemblProtein"]
         assert species is None or ((species is not None) and (species_code is not None)), "If species column is given, a corresponding value representing the species must be given"
         assert target_id_type in available_id_types, "Target identifier must be in " + "; ".join(available_id_types)
@@ -352,23 +354,25 @@ class NetworkData:
         
         # Load the data
         self.T.start("Load data")
-        chars = ['"', "@"]
+        chars = ['"', "@", ""]
+        quoting = csv.QUOTE_ALL
         for i, quotechar in enumerate(chars):
+            quoting = csv.QUOTE_NONE if i == (len(chars) - 1) else csv.QUOTE_ALL
             try:
                 if test_mode:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
                     if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
                 # Possible malformed file, first column being incorrectly used as an index? Force it to not assign index
-                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
-                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
                 
                 else:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
                     if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
-                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
-                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=csv.QUOTE_ALL, quotechar=quotechar)
+                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
                 break
             except:
                 print("WARNING: Data not able to be loaded with quotechar", quotechar)
@@ -459,21 +463,26 @@ class NetworkData:
         
     def binarize_complexes(self):
         results = []
-        separator = None
-        idx=0
-        while separator is None:
-            comp = self.data.iloc[idx][self.node_a]
-            try:
-                if "_HUMAN" in comp:
-                    separator = re.search("[:,\|]", comp).group()
-                else:
-                    separator = re.search("[:,\|_]", comp).group()
-            except AttributeError:
-                idx += 1
+        if any(["_HUMAN" in node for node in self.data[self.node_a].values]):
+            separators = "[:,\|\.]"
+        else:
+            separators = "[:,\|_]"
+        # separator = None
+        # idx=0
+        # while separator is None:
+        #     comp = self.data.iloc[idx][self.node_a]
+        #     try:
+        #         if "_HUMAN" in comp:
+        #             separator = re.search("[:,\|]", comp).group()
+        #         else:
+        #             separator = re.search("[:,\|_]", comp).group()
+        #     except AttributeError:
+        #         idx += 1
         # Iterate over the rows of the input data frame to create a mapping of complex string to pairwise ids
         for comp in self.data[self.node_a]:
             # Get the list of IDs and the values for the other columns
-            complex_id_list = comp.split(separator)
+            complex_id_list = re.split(separators, comp)
+            # complex_id_list = comp.split(separator)
             if len(complex_id_list) > 1:
                 # Iterate over all pairwise combinations of IDs
                 for id1, id2 in combinations(complex_id_list, 2):
@@ -841,7 +850,7 @@ if False:
     nd.write_stats(outpath)
 
 
-if True:
+if False:
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons.8.bind.BINARY_SIF.hgnc.txt.sif"
     nd = NetworkData(datafile, node_a=0, node_b=2, species=None, 
                     target_id_type='Entrez',  identifiers='Symbol', 
