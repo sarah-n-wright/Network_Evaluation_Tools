@@ -6,10 +6,20 @@ import mygene
 from urllib.parse import urlparse
 http.RETIRES=10
 
-def query_mygene(gene_list, scopes, fields):
+def query_mygene(gene_list, scopes, fields, retries=10):
     mg = mygene.MyGeneInfo()
-    results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
+    for retry in range(retries):
+        try:
+            results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
                                 returnall=True, verbose=False, as_dataframe=True, entrezonly=True)
+            break
+        except Exception as e:
+            if retry < retries - 1:
+                #print("QH", gene_list)
+                print(f"Retrying mg.querymany: {e}")
+            else:
+                print("Max retries reach for mg.querymany")
+                raise e
     mapped = results_df["out"]
     dups = results_df["dup"]
     missing = results_df["missing"]
@@ -19,6 +29,7 @@ def query_mygene(gene_list, scopes, fields):
     if len(missing) > 0:
         unmapped += list(results_df["missing"]["query"].values)
     return mapped, unmapped
+
 
 def search_approved_symbols(ids):
     headers = {'Accept': 'application/json'}
@@ -49,11 +60,11 @@ def query_previous_symbols(ids, approved_df=pd.DataFrame()):
     uri = 'http://rest.genenames.org'
     previous_map = {}
     print("Checking previous symbols")
-    print("Number of ids to check", len(ids))
-    print(ids)
+    #print("Number of ids to check", len(ids))
+    #print(ids)
     #raise TimeoutError
     for i, symbol in enumerate(ids):
-        print(i, "Previous")
+        #print(i, "Previous")
         path = '/search/prev_symbol/' + symbol
         target = urlparse(uri+path)
         method = 'GET'

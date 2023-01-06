@@ -52,7 +52,7 @@ def get_latest_ensembl_id_old(ids):
     # When an entry is withdrawn it will get current=False/None. Can keep 
     decoded_df = pd.DataFrame.from_dict(decoded)
     decoded_df["to"] = decoded_df.apply(parse_archive_results, axis=1)
-    print(decoded_df)
+    #print(decoded_df)
     results_df = decoded_df.loc[:, ("id", "to")]
     results_df.columns = ["from", "to"]
     missing = [node for node in ids if node not in results_df['from'].values]

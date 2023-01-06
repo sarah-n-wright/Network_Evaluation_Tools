@@ -81,10 +81,10 @@ def update_nodes(nodes, id_type, keep="present", timer=None):
     timer.start("Update Nodes")
     updated_node_map = {}
     if id_type == "Uniprot":
-        query_nodes = [node for node in nodes if (("_HUMAN" in node) or (re.fullmatch("[a-zA-Z0-9\.]+", node) is not None))]
+        query_nodes = [node for node in nodes if (("_HUMAN" in node) or (re.fullmatch("[a-zA-Z0-9\.-]+", node) is not None))]
         results, failed = uni.perform_uniprot_query(ids = query_nodes, from_db="UniProtKB_AC-ID", to_db="Uniprot")
-        print("DUPLICATED UNIPROT MAPPINGS")
-        print(results.loc[results.duplicated()])
+        #print("DUPLICATED UNIPROT MAPPINGS")
+        #print(results.loc[results.duplicated()])
         #remove duplicates
         failed = list(failed) + [node for node in nodes if node not in query_nodes]
         results = results.drop_duplicates(subset=["from"])
@@ -215,10 +215,20 @@ def convert_node_ids(nodes, initial_id, target_id, timer=None):
     timer.end("Convert node IDs")
     return converted_node_map, still_missing
 
-def query_mygene(gene_list, scopes, fields):
+def query_mygene(gene_list, scopes, fields, retries=10):
     mg = mygene.MyGeneInfo()
-    results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
+    for retry in range(retries):
+        try:
+            results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
                                 returnall=True, verbose=False, as_dataframe=True, entrezonly=True)
+            break
+        except Exception as e:
+            if retry < retries - 1:
+                #print("PF", gene_list)
+                print(f"Retrying mg.querymany: {e}")
+            else:
+                print("Max retries reach for mg.querymany")
+                raise e
     mapped = results_df["out"]
     dups = results_df["dup"]
     missing = results_df["missing"]
@@ -229,9 +239,18 @@ def query_mygene(gene_list, scopes, fields):
         unmapped += list(results_df["missing"]["query"].values)
     return mapped, unmapped
 
-def get_mygene(gene_list, target_id):
+def get_mygene(gene_list, target_id, retries=10):
     mg = mygene.MyGeneInfo()
-    results = mg.getgenes(gene_list, as_dataframe=True, fields=target_id)
+    for retry in range(retries):
+        try:
+            results = mg.getgenes(gene_list, as_dataframe=True, fields=target_id)
+            break
+        except Exception as e:
+            if retry < retries - 1:
+                print(f"Retrying mg.getgenes: {e}")
+            else:
+                print("Max retries reach for mg.getgenes")
+                raise e
     failed = list(results.loc[results[target_id].isna()].index.values)
     results = results.dropna(subset=[target_id])
     results["from"] = results.index.values
@@ -295,7 +314,7 @@ class NetworkData:
         self.two_species_cols = True if type(species) == list else False
             
         self.score = score
-        if self.score is not None:
+        if (self.score is not None) and (type(self.score) == str):
             if "[p]" in self.score:
                 self.score = self.score.split("[p]")[0]
                 self.score = int(self.score) if self.score.isnumeric() else self.score
@@ -361,7 +380,7 @@ class NetworkData:
         self.cols.append(net_name+"_ID")
         self.T.end("Load data")
         # Check that the columns are in the data
-        print(self.raw_data.head())
+        #print(self.raw_data.head())
         assert self.node_a in self.raw_data.columns,str(node_a) + " is not present as a column in the data"
         assert (self.node_b in self.raw_data.columns, str(node_b)) or self.node_b is None, + " is not present as a column in the data"
         
@@ -369,20 +388,20 @@ class NetworkData:
             assert self.score in self.raw_data.columns, str(score) + " is not present as a column in the data"
             self.score_subset = pd.DataFrame()
         
-        print(self.raw_data.columns)
-        print(self.raw_data.iloc[1])
+        #print(self.raw_data.columns)
+        #print(self.raw_data.iloc[1])
         if self.species is not None:
             if self.two_species_cols:
                 assert self.species[0] in self.raw_data.columns, str(self.species[0])+ " is not present as a column in the data"
                 assert self.species[1] in self.raw_data.columns, str(self.species[1])+ " is not present as a column in the data"
-                print(self.species_code, type(self.species_code))
-                print(self.raw_data[self.species[0]].values)
+                #print(self.species_code, type(self.species_code))
+                #print(self.raw_data[self.species[0]].values)
                 assert species_code in self.raw_data[self.species[0]].values, "The `species_code` "+ str(species_code) + " is not present in the `species[0]` column"
                 assert species_code in self.raw_data[self.species[1]].values, "The `species_code` "+ str(species_code) + " is not present in the `species[1]` column"
                 
             else:
                 assert self.species in self.raw_data.columns, str(species)+ " is not present as a column in the data"
-                print(self.species_code, type(self.species_code))
+                #print(self.species_code, type(self.species_code))
                 assert species_code in self.raw_data[self.species].values, "The `species_code` "+ str(species_code) + " is not present in the `species` column"
 
             
@@ -485,11 +504,11 @@ class NetworkData:
         node_array = self.data.loc[:, (self.node_a, self.node_b)].to_numpy()
         try:
             node_array.sort()
-        except TypeError:
+        except TypeError as e:
             print("TYPE ERROR")
             print(self.data.head())
             print(node_array)
-            raise
+            raise e
         sorted_data = pd.DataFrame(node_array)
         sorted_data.columns = [self.node_a, self.node_b]
         if self.data.shape[1] > 2:
@@ -536,10 +555,10 @@ class NetworkData:
                         id_map = {node: clean_map[clean_nodes[node]] for node in clean_nodes if clean_nodes[node] in clean_map}
                     else:
                         id_map = self.get_node_conversion_map(unmapped, id_type, self.target_id_type)
-                        print(len(id_map))
+                        #print(len(id_map))
                     # catch ids not in all_nodes
                     gene_map = {**gene_map, **id_map}
-                    print("# UNMAPPED - ID_MAP = ", len(unmapped) - len(id_map))
+                    #print("# UNMAPPED - ID_MAP = ", len(unmapped) - len(id_map))
                     unmapped = all_nodes.difference(set(gene_map.keys()))
                     modified = [node for node in id_map.keys() if node not in all_nodes]
                     if len(modified) > 0:
@@ -550,8 +569,8 @@ class NetworkData:
                                 for matched_node in match:
                                     unmapped.remove(matched_node)
                                     modified_map[matched_node] = id_map[node]
-                    gene_map = {**gene_map, **modified_map}
-                    print("ACTUAL UNMAPPED", len(unmapped))
+                        gene_map = {**gene_map, **modified_map}
+                    #print("ACTUAL UNMAPPED", len(unmapped))
             node_map = gene_map
         else:
             node_map = self.get_node_conversion_map(all_nodes, self.identifiers, self.target_id_type)
@@ -822,7 +841,7 @@ if False:
     nd.write_stats(outpath)
 
 
-if False:
+if True:
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons.8.bind.BINARY_SIF.hgnc.txt.sif"
     nd = NetworkData(datafile, node_a=0, node_b=2, species=None, 
                     target_id_type='Entrez',  identifiers='Symbol', 
