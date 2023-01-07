@@ -358,18 +358,23 @@ class NetworkData:
         quoting = csv.QUOTE_ALL
         for i, quotechar in enumerate(chars):
             quoting = csv.QUOTE_NONE if i == (len(chars) - 1) else csv.QUOTE_ALL
+            index=None
             try:
+                test_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=10, quoting=quoting, quotechar=quotechar)
+                if (header is not None) and any(["Unnamed" in col for col in test_data.columns]):
+                    index = False
+                    
                 if test_mode:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
                     if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
                 # Possible malformed file, first column being incorrectly used as an index? Force it to not assign index
                         self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
                         self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
                 
                 else:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
+                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
                     if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
                         self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
                         self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
@@ -394,14 +399,15 @@ class NetworkData:
         
         #print(self.raw_data.columns)
         #print(self.raw_data.iloc[1])
+        print(self.raw_data.head())
         if self.species is not None:
             if self.two_species_cols:
                 assert self.species[0] in self.raw_data.columns, str(self.species[0])+ " is not present as a column in the data"
                 assert self.species[1] in self.raw_data.columns, str(self.species[1])+ " is not present as a column in the data"
                 #print(self.species_code, type(self.species_code))
                 #print(self.raw_data[self.species[0]].values)
-                assert species_code in self.raw_data[self.species[0]].values, "The `species_code` "+ str(species_code) + " is not present in the `species[0]` column"
-                assert species_code in self.raw_data[self.species[1]].values, "The `species_code` "+ str(species_code) + " is not present in the `species[1]` column"
+                assert species_code in self.raw_data[self.species[0]].values, "The `species_code` "+ str(species_code) + " is not present in the " + str(self.species[0]) +  " column"
+                assert species_code in self.raw_data[self.species[1]].values, "The `species_code` "+ str(species_code) + " is not present in the " + str(self.species[1]) +  " column"
                 
             else:
                 assert self.species in self.raw_data.columns, str(species)+ " is not present as a column in the data"
