@@ -682,11 +682,11 @@ class NetworkData:
             self.subset_on_score("Score", percentile)
             
         self.data.rename(columns = final_names, inplace=True)
-        self.data.to_csv(outpath + self.net_name + ".txt", sep="\t", index=False)
+        self.data.to_csv(outpath + self.net_name + "_net.txt", sep="\t", index=False)
         
         if self.score is not None:
             self.score_subset.rename(columns = final_names, inplace=True)
-            self.score_subset.to_csv(outpath + self.net_name + "_"+ str(percentile) + ".txt", sep="\t", index=False)
+            self.score_subset.to_csv(outpath + self.net_name + "_"+ str(percentile) + "_net.txt", sep="\t", index=False)
 
         self.T.end("Write data")
         self.T.end("Total")
@@ -695,8 +695,6 @@ class NetworkData:
         stats_df = pd.DataFrame.from_dict(self.stats)
         stats_df.to_csv(outpath + self.net_name + ".stats", sep="\t", index=True)
         self.T.print_all_times()
-        
-
     
 #if __name__=="__main__":
 if False:
