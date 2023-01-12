@@ -94,6 +94,7 @@ if __name__=="__main__":
             final_nodes = nd.get_unique_nodes()
         except:
             pass
+        nd.remove_duplicates()
         nd.write_network_data(args.o)
         nd.write_stats(args.o)
         print("Processing of", args.N, "completed.")

@@ -459,7 +459,7 @@ class NetworkData:
                 self.data.sort_values(by=self.score, ascending=False, inplace=True)
         self.extract_from_prefixes()        
         self.stats["edges"]["Node prefix"] = len(self.data)
-        self.data.drop_duplicates(inplace=True)
+        self.data.drop_duplicates(inplace=True, subset=[self.node_a, self.node_b])
         self.stats["edges"]["de-duped1"] = len(self.data)
         
         # convert identifiers to strings
@@ -670,7 +670,11 @@ class NetworkData:
             self.score_subset = self.data.loc[self.data[self.score] > cutoff]
             self.stats['edges']['score_subset'] = len(self.score_subset)
             self.stats['nodes']['score_subset'] = len(self.get_unique_nodes(score_subset=True))
-        
+    
+    def remove_duplicates(self):
+        self.sort_node_pairs()
+        self.data = self.data.drop_duplicates(subset=[self.node_a, self.node_b])
+        self.stats["edges"]["de-duped_final"] = len(self.data)
         
     def write_network_data(self, outpath, percentile=95):
         # rename columns
@@ -680,7 +684,7 @@ class NetworkData:
             final_names[self.score] = "Score"
         if self.score is not None:
             self.subset_on_score("Score", percentile)
-            
+        pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes())}).to_csv(outpath + self.net_name + ".nodelist", sep="\t", index=False)       
         self.data.rename(columns = final_names, inplace=True)
         self.data.to_csv(outpath + self.net_name + "_net.txt", sep="\t", index=False)
         
