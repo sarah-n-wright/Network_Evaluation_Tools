@@ -139,11 +139,15 @@ def query_other_id(ids, target_id):
 
 def search_gene_names(ids, approved_df=pd.DataFrame()):
     name_df, _ = query_mygene(ids, scopes="name,other_names", fields='symbol')
-    name_df = name_df.dropna(subset=['symbol'])
-    name_df = name_df.sort_values(by='_score', ascending=False)
-    name_df = name_df[~name_df.index.duplicated(keep='first')]
-    name_map = name_df['symbol'].to_dict()
-    missing = [g for g in ids if g not in name_map.keys()]
+    if 'symbol' in name_df.columns:
+        name_df = name_df.dropna(subset=['symbol'])
+        name_df = name_df.sort_values(by='_score', ascending=False)
+        name_df = name_df[~name_df.index.duplicated(keep='first')]
+        name_map = name_df['symbol'].to_dict()
+        missing = [g for g in ids if g not in name_map.keys()]
+    else:
+        name_map = {}
+        missing = ids
     return name_map, missing
 
 def perform_hgnc_query(ids, from_id, to_id):
