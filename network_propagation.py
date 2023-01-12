@@ -48,7 +48,7 @@ def closed_form_network_propagation(network, binary_matrix, network_alpha, symme
 	if verbose:
 		print('Alpha:', network_alpha)
 	# Separate network into connected components and calculate propagation values of each sub-sample on each connected component
-	subgraphs = list(nx.connected_component_subgraphs(network))
+	subgraphs = [network.subgraph(c).copy() for c in nx.connected_components(network)]
 	# Initialize propagation results by propagating first subgraph
 	subgraph = subgraphs[0]
 	subgraph_nodes = list(subgraph.nodes)

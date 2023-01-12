@@ -34,13 +34,16 @@ def shuffle_network(network, max_tries_n=10, verbose=False):
 
 # Calculate optimal sub-sampling proportion for test/train
 # Input: NetworkX object and dictionary of {geneset name:list of genes}
-def calculate_p(network, nodesets, m=-0.18887257, b=0.64897403):
-	network_nodes = [str(gene) for gene in network.nodes()]
-	nodesets_p = {}
-	for nodeset in nodesets:
-		nodesets_coverage = len([node for node in nodesets[nodeset] if node in network_nodes])
-		nodesets_p[nodeset] = round(m*np.log10(nodesets_coverage)+b, 4)
-	return nodesets_p
+def calculate_p(network, nodesets, m=-0.18887257, b=0.64897403, id_type='Symbol'):
+    if id_type == 'Entrez':
+        network_nodes = [gene for gene in network.nodes()]
+    else:
+        network_nodes = [str(gene) for gene in network.nodes()]
+    nodesets_p = {}
+    for nodeset in nodesets:
+        nodesets_coverage = len([node for node in nodesets[nodeset] if node in network_nodes])
+        nodesets_p[nodeset] = round(m*np.log10(nodesets_coverage)+b, 4)
+    return nodesets_p
 
 # Construct influence matrix of each network node propagated across network to use as kernel in AUPRC analysis
 # Input: NetowkrkX object. No propagation constant or alpha model required, can be calculated
@@ -178,14 +181,14 @@ def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 		for j in range(n):
 			row = (i*n)+j
 			prop_result_full = pd.DataFrame(np.array((subsample_mat[row], y_actual_mat[row], prop_subsamples[row])), 
-									   		index=['Sub-Sample', 'Non-Sample', 'Prop Score'], columns=net_kernel.columns).T
+													index=['Sub-Sample', 'Non-Sample', 'Prop Score'], columns=net_kernel.columns).T
 			# Set background gene sets from a predefined gene set or all network genes
 			if bg is None:
 				prop_result = prop_result_full.sort_values(by=['Sub-Sample', 'Prop Score', 'Non-Sample'],
-														   ascending=[False, False, False]).ix[int(sum(subsample_mat[row])):]['Non-Sample']
+															ascending=[False, False, False]).ix[int(sum(subsample_mat[row])):]['Non-Sample']
 			else:
 				prop_result = prop_result_full.ix[bg].dropna().sort_values(by=['Sub-Sample', 'Prop Score', 'Non-Sample'],
-																		   ascending=[False, False, False]).ix[int(sum(subsample_mat[row])):]['Non-Sample']
+																	ascending=[False, False, False]).ix[int(sum(subsample_mat[row])):]['Non-Sample']
 			intersect_non_sample_sorted = prop_result[prop_result==1].index
 			P_totals = {node:float(prop_result.ix[:node].shape[0]) for node in intersect_non_sample_sorted}
 			AUPRC_Analysis_params.append([geneset_list[i], intersect_non_sample_sorted, P_totals, verbose])
@@ -210,7 +213,7 @@ def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 
 # Wrapper to calculate AUPRCs of multiple node sets given network and node set files
 def AUPRC_Analysis_single(network_file, genesets_file, shuffle=False, kernel_file=None, prop_constant=None, 
-						  subsample_iter=30, cores=1, geneset_background=False, save_path=None, verbose=True):
+						subsample_iter=30, cores=1, geneset_background=False, save_path=None, verbose=True):
 	starttime = time.time()
 	# Load network
 	network = dit.load_network_file(network_file, verbose=verbose)

@@ -28,7 +28,9 @@ def filter_weighted_network_sif(network_file_path, nodeA_col=0, nodeB_col=1, sco
 # Can set delimiter, but default delimiter is tab
 # Only will read edges as first two columns, all other columns will be ignored
 def load_network_file(network_file_path, delimiter='\t', verbose=False):
-	network = nx.read_edgelist(network_file_path, delimiter=delimiter, data=False)
+	net_df = pd.read_csv(network_file_path, sep=delimiter)
+	source_col, target_col = net_df.columns[0:2]
+	network = nx.from_pandas_edgelist(net_df, source=source_col, target=target_col)
 	if verbose:
 		print('Network File Loaded:', network_file_path)
 	return network
@@ -136,7 +138,7 @@ def load_binary_mutation_data(filename, filetype='matrix', delimiter=',', verbos
 	else:
 		binary_mat = pd.read_csv(filename, delimiter=delimiter, index_col=0).astype(int)
 	if verbose:
-	   print('Binary Mutation Matrix Loaded:', filename)
+		print('Binary Mutation Matrix Loaded:', filename)
 	return binary_mat
 
 # Concatinate multiple mutation matrices together
@@ -155,12 +157,15 @@ def concat_binary_mutation_matrices(filename_list, filetype='matrix', delimiter=
 # Construct dictionary of node sets from input text file to perform AUPRC analysis on for network of interest
 # File format: Each line is a delimited list with the first item in the list is the name of the node set
 # All other nodes in the list follow the node set name
-def load_node_sets(node_set_file, delimiter='\t', verbose=False):
+def load_node_sets(node_set_file, delimiter='\t', verbose=False, id_type="Symbol"):
 	f = open(node_set_file)
 	node_set_lines = f.read().splitlines()
 	node_set_lines_split = [line.split(delimiter) for line in node_set_lines]
 	f.close()
 	node_sets = {node_set[0]:set(node_set[1:]) for node_set in node_set_lines_split}
+	if id_type == "Entrez":
+		for set_id in node_sets:
+			node_sets[set_id] = {int(node) for node in list(node_sets[set_id])}
 	if verbose:
 		print('Node cohorts loaded:', node_set_file)
 	return node_sets
@@ -169,7 +174,7 @@ def load_node_sets(node_set_file, delimiter='\t', verbose=False):
 def plot_changes_to_dataset(input_raw, input_raw_v2, edgelist_filt, edgelist_filt_v2, input_human=None, input_human_v2=None):
     plt.rcParams['font.size'] = '14'
     stats = pd.DataFrame({"v1":[len(input_raw)],
-                         "v2":[len(input_raw_v2)]}, index=["Input"])
+                        "v2":[len(input_raw_v2)]}, index=["Input"])
     if input_human is not None:
         stats = pd.concat([stats, pd.DataFrame({"v1":len(input_human), "v2":len(input_human_v2)}, index=["Human only"])])
     else:
@@ -182,6 +187,6 @@ def plot_changes_to_dataset(input_raw, input_raw_v2, edgelist_filt, edgelist_fil
     stats.plot.bar(ax=ax1, fontsize=14)
     ax1.set_ylabel("Number of edges", fontsize=14 )
     ax2.bar(["v1", "v2", "change", "+ V2", "- V2"], [len(nodes_v1), len(nodes_v2), len(nodes_v2)-len(nodes_v1),
-                                                           len(nodes_v2.difference(nodes_v1)), -1* len(nodes_v1.difference(nodes_v2))])
+                                                        len(nodes_v2.difference(nodes_v1)), -1* len(nodes_v1.difference(nodes_v2))])
     ax2.set
     ax2.set_ylabel("Number of nodes")
