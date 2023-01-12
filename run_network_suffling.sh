@@ -17,7 +17,7 @@ testmode=$2
 output_dir=$input_dir/shuffled_networks/
 
 # Identify a list of files in the input directory with the suffix "net.txt"
-file_list=$(find $input_dir -maxdepth 1 -name "*net.txt")
+file_list=$(find $input_dir -maxdepth 1 -name "*net.txt" -size -100M)
 
 # Determine the number of files in the list
 num_files=$(echo $file_list | wc -w)
