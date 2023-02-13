@@ -676,7 +676,7 @@ class NetworkData:
         self.data = self.data.drop_duplicates(subset=[self.node_a, self.node_b])
         self.stats["edges"]["de-duped_final"] = len(self.data)
         
-    def write_network_data(self, outpath, percentile=95):
+    def write_network_data(self, outpath, percentile=90):
         # rename columns
         self.T.start("Write data")
         final_names= {self.node_a: self.target_id_type + "_A", self.node_b: self.target_id_type + "_B", self.net_name+"_ID": "ID"}
@@ -684,7 +684,8 @@ class NetworkData:
             final_names[self.score] = "Score"
         if self.score is not None:
             self.subset_on_score("Score", percentile)
-        pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes())}).to_csv(outpath + self.net_name + ".nodelist", sep="\t", index=False)       
+        pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes())}).to_csv(outpath + self.net_name + ".nodelist", sep="\t", index=False) 
+        pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes(score_subset=True))}).to_csv(outpath + self.net_name + "_"+ str(percentile) + ".nodelist", sep="\t", index=False)    
         self.data.rename(columns = final_names, inplace=True)
         self.data.to_csv(outpath + self.net_name + "_net.txt", sep="\t", index=False)
         

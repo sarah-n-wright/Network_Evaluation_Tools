@@ -27,10 +27,16 @@ def filter_weighted_network_sif(network_file_path, nodeA_col=0, nodeB_col=1, sco
 # Load network from file as unweighted network
 # Can set delimiter, but default delimiter is tab
 # Only will read edges as first two columns, all other columns will be ignored
-def load_network_file(network_file_path, delimiter='\t', verbose=False):
+def load_network_file(network_file_path, delimiter='\t', verbose=False, id_type='Symbol', keep_attributes=False):
 	net_df = pd.read_csv(network_file_path, sep=delimiter)
 	source_col, target_col = net_df.columns[0:2]
-	network = nx.from_pandas_edgelist(net_df, source=source_col, target=target_col)
+	if id_type == "Entrez":
+		net_df[source_col] = net_df[source_col].astype(int)
+		net_df[target_col] = net_df[target_col].astype(int)
+	if keep_attributes:
+		network = nx.from_pandas_edgelist(net_df, source=source_col, target=target_col, edge_attr=keep_attributes)
+	else:
+		network = nx.from_pandas_edgelist(net_df, source=source_col, target=target_col)
 	if verbose:
 		print('Network File Loaded:', network_file_path)
 	return network

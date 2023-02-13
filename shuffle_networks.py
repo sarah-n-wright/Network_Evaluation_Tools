@@ -42,7 +42,10 @@ def shuffle_network(G, n_swaps, timer=None):
     except nx.NetworkXError:
         print("NETWORK ERROR:", G.graph['file'])
     shared_edges = len(set(G.edges()).intersection(set(G_shuff.edges())))
-    print('Edge Similarity:', shared_edges/float(edge_len), G.graph['file'])
+    try:
+        print('Edge Similarity:', shared_edges/float(edge_len), G.graph['file'])
+    except KeyError:
+        print('Edge Similarity:', shared_edges/float(edge_len))
     if timer is not None:
         timer.end("Shuffle Network")
     return G_shuff
@@ -51,7 +54,10 @@ def shuffle_network(G, n_swaps, timer=None):
 def write_network(G, datafile, outpath, timer=None):
     if timer is not None:
         timer.start("Write Network")
-    outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
+    if datafile is not None:
+        outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
+    else:
+        outfile = outpath
     net_df = nx.to_pandas_edgelist(G, source="Node_A", target="Node_B")
     net_df.to_csv(outfile, index=False, sep="\t")
     if timer is not None:
