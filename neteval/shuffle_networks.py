@@ -3,7 +3,7 @@ import argparse
 import pandas as pd
 #import csv
 import networkx as nx
-from processing_functions import Timer
+from neteval.processing_functions import Timer
 import os, sys
 import warnings
 

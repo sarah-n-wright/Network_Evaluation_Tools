@@ -1,5 +1,5 @@
 import argparse
-from processing_functions import *
+from neteval.processing_functions import *
 import pandas as pd
 import csv
 

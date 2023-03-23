@@ -2,9 +2,9 @@
 # ---------- Node Set-Based Network Evaluation Functions ---------- #
 #####################################################################
 from multiprocessing import Pool
-import data_import_tools as dit
-import network_propagation as prop
-import shuffle_networks as shuf
+import neteval.data_import_tools as dit
+import neteval.network_propagation as prop
+import neteval.shuffle_networks as shuf
 import networkx as nx
 import numpy as np
 import os

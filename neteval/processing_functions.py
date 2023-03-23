@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
-import query_uniprot as uni
-import query_hgnc as hgnc
-import query_ensembl as ensg
+from neteval.gene_mapper import *
+from neteval.type_mapper import *
+import neteval.query_uniprot as uni
+import neteval.query_hgnc as hgnc
+import neteval.query_ensembl as ensg
 import mygene
 import csv
 import re
@@ -64,7 +66,7 @@ class Timer:
             print(self.elapsed_times)
         
 
-def update_nodes(nodes, id_type, keep="present", timer=None):
+def update_nodes_x(nodes, id_type, keep="present", timer=None):
     """ Takes a set of node identifiers and updates them to the latest version of the same identifier type.
 
     Args:
@@ -126,7 +128,7 @@ def update_nodes(nodes, id_type, keep="present", timer=None):
     timer.end("Update Nodes")
     return updated_node_map, failed
     
-def convert_node_ids(nodes, initial_id, target_id, timer=None):
+def convert_node_ids_x(nodes, initial_id, target_id, timer=None):
     """ Converts nodes between two different identifier types
 
     Args:
@@ -216,7 +218,7 @@ def convert_node_ids(nodes, initial_id, target_id, timer=None):
     timer.end("Convert node IDs")
     return converted_node_map, still_missing
 
-def query_mygene(gene_list, scopes, fields, retries=10):
+def query_mygene_x(gene_list, scopes, fields, retries=10):
     mg = mygene.MyGeneInfo()
     for retry in range(retries):
         try:
@@ -240,7 +242,7 @@ def query_mygene(gene_list, scopes, fields, retries=10):
         unmapped += list(results_df["missing"]["query"].values)
     return mapped, unmapped
 
-def get_mygene(gene_list, target_id, retries=10):
+def get_mygene_x(gene_list, target_id, retries=10):
     mg = mygene.MyGeneInfo()
     for retry in range(retries):
         try:

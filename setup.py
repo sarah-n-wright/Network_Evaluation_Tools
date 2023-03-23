@@ -1,36 +1,56 @@
-"""
-Setup module adapted from setuptools code. See:
-https://packaging.python.org/en/latest/distributing.html
-https://github.com/pypa/sampleproject
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# Always prefer setuptools over distutils
+"""The setup script."""
+import os
+import re
 from setuptools import setup, find_packages
 
+
+with open(os.path.join('neteval', '__init__.py')) as ver_file:
+    for line in ver_file:
+        if line.startswith('__version__'):
+            version=re.sub("'", "", line[line.index("'"):])
+
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
+
+requirements = []
+
+setup_requirements = [ ]
+
+test_requirements = [ ]
+
 setup(
-	name='network_evaluation_tools',
-	version='1.0.2.1',
-	description='Module to perform patient and molecular network evaluation as described in Huang and Carlin, et al. 2018',
-	url='https://github.com/idekerlab/Network_Evaluation_Tools',
-	author='Justin Huang',
-	author_email='jkh013@ucsd.edu',
-	license='MIT',
-	classifiers=[
-		'Development Status :: 5 - Production/Stable',
-		'Intended Audience :: Science/Research',
-		'Topic :: Software Development :: Build Tools',
-		'License :: OSI Approved :: MIT License',
-		'Programming Language :: Python :: 3.10'
-	],
-	packages=find_packages(exclude=['copy', 'itertools', 'os', 're', 'time']),
-	install_requires=[
-        'argparse>=1.1',
-        'networkx>=2.1',
-        'numpy>=1.11.0',
-        'matplotlib>=1.5.1',
-        'pandas>=0.19.0',
-        'requests>=2.13.0',
-        'scipy>=0.17.0',
-        'scikit-learn>=0.17.1',
-        'seaborn>=0.7.1']
-)
+    author="Sarah Wright",
+    author_email='snwright@ucsd.edu',
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+    ],
+    description="Python Boilerplate contains all the boilerplate you need to create a Python package with command line",
+    install_requires=requirements,
+    license="MIT license",
+    long_description=readme + '\n\n' + history,
+    long_description_content_type = 'text/x-rst',
+    include_package_data=True,
+    keywords='neteval',
+    name='neteval',
+    packages=find_packages(include=['neteval']),
+    package_dir={'neteval': 'neteval'},
+    scripts=[ 'neteval/netevalcmd.py'],
+    setup_requires=setup_requirements,
+    test_suite='tests',
+    tests_require=test_requirements,
+    url='https://github.com/sarah-n-wright/neteval',
+    version=version,
+    zip_safe=False)

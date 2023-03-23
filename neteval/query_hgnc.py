@@ -79,7 +79,7 @@ def query_previous_symbols(ids, approved_df=pd.DataFrame()):
                 if entry['symbol'] in approved_df.symbol.values:
                     previous_map[symbol] = entry['symbol']
         else:
-            print('Error detected: ' + response['status'])
+            print('Error detected: ' + response['status'], symbol)
     missing = set(ids).difference(set(previous_map.keys()))
     return previous_map, missing
 
@@ -104,7 +104,7 @@ def query_alias_symbols(ids, approved_df=pd.DataFrame()):
                 if entry['symbol'] in approved_df.symbol.values:
                     alias_map[symbol] = entry['symbol']
         else:
-            print('Error detected: ' + response['status'])
+            print('Error detected: ' + response['status'], symbol)
     missing = set(ids).difference(set(alias_map.keys()))
     return alias_map, missing
 
@@ -132,7 +132,7 @@ def query_other_id(ids, target_id):
                     if field in entry.keys():
                         target_map[symbol] = entry[field]
         else:
-            print('Error detected: ' + response['status'])
+            print('Error detected: ' + response['status'], symbol)
     missing = set(ids).difference(set(target_map.keys()))
     return target_map, missing
 
