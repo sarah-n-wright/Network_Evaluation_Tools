@@ -2,7 +2,7 @@
 # ---------- Node Set-Based Network Evaluation Functions ---------- #
 #####################################################################
 from multiprocessing import Pool
-import neteval.data_import_tools as dit
+import neteval.data_import_export_tools as dit
 import neteval.network_propagation as prop
 import neteval.shuffle_networks as shuf
 import networkx as nx
@@ -267,7 +267,7 @@ def AUPRC_Analysis_single(network_file, genesets_file, shuffle=False, kernel_fil
 						subsample_iter=30, cores=1, geneset_background=False, save_path=None, verbose=True):
 	starttime = time.time()
 	# Load network
-	network = dit.load_network_file(network_file, verbose=verbose)
+	network = dit.load_edgelist_to_networkx(network_file, verbose=verbose)
 	# Shuffle network?
 	if shuffle:
 		network = shuf.shuffle_network(network, verbose=verbose)

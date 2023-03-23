@@ -1,4 +1,4 @@
-import neteval.data_import_tools as dit
+import neteval.data_import_export_tools as dit
 from neteval.gene_mapper import update_nodes, convert_node_ids
 import pandas as pd
 import csv

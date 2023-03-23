@@ -301,7 +301,9 @@ def clean_score(score):
                 return float(m)
         else:
             return pd.NA
-    
+    except TypeError:
+        return pd.NA
+
 
 
 class NetworkData:

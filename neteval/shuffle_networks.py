@@ -6,8 +6,9 @@ import networkx as nx
 from neteval.processing_functions import Timer
 import os, sys
 import warnings
+import neteval.data_import_export_tools as dit
 
-def load_network(datafile, testmode=False, timer=None, node_prefix="Entrez_"):
+def load_network_DELETE(datafile, testmode=False, timer=None, node_prefix="Entrez_"):
     if timer is not None:
         timer.start("Load network")
     if testmode:
@@ -50,19 +51,10 @@ def shuffle_network(G, n_swaps, timer=None):
         timer.end("Shuffle Network")
     return G_shuff
 
+def write_shuffled_network(G, datafile, outpath, timer=None):
+    outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
+    dit.write_networkx_to_file(G, outfilepath=outfile, timer=timer)
 
-def write_network(G, datafile, outpath, timer=None):
-    if timer is not None:
-        timer.start("Write Network")
-    if datafile is not None:
-        outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
-    else:
-        outfile = outpath
-    net_df = nx.to_pandas_edgelist(G, source="Node_A", target="Node_B")
-    net_df.to_csv(outfile, index=False, sep="\t")
-    if timer is not None:
-        timer.end("Write Network")
-    return
 
 
 def parse_arguments(args):
@@ -71,8 +63,10 @@ def parse_arguments(args):
     parser.add_argument('-o', metavar='outpath', required=True)
     parser.add_argument('--nSwaps', default='1', type=float)
     parser.add_argument('--testMode', default='1', type=int)
+    parser.add_argument('--verbose', default='0', type=int)
     args = parser.parse_args(args)
     args.testMode = bool(args.testMode)
+    args.verbose = bool(args.verbose)
     return args
 
 
@@ -81,13 +75,13 @@ if False:
     T.start("Total")    
     #print(args.A, args.B)
     datafile = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/BIND_v8.txt"
-    G = load_network(datafile, testmode=True, timer=T)
+    G = dit.load_edgelist_to_networkx(datafile, testmode=True, timer=T)
     print("Data Loaded")
     G_shuff = shuffle_network(G, 1, timer=T)
     print("Network Shuffled")
     # get output file name from the datafile, then append to outpath
 
-    write_network(G_shuff, datafile, "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/", timer=T)
+    write_shuffled_network(G_shuff, datafile, "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/", timer=T)
     T.end("Total")
     T.print_all_times()
     print("Complete.")   
@@ -98,18 +92,22 @@ if __name__=="__main__":
     T = Timer()
     T.start("Total")    
     #print(args.A, args.B)
-    print(args)
-    print("Analysis of", args.datafile)  
-    G = load_network(args.datafile, testmode=args.testMode, timer=T)
-    print("Data Loaded")
+    if args.verbose:
+        print(args)
+        print("Analysis of", args.datafile)  
+    G = dit.load_edgelist_to_networkx(args.datafile, testmode=args.testMode, timer=T)
+    if args.verbose:
+        print("Data Loaded")
     if len(G.edges) > 0:
         G_shuff = shuffle_network(G, args.nSwaps, timer=T)
-        print("Network Shuffled")
+        if args.verbose:
+            print("Network Shuffled")
     # get output file name from the datafile, then append to outpath
-        write_network(G_shuff, args.datafile, args.o, timer=T)
+        write_shuffled_network(G_shuff, args.datafile, args.o, timer=T)
     else:
         print("NO EDGES:", args.datafile)
     T.end("Total")
-    T.print_all_times()
-    print("Complete.")    
+    if args.verbose:
+        T.print_all_times()
+        print("Complete.")    
     

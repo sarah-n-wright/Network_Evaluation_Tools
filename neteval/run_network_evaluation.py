@@ -3,7 +3,7 @@
 ###################################################################
 
 import neteval.network_evaluation_functions as nef
-import neteval.data_import_tools as dit
+import neteval.data_import_export_tools as dit
 import neteval.shuffle_networks as shuf
 import neteval.network_propagation as prop
 import argparse
@@ -100,7 +100,7 @@ if __name__ == "__main__":
 	#mkl.set_num_threads(args.cores)
 	
 	# Load Network
-	network = dit.load_network_file(args.network_path, verbose=args.verbose)
+	network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose)
 	network_size = len(network.nodes())
 
 	# Load Gene sets
