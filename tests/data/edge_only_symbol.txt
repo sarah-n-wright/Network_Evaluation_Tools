@@ -1,0 +1,5 @@
+nodeA   nodeB
+BRAF    AKT1
+TP53    SEPTIN5
+BRAF    BRAF
+FOXP3   HER2   
