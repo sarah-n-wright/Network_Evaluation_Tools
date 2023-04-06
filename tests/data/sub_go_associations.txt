@@ -1,0 +1,1588 @@
+#tax_id	GeneID	GO_ID	Evidence	Qualifier	GO_term	PubMed	Category
+3702	822457	GO:0008305	ISS	part_of	integrin complex	10196471	Component
+6239	172151	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+6239	172493	GO:0008328	IPI	part_of	ionotropic glutamate receptor complex	22958824	Component
+6239	172788	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+6239	172889	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+6239	173336	GO:0008328	IPI	part_of	ionotropic glutamate receptor complex	22958824	Component
+6239	173929	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+6239	175050	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	175072	GO:0005892	IMP	part_of	acetylcholine-gated channel complex	15020415	Component
+6239	175101	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+6239	175137	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	175175	GO:0008305	IDA	part_of	integrin complex	12015115	Component
+6239	175410	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+6239	175504	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+6239	175504	GO:0008305	IPI	part_of	integrin complex	9247263	Component
+6239	176204	GO:0008328	IPI	part_of	ionotropic glutamate receptor complex	22958824	Component
+6239	176204	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	7477293	Component
+6239	176240	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+6239	176240	GO:0008305	IEA	part_of	integrin complex	-	Component
+6239	176240	GO:0008305	ISS	part_of	integrin complex	-	Component
+6239	176296	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+6239	176296	GO:0008305	IEA	part_of	integrin complex	-	Component
+6239	176296	GO:0008305	IPI	part_of	integrin complex	9247263	Component
+6239	176691	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+6239	176767	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+6239	176829	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+6239	181482	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	182439	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	184259	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22922783	Component
+6239	184259	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	184378	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+6239	187521	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+6239	246019	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+6239	259591	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+6239	3564873	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+6239	6418727	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+7227	31107	GO:0008328	IPI	part_of	ionotropic glutamate receptor complex	15823532	Component
+7227	31746	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7227	31767	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	9681478|10728888	Component
+7227	32114	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7227	32275	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	32275	GO:0008305	IDA	part_of	integrin complex	7972082	Component
+7227	32275	GO:0008305	IEA	part_of	integrin complex	-	Component
+7227	32275	GO:0008305	ISS	part_of	integrin complex	10936444	Component
+7227	32275	GO:0008305	NAS	part_of	integrin complex	14519396	Component
+7227	32303	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	22499592	Component
+7227	32457	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7227	32554	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7227	32661	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	32661	GO:0008305	IDA	part_of	integrin complex	7972082	Component
+7227	32661	GO:0008305	IEA	part_of	integrin complex	-	Component
+7227	32661	GO:0008305	ISS	part_of	integrin complex	10908592	Component
+7227	32661	GO:0008305	NAS	part_of	integrin complex	14519396	Component
+7227	32661	GO:0008305	TAS	part_of	integrin complex	10936444	Component
+7227	33275	GO:0008328	IMP	part_of	ionotropic glutamate receptor complex	15788778	Component
+7227	33638	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7227	33753	GO:0070724	IPI	part_of	BMP receptor complex	16098524	Component
+7227	33788	GO:0008328	IMP	part_of	ionotropic glutamate receptor complex	15788778	Component
+7227	33789	GO:0008328	IMP	part_of	ionotropic glutamate receptor complex	15788778	Component
+7227	34304	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	19944756	Component
+7227	34826	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	19944756	Component
+7227	35368	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	35368	GO:0008305	IDA	part_of	integrin complex	23426364	Component
+7227	35368	GO:0008305	ISS	part_of	integrin complex	8076521|10936444	Component
+7227	35368	GO:0008305	NAS	part_of	integrin complex	14519396	Component
+7227	35368	GO:0008305	TAS	part_of	integrin complex	10908592	Component
+7227	35731	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+7227	35731	GO:0070724	IPI	part_of	BMP receptor complex	7697720|8044839|16098524	Component
+7227	35900	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7227	35900	GO:0048179	IPI	part_of	activin receptor complex	8289834|10320478|16098524	Component
+7227	36692	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	36692	GO:0008305	IDA	part_of	integrin complex	23426364	Component
+7227	36692	GO:0008305	IEA	part_of	integrin complex	-	Component
+7227	36692	GO:0008305	IPI	part_of	integrin complex	9409675	Component
+7227	36693	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	36693	GO:0008305	IEA	part_of	integrin complex	-	Component
+7227	36693	GO:0008305	ISS	part_of	integrin complex	10908592	Component
+7227	36693	GO:0008305	NAS	part_of	integrin complex	14519396	Component
+7227	37732	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	37732	GO:0008305	IEA	part_of	integrin complex	-	Component
+7227	37732	GO:0008305	ISS	part_of	integrin complex	10908592|10936444	Component
+7227	37732	GO:0008305	NAS	part_of	integrin complex	14519396	Component
+7227	38742	GO:0008328	IC	part_of	ionotropic glutamate receptor complex	1359540	Component
+7227	40162	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7227	40521	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	11044730	Component
+7227	40665	GO:0008328	IPI	part_of	ionotropic glutamate receptor complex	15823532	Component
+7227	40665	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7227	40665	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	15823532	Component
+7227	41084	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7227	41772	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7227	41772	GO:0048179	IPI	part_of	activin receptor complex	8289834|9887103|10320478|16098524	Component
+7227	41772	GO:0070724	IPI	part_of	BMP receptor complex	7697720	Component
+7227	41988	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7227	42549	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+7227	42549	GO:0005899	IDA	part_of	insulin receptor complex	3934169|7628438	Component
+7227	42918	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	10728888	Component
+7227	42918	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	10820216	Component
+7227	42919	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	10728888	Component
+7227	42919	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	10820216	Component
+7227	43766	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7227	43832	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7227	44096	GO:0048179	IPI	part_of	activin receptor complex	16098524	Component
+7227	44096	GO:0070724	IPI	part_of	BMP receptor complex	16098524	Component
+7227	44483	GO:0008328	IMP	part_of	ionotropic glutamate receptor complex	15788778	Component
+7227	44484	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	10798390	Component
+7227	44885	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7227	44885	GO:0008305	IDA	part_of	integrin complex	7972082	Component
+7227	44885	GO:0008305	IPI	part_of	integrin complex	9409675	Component
+7227	318623	GO:0008328	IMP	part_of	ionotropic glutamate receptor complex	15788778	Component
+7955	30183	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	30457	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	30517	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	30573	GO:0034751	ISS	part_of	aryl hydrocarbon receptor complex	-	Component
+7955	30615	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+7955	30615	GO:0070724	IDA	part_of	BMP receptor complex	19377468	Component
+7955	30725	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	30725	GO:0005892	IMP	part_of	acetylcholine-gated channel complex	22674269	Component
+7955	58098	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	58099	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	58130	GO:0002947	IBA	part_of	tumor necrosis factor receptor superfamily complex	21873635	Component
+7955	58145	GO:0070724	IDA	part_of	BMP receptor complex	19377468	Component
+7955	64277	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	170450	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	170451	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	170452	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	245699	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+7955	245700	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+7955	245701	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+7955	245702	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+7955	246224	GO:0034751	IEA	part_of	aryl hydrocarbon receptor complex	-	Component
+7955	266753	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+7955	321932	GO:1990712	IEA	part_of	HFE-transferrin receptor complex	-	Component
+7955	325938	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	335269	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	335269	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	336069	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	336252	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	352935	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	368416	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	386787	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	386787	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	393614	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	393704	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	394012	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	394012	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	394199	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+7955	394199	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	403044	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	404035	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	404045	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	404273	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	15201319	Component
+7955	405864	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	405864	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	407685	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	407685	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	407735	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	445119	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	445315	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	445380	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	445380	GO:0008305	IDA	part_of	integrin complex	17626277	Component
+7955	445380	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	449864	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	493634	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	503893	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	503893	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	541320	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	541320	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	541359	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	541382	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	-	Component
+7955	541382	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	541475	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	541475	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	550428	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	550520	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	553359	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	553402	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	554050	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	554265	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	554561	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	555254	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	555254	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	556202	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	556582	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+7955	556619	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	556734	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	556734	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	556752	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	556752	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	557526	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	557797	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	557797	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	557935	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	557935	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	559222	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	559693	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	559976	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	560578	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	561012	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	561285	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	561433	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	561540	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+7955	561738	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	562406	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	563297	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	563556	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	563556	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	563715	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	563715	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	564266	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	564266	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	564883	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	565319	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+7955	566015	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	-	Component
+7955	566015	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	566141	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+7955	566514	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	566546	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	566633	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	566771	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	566771	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	566922	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	567175	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	567175	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	567422	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	567438	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	568566	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	568984	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	569032	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	569855	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	570216	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	570222	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	570493	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	570868	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	570868	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	570876	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	571422	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	571720	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	572348	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	572348	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	678575	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	751659	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	767745	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	768183	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	792928	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	794222	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	795761	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	797409	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	797491	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	797491	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	797554	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	798001	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+7955	798521	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	798689	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	798791	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+7955	798792	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+7955	798792	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+7955	799124	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	100001799	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+7955	100001836	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100001836	GO:0008305	IDA	part_of	integrin complex	17626277	Component
+7955	100001836	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100003278	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100003329	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100003342	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	100005295	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	100005675	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	100006941	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	100034520	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100034540	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100141346	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100141346	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100148503	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+7955	100148652	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100150704	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	100151255	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100151255	GO:0008305	IDA	part_of	integrin complex	17626277	Component
+7955	100151255	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100270764	GO:0035631	IBA	part_of	CD40 receptor complex	21873635	Component
+7955	100317238	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+7955	100317238	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+7955	100329481	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+7955	100329481	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+7955	100331014	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+7955	100331116	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+7955	100331333	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100331333	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100331377	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	100331874	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100331874	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100333648	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+7955	100333657	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+7955	100499533	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100536533	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100536533	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100536659	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22580045	Component
+7955	100536705	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	100536705	GO:0008305	IEA	part_of	integrin complex	-	Component
+7955	100537531	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+7955	100538116	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+7955	101882585	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+7955	101882585	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	373582	GO:0042105	IEA	part_of	alpha-beta T cell receptor complex	-	Component
+8355	373657	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	373743	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	394366	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	397839	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	397842	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	397953	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	25008524|28232581	Component
+8355	397985	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	397997	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	495051	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	100127346	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	28232581	Component
+8355	100127346	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+8355	100127346	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+8355	100127347	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+8355	100191022	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108697030	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+8355	108697758	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+8355	108701397	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108702534	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108702994	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108711223	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+8355	108713047	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+8355	108718824	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108719000	GO:0008305	IEA	part_of	integrin complex	-	Component
+8355	108719885	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	448641	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+8364	493524	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+8364	100036636	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+8364	100125024	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+8364	100125132	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+8364	100127547	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	-	Component
+8364	100127547	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+8364	100144691	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100144723	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+8364	100485847	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+8364	100487548	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+8364	100487624	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100487924	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100488862	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+8364	100489006	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+8364	100489152	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100492664	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+8364	100492714	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+8364	100492718	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+8364	100492880	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+8364	100492880	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100494331	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100494398	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+8364	100494771	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100495138	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100496638	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+8364	100497992	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+8364	100497992	GO:0008305	IEA	part_of	integrin complex	-	Component
+8364	100498216	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+8364	105946656	GO:0008305	IEA	part_of	integrin complex	-	Component
+9031	373925	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9031	374001	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+9031	374001	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	8145738	Component
+9031	374058	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9031	374115	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9031	374213	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9031	374214	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	374214	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9031	386578	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9031	395246	GO:0048179	ISA	part_of	activin receptor complex	10885742	Component
+9031	395246	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+9031	395605	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9031	395931	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	396062	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+9031	396173	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	396188	GO:0034751	ISS	part_of	aryl hydrocarbon receptor complex	-	Component
+9031	396225	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9031	396226	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9031	396288	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	396289	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	396289	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9031	396290	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9031	396290	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9031	396300	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9031	396324	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9031	396420	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9031	414830	GO:1990712	IEA	part_of	HFE-transferrin receptor complex	-	Component
+9031	424059	GO:0046696	IEA	part_of	lipopolysaccharide receptor complex	-	Component
+9606	90	GO:0048179	IDA	part_of	activin receptor complex	8242742	Component
+9606	90	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+9606	91	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9606	91	GO:0048179	IDA	part_of	activin receptor complex	12665502	Component
+9606	92	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9606	93	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9606	94	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+9606	196	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	329	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	405	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	406	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	567	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	9990067	Component
+9606	650	GO:0070724	IDA	part_of	BMP receptor complex	16604073	Component
+9606	657	GO:1990712	IC	part_of	HFE-transferrin receptor complex	24904118	Component
+9606	658	GO:1990712	IC	part_of	HFE-transferrin receptor complex	24904118	Component
+9606	915	GO:0042101	IDA	part_of	T cell receptor complex	8176201	Component
+9606	915	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+9606	915	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9485181	Component
+9606	915	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	915	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	916	GO:0042101	IDA	part_of	T cell receptor complex	8176201	Component
+9606	916	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+9606	916	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9485181	Component
+9606	916	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	916	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	916	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	917	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+9606	917	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9485181	Component
+9606	917	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	917	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	917	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	919	GO:0042101	IDA	part_of	T cell receptor complex	8176201	Component
+9606	919	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+9606	919	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9485181	Component
+9606	919	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	919	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	919	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	920	GO:0042101	NAS	part_of	T cell receptor complex	8512039	Component
+9606	925	GO:0042101	NAS	part_of	T cell receptor complex	11131152	Component
+9606	926	GO:0042101	NAS	part_of	T cell receptor complex	11131152	Component
+9606	929	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+9606	929	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	11274165	Component
+9606	958	GO:0035631	IBA	part_of	CD40 receptor complex	21873635	Component
+9606	958	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	973	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+9606	973	GO:0019815	ISS	part_of	B cell receptor complex	-	Component
+9606	974	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+9606	1134	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	8872460	Component
+9606	1135	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1136	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1137	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1138	GO:0005892	IC	part_of	acetylcholine-gated channel complex	1542648	Component
+9606	1139	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+9606	1139	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1140	GO:0005892	IMP	part_of	acetylcholine-gated channel complex	8872460	Component
+9606	1141	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1142	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9606	1143	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8906617	Component
+9606	1143	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	11742001	Component
+9606	1144	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+9606	1144	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+9606	1145	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	7531341	Component
+9606	1147	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	1437	GO:0030526	IDA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	27396825	Component
+9606	1438	GO:0030526	IDA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	27396825	Component
+9606	1439	GO:0030526	IDA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	27396825	Component
+9606	1439	GO:0030526	TAS	part_of	granulocyte macrophage colony-stimulating factor receptor complex	9410898	Component
+9606	1741	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	1742	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	2059	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2185	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2316	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	16293600	Component
+9606	2554	GO:1902710	ISS	part_of	GABA receptor complex	-	Component
+9606	2554	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2554	GO:1902711	IDA	part_of	GABA-A receptor complex	9039914|30266951	Component
+9606	2554	GO:1902711	IPI	part_of	GABA-A receptor complex	29950725|30602789	Component
+9606	2555	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2555	GO:1902711	IDA	part_of	GABA-A receptor complex	9039914	Component
+9606	2556	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2557	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2558	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2559	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2560	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2560	GO:1902711	IDA	part_of	GABA-A receptor complex	9039914|26950270	Component
+9606	2560	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9606	2561	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2561	GO:1902711	IPI	part_of	GABA-A receptor complex	29950725	Component
+9606	2561	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9606	2562	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2562	GO:1902711	IDA	part_of	GABA-A receptor complex	9039914|26950270	Component
+9606	2562	GO:1902711	IMP	part_of	GABA-A receptor complex	22303015	Component
+9606	2562	GO:1902711	IPI	part_of	GABA-A receptor complex	30602789	Component
+9606	2562	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9606	2563	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2564	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2564	GO:1902711	IDA	part_of	GABA-A receptor complex	9039914	Component
+9606	2565	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2566	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2566	GO:1902711	IPI	part_of	GABA-A receptor complex	29950725|30602789	Component
+9606	2566	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9606	2567	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2568	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2569	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2570	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	2811	GO:1990779	IPI	part_of	glycoprotein Ib-IX-V complex	1730602	Component
+9606	2811	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	16293600	Component
+9606	2812	GO:1990779	IPI	part_of	glycoprotein Ib-IX-V complex	1730602	Component
+9606	2812	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	16293600	Component
+9606	2814	GO:1990779	IPI	part_of	glycoprotein Ib-IX-V complex	1730602	Component
+9606	2814	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	16293600	Component
+9606	2815	GO:1990779	IPI	part_of	glycoprotein Ib-IX-V complex	1730602	Component
+9606	2815	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	16293600	Component
+9606	2890	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	2890	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	2891	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	2891	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	2892	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	2892	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	2893	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	2893	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	2895	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	-	Component
+9606	2897	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+9606	2898	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+9606	2899	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+9606	2900	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+9606	2901	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+9606	2902	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+9606	2902	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	7679115|10480938|17047094|26875626|26919761|28105280	Component
+9606	2902	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2902	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2902	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	17526495	Component
+9606	2903	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+9606	2903	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	10480938|26875626	Component
+9606	2903	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2903	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2903	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	17526495	Component
+9606	2904	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+9606	2904	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	10480938|17047094|26875626|26919761	Component
+9606	2904	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2904	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2904	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	17526495	Component
+9606	2905	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+9606	2905	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	26875626|26919761	Component
+9606	2905	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2905	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	17526495	Component
+9606	2906	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+9606	2906	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	26875626|26919761	Component
+9606	2906	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9606	2906	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	17526495	Component
+9606	2911	GO:0038037	IDA	part_of	G protein-coupled receptor dimeric complex	24603153	Component
+9606	3077	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	9465039|9546397|9990067|12704209|22728873	Component
+9606	3326	GO:0034751	IDA	part_of	aryl hydrocarbon receptor complex	15581363	Component
+9606	3329	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	17164250	Component
+9606	3351	GO:0098666	IEA	part_of	G protein-coupled serotonin receptor complex	-	Component
+9606	3356	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	18703043	Component
+9606	3357	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	7926008|12970106|15862800|18703043	Component
+9606	3357	GO:0098666	IMP	part_of	G protein-coupled serotonin receptor complex	15625277	Component
+9606	3358	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	12970106|18703043	Component
+9606	3359	GO:1904602	IDA	part_of	serotonin-activated cation-selective channel complex	9950429	Component
+9606	3359	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	16116092|17392525	Component
+9606	3480	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+9606	3551	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	3594	GO:0072536	IDA	part_of	interleukin-23 receptor complex	12023369	Component
+9606	3643	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+9606	3643	GO:0005899	IDA	part_of	insulin receptor complex	1898103|19406747	Component
+9606	3643	GO:0005899	IMP	part_of	insulin receptor complex	15069075	Component
+9606	3645	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+9606	3655	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3667	GO:0005899	ISS	part_of	insulin receptor complex	-	Component
+9606	3672	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3672	GO:0008305	TAS	part_of	integrin complex	8428973	Component
+9606	3673	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3674	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3675	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3676	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3678	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3679	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3680	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3681	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3681	GO:0008305	TAS	part_of	integrin complex	20187620	Component
+9606	3682	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3683	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3683	GO:0008305	NAS	part_of	integrin complex	8103515	Component
+9606	3684	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3685	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3685	GO:0008305	IDA	part_of	integrin complex	15215180	Component
+9606	3685	GO:0008305	NAS	part_of	integrin complex	11877390	Component
+9606	3687	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3688	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3689	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3689	GO:0008305	NAS	part_of	integrin complex	12885943	Component
+9606	3690	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3690	GO:0008305	IDA	part_of	integrin complex	15215180	Component
+9606	3691	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3693	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3694	GO:0008305	TAS	part_of	integrin complex	2365683	Component
+9606	3695	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3696	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	3717	GO:0030526	IDA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	27396825	Component
+9606	3717	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+9606	5361	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	5361	GO:0002116	TAS	part_of	semaphorin receptor complex	19909241	Component
+9606	5362	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	5362	GO:0002116	TAS	part_of	semaphorin receptor complex	19909241	Component
+9606	5364	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	5364	GO:0002116	IDA	part_of	semaphorin receptor complex	19843518	Component
+9606	5364	GO:0002116	TAS	part_of	semaphorin receptor complex	19909241	Component
+9606	5365	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	5777	GO:0042105	IEA	part_of	alpha-beta T cell receptor complex	-	Component
+9606	6850	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+9606	6850	GO:0042101	IDA	part_of	T cell receptor complex	8176201	Component
+9606	6955	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	31959982	Component
+9606	6956	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6957	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	31959982	Component
+9606	6966	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	6967	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	6973	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6974	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6976	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6977	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6978	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6982	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6983	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6984	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	6985	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	7018	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	9546397	Component
+9606	7036	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	12704209|22728873	Component
+9606	7037	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	9465039|9546397|9990067	Component
+9606	7046	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9606	7099	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	11274165|19252480	Component
+9606	7132	GO:0002947	TAS	part_of	tumor necrosis factor receptor superfamily complex	24966471	Component
+9606	7133	GO:0002947	TAS	part_of	tumor necrosis factor receptor superfamily complex	24966471	Component
+9606	7185	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	7186	GO:0002947	IDA	part_of	tumor necrosis factor receptor superfamily complex	23429285	Component
+9606	7186	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	7186	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	7187	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	7187	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	7188	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	7188	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	7189	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	7189	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	7297	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+9606	7535	GO:0042101	IDA	part_of	T cell receptor complex	8176201	Component
+9606	8515	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	8516	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	8516	GO:0008305	TAS	part_of	integrin complex	7768999	Component
+9606	8631	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	8717	GO:0002947	IBA	part_of	tumor necrosis factor receptor superfamily complex	21873635	Component
+9606	8717	GO:0002947	IDA	part_of	tumor necrosis factor receptor superfamily complex	23429285	Component
+9606	8828	GO:0002116	NAS	part_of	semaphorin receptor complex	19909241	Component
+9606	8829	GO:0002116	NAS	part_of	semaphorin receptor complex	19909241	Component
+9606	8973	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9606	9049	GO:0034751	IEA	part_of	aryl hydrocarbon receptor complex	-	Component
+9606	9177	GO:1904602	IGI	part_of	serotonin-activated cation-selective channel complex	9950429	Component
+9606	9177	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	16116092	Component
+9606	9358	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	9568	GO:1902710	IDA	part_of	GABA receptor complex	15304491	Component
+9606	9618	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+9606	9865	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+9606	9865	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	19710467	Component
+9606	9915	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	10154	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	10368	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	10368	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	10369	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	10369	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	22801	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+9606	23129	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	23643	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+9606	23643	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	11274165|19252480	Component
+9606	23654	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	26090	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	27091	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	27091	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	27092	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	27092	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	27429	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	28516	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28517	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28518	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28522	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28525	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28526	GO:0042106	NAS	part_of	gamma-delta T cell receptor complex	16418397	Component
+9606	28557	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28558	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28559	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28560	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28562	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28563	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28564	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28567	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28568	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	21081917	Component
+9606	28569	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28570	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28571	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28573	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28574	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28575	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28576	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28577	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28580	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28581	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28582	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28583	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28584	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28585	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28586	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28589	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28590	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28591	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28592	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28594	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28595	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28596	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28597	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28598	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28599	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28600	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28601	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28602	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28603	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28604	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28606	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28607	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28608	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28609	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28610	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28611	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28612	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28614	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28615	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28616	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28617	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28619	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28620	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28622	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28623	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28624	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28625	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28626	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28628	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28629	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28630	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28631	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28632	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28633	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28634	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28635	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28637	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28638	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	28639	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	28640	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28641	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28642	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28643	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28644	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28646	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28647	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28648	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28652	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28653	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28655	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	21081917	Component
+9606	28656	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28657	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28658	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28659	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28660	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28661	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28662	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28663	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28664	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28665	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28666	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28667	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28669	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28670	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28671	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28672	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28673	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28674	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28676	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28677	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28678	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28680	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28682	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28683	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28684	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28685	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28686	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28688	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28689	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28690	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28691	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28692	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28693	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28752	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	28755	GO:0042105	IPI	part_of	alpha-beta T cell receptor complex	31461748	Component
+9606	28755	GO:0042105	ISS	part_of	alpha-beta T cell receptor complex	-	Component
+9606	50852	GO:0042101	IBA	part_of	T cell receptor complex	21873635	Component
+9606	50852	GO:0042101	IDA	part_of	T cell receptor complex	11390434	Component
+9606	54518	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+9606	54923	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+9606	55072	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	55558	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	55558	GO:0002116	TAS	part_of	semaphorin receptor complex	19909241	Component
+9606	55584	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	25282151	Component
+9606	55879	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	56616	GO:0035631	ISS	part_of	CD40 receptor complex	-	Component
+9606	56938	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	57406	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	57491	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+9606	59283	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	59283	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	59284	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	59284	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	64840	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	89832	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+9606	91584	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+9606	91584	GO:0002116	TAS	part_of	semaphorin receptor complex	19909241	Component
+9606	93145	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	116443	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	17997397	Component
+9606	116444	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	11735224	Component
+9606	116444	GO:0017146	NAS	part_of	NMDA selective glutamate receptor complex	11735224	Component
+9606	118427	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	126129	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9606	126259	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+9606	130399	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+9606	130399	GO:0048179	IDA	part_of	activin receptor complex	15531507	Component
+9606	134957	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+9606	148738	GO:0070724	IDA	part_of	BMP receptor complex	16604073	Component
+9606	148738	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	22728873	Component
+9606	149111	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	149233	GO:0072536	IBA	part_of	interleukin-23 receptor complex	21873635	Component
+9606	149233	GO:0072536	IDA	part_of	interleukin-23 receptor complex	12023369	Component
+9606	170572	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	17392525	Component
+9606	200909	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	17392525	Component
+9606	200959	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+9606	254263	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9606	285242	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	17392525	Component
+9606	375567	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	388336	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	402117	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	440829	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	729956	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9606	729956	GO:0032281	ISS	NOT part_of	AMPA glutamate receptor complex	-	Component
+9606	729993	GO:0008328	ISS	part_of	ionotropic glutamate receptor complex	-	Component
+9606	729993	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+9615	403741	GO:0098666	IEA	part_of	G protein-coupled serotonin receptor complex	-	Component
+9615	403882	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	15862800	Component
+9615	494009	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+9823	396629	GO:0035631	IEA	part_of	CD40 receptor complex	-	Component
+9823	397201	GO:0030526	IEA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+9823	399541	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+9913	281048	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+9913	281095	GO:0030526	IEA	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+9913	281536	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+9913	281674	GO:0019815	ISS	part_of	B cell receptor complex	-	Component
+9913	281687	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9913	281794	GO:0097648	IDA	part_of	G protein-coupled receptor complex	9539726	Component
+9913	282177	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9913	282178	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+9913	282179	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+9913	282239	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9913	282240	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9913	282702	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+9913	338068	GO:0048179	ISS	part_of	activin receptor complex	-	Component
+9913	338070	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+9913	505283	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+9913	509933	GO:0097648	IDA	part_of	G protein-coupled receptor complex	9539726	Component
+9913	523039	GO:0035631	IEA	part_of	CD40 receptor complex	-	Component
+9913	538496	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+9913	539124	GO:0035631	IEA	part_of	CD40 receptor complex	-	Component
+9913	540657	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+9913	613753	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+9913	767874	GO:0034751	ISS	part_of	aryl hydrocarbon receptor complex	-	Component
+9913	780973	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+10090	11435	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	8334706|8910344	Component
+10090	11435	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11435	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10090	11438	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	12871652|12944511|26276394	Component
+10090	11438	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	17434683	Component
+10090	11438	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11440	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	12944511	Component
+10090	11441	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+10090	11441	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	22039094	Component
+10090	11441	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11443	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8798466	Component
+10090	11443	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	8334706	Component
+10090	11443	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11443	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10090	11444	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	12944511|26276394	Component
+10090	11444	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	22039094	Component
+10090	11444	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11447	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8798466	Component
+10090	11447	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	8334706|8910344	Component
+10090	11447	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11447	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10090	11448	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	8334706	Component
+10090	11448	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11449	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	8798466	Component
+10090	11449	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	11449	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10090	11477	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10090	11477	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+10090	11479	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10090	11479	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10090	11480	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10090	11481	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10090	11482	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+10090	11622	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	11622	GO:0034751	TAS	part_of	aryl hydrocarbon receptor complex	17569696	Component
+10090	11624	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	11632	GO:0034751	IDA	part_of	aryl hydrocarbon receptor complex	9083006	Component
+10090	11658	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	11797	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	11863	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	11864	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	11865	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	12010	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	12156	GO:0070724	ISO	part_of	BMP receptor complex	-	Component
+10090	12300	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	12300	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	12300	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	12475	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10090	12475	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10090	12500	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	12500	GO:0042101	NAS	part_of	T cell receptor complex	12215456	Component
+10090	12500	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10090	12500	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9208839	Component
+10090	12500	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	12501	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	12501	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10090	12501	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9064344|9208839	Component
+10090	12501	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	12502	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10090	12502	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9208839	Component
+10090	12502	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	12503	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	12503	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10090	12503	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9064344|9208839	Component
+10090	12503	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	12511	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	12518	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+10090	12518	GO:0019815	IDA	part_of	B cell receptor complex	1373499|8626447	Component
+10090	12675	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	12794	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	12981	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10090	12982	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10090	12983	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10090	12984	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10090	13385	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	15883194|22632720	Component
+10090	13860	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	17018287	Component
+10090	14394	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10090	14394	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14394	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14395	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14395	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14396	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14397	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14399	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14400	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14400	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14401	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10090	14401	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14401	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14402	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14402	GO:1902711	IMP	part_of	GABA-A receptor complex	9108119	Component
+10090	14402	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14403	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14404	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14404	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14405	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14406	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10090	14406	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14406	GO:1902711	IMP	part_of	GABA-A receptor complex	18281286	Component
+10090	14406	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10090	14407	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14408	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14409	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	14723	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10090	14723	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	23336709	Component
+10090	14724	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10090	14724	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	23336709	Component
+10090	14729	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10090	14729	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	23336709	Component
+10090	14799	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	15207857	Component
+10090	14799	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	14799	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	15883194|22632720	Component
+10090	14799	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	14800	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	14800	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	15883194|22632720	Component
+10090	14800	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	14802	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	14802	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	15883194|22632720	Component
+10090	14802	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	14802	GO:0032983	ISO	part_of	kainate selective glutamate receptor complex	-	Component
+10090	14804	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	15207857	Component
+10090	14805	GO:0008328	IC	part_of	ionotropic glutamate receptor complex	12223554	Component
+10090	14805	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10090	14805	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10090	14805	GO:0032983	IPI	part_of	kainate selective glutamate receptor complex	17174564	Component
+10090	14806	GO:0008328	IC	part_of	ionotropic glutamate receptor complex	12223554	Component
+10090	14806	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10090	14806	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10090	14806	GO:0032983	IPI	part_of	kainate selective glutamate receptor complex	12954862|17174564	Component
+10090	14807	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10090	14809	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10090	14809	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10090	14809	GO:0032983	IPI	part_of	kainate selective glutamate receptor complex	12954862|17174564	Component
+10090	14810	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10090	14810	GO:0017146	IPI	part_of	NMDA selective glutamate receptor complex	9003035	Component
+10090	14810	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	14811	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10090	14811	GO:0017146	IPI	part_of	NMDA selective glutamate receptor complex	7929101|9003035	Component
+10090	14811	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	14812	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10090	14812	GO:0017146	IPI	part_of	NMDA selective glutamate receptor complex	9003035	Component
+10090	14812	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	14813	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10090	14813	GO:0017146	IPI	part_of	NMDA selective glutamate receptor complex	7929101	Component
+10090	14813	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	14814	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10090	14814	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	14816	GO:0038037	ISO	part_of	G protein-coupled receptor dimeric complex	-	Component
+10090	15170	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9064344	Component
+10090	15216	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	16893896	Component
+10090	15216	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	15510	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10090	15516	GO:0034751	ISO	part_of	aryl hydrocarbon receptor complex	-	Component
+10090	15551	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	17325130	Component
+10090	15558	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10090	15559	GO:0098666	IDA	part_of	G protein-coupled serotonin receptor complex	17325130	Component
+10090	15559	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10090	15560	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10090	15561	GO:1904602	IPI	part_of	serotonin-activated cation-selective channel complex	25119048	Component
+10090	15561	GO:1904602	ISO	part_of	serotonin-activated cation-selective channel complex	-	Component
+10090	15985	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+10090	15985	GO:0019815	IDA	part_of	B cell receptor complex	1373499|8626447	Component
+10090	16001	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10090	16019	GO:0019815	IDA	part_of	B cell receptor complex	1373499|8552190|9254656	Component
+10090	16150	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	16160	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	16161	GO:0072536	IDA	part_of	interleukin-23 receptor complex	11114383	Component
+10090	16161	GO:0072536	ISO	part_of	interleukin-23 receptor complex	-	Component
+10090	16161	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	16337	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10090	16337	GO:0005899	ISO	part_of	insulin receptor complex	-	Component
+10090	16367	GO:0005899	ISO	part_of	insulin receptor complex	-	Component
+10090	16398	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16399	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16400	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16401	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16402	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16402	GO:0008305	ISO	part_of	integrin complex	-	Component
+10090	16403	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16403	GO:0008305	IDA	part_of	integrin complex	8707838	Component
+10090	16404	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16404	GO:0008305	ISO	part_of	integrin complex	-	Component
+10090	16407	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16408	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16409	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16410	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16410	GO:0008305	ISO	part_of	integrin complex	-	Component
+10090	16411	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16412	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16412	GO:0008305	ISO	part_of	integrin complex	-	Component
+10090	16414	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16415	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16416	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16416	GO:0008305	ISO	part_of	integrin complex	-	Component
+10090	16419	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16420	GO:0008305	IEA	part_of	integrin complex	-	Component
+10090	16421	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	16452	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10090	16452	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	17087	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10090	17087	GO:0046696	IDA	part_of	lipopolysaccharide receptor complex	24380872	Component
+10090	17087	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10090	18844	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	18845	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	18846	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	18858	GO:0008305	IDA	part_of	integrin complex	16436605	Component
+10090	19229	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	20963	GO:0019815	IDA	part_of	B cell receptor complex	8626447	Component
+10090	20963	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	21473	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9208839	Component
+10090	21577	GO:0042105	IDA	part_of	alpha-beta T cell receptor complex	9064344|9208839	Component
+10090	21632	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+10090	21812	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10090	21898	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10090	21939	GO:0035631	IBA	part_of	CD40 receptor complex	21873635	Component
+10090	21939	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	22029	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22030	GO:0002947	ISO	part_of	tumor necrosis factor receptor superfamily complex	-	Component
+10090	22030	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	22030	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22031	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	22031	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22032	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22033	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	22033	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22034	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	22034	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10090	22041	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	22042	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	16893896	Component
+10090	22042	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	22637	GO:0042101	ISO	part_of	T cell receptor complex	8176201	Component
+10090	23920	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10090	26365	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	26367	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10090	50765	GO:1990712	IDA	part_of	HFE-transferrin receptor complex	16893896	Component
+10090	50765	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	53310	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	53623	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	53623	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	53623	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	53627	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	54368	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10090	54368	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	23336709	Component
+10090	54376	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	54376	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	54376	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	54377	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	54377	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	54377	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	54393	GO:0038037	IDA	part_of	G protein-coupled receptor dimeric complex	20400944	Component
+10090	54393	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10090	54519	GO:0042101	IDA	part_of	T cell receptor complex	17403904	Component
+10090	54712	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	54721	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	56177	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	57014	GO:1904602	ISO	part_of	serotonin-activated cation-selective channel complex	-	Component
+10090	57249	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	64704	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	66082	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	66593	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	66650	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10090	66873	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10090	66873	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10090	67784	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	68404	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	69585	GO:0070724	ISO	part_of	BMP receptor complex	-	Component
+10090	69585	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10090	71609	GO:0002947	IBA	part_of	tumor necrosis factor receptor superfamily complex	21873635	Component
+10090	71609	GO:0002947	ISO	part_of	tumor necrosis factor receptor superfamily complex	-	Component
+10090	72555	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	20185686	Component
+10090	72555	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	72555	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	72699	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+10090	72699	GO:0019815	IDA	part_of	B cell receptor complex	16249387	Component
+10090	72978	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	76192	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	77647	GO:0042101	IBA	part_of	T cell receptor complex	21873635	Component
+10090	77647	GO:0042101	ISO	part_of	T cell receptor complex	11390434	Component
+10090	78070	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	78473	GO:0042101	IDA	part_of	T cell receptor complex	17403904	Component
+10090	78808	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	12832401	Component
+10090	81904	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	81904	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	81905	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	81905	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	83430	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	83493	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	104099	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	108015	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	108043	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	109700	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	110637	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10090	110637	GO:0032983	IPI	part_of	kainate selective glutamate receptor complex	12954862	Component
+10090	110785	GO:0019815	IDA	part_of	B cell receptor complex	1373499	Component
+10090	110834	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	17434683	Component
+10090	110834	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	110835	GO:0005892	IPI	part_of	acetylcholine-gated channel complex	17434683	Component
+10090	110835	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	110886	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	110902	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	140570	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	140571	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	140723	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	140723	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10090	170483	GO:0017146	IMP	part_of	NMDA selective glutamate receptor complex	14602821	Component
+10090	170483	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	192176	GO:1990779	NAS	part_of	glycoprotein Ib-IX-V complex	23336709	Component
+10090	192897	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	192897	GO:0008305	IDA	part_of	integrin complex	8707838	Component
+10090	209590	GO:0072536	IBA	part_of	interleukin-23 receptor complex	21873635	Component
+10090	209590	GO:0072536	ISO	part_of	interleukin-23 receptor complex	-	Component
+10090	209590	GO:0072536	NAS	part_of	interleukin-23 receptor complex	12023369	Component
+10090	213119	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	216643	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	223272	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	229759	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	231252	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10090	231252	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	18077337|25193338	Component
+10090	232813	GO:0032281	IDA	NOT part_of	AMPA glutamate receptor complex	31601770	Component
+10090	235611	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	235611	GO:0002116	ISO	part_of	semaphorin receptor complex	-	Component
+10090	241226	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	242425	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10090	242443	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10090	243499	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	243743	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10090	244723	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	268749	GO:0035631	IDA	part_of	CD40 receptor complex	20614026	Component
+10090	269275	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10090	269275	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10090	272322	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10090	319480	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	319922	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	319922	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	320460	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	320460	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	320910	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	328699	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10090	380702	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	380702	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	22632720	Component
+10090	380797	GO:0019815	IDA	part_of	B cell receptor complex	8418208	Component
+10090	381924	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10090	435145	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10090	504186	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	18077337	Component
+10090	547427	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	100101484	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+10090	100101484	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	100124684	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	100125262	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10090	100125263	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	24223	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	24261	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22461452	Component
+10116	24261	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	24261	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10116	24406	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	7527545	Component
+10116	24406	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10116	24406	GO:0032983	IEA	part_of	kainate selective glutamate receptor complex	-	Component
+10116	24406	GO:0032983	ISO	part_of	kainate selective glutamate receptor complex	-	Component
+10116	24407	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	10627597	Component
+10116	24407	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10116	24407	GO:0032983	ISO	part_of	kainate selective glutamate receptor complex	-	Component
+10116	24408	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10116	24408	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	16477151|17050728|18177891|22493736|24876489|28384476	Component
+10116	24408	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24408	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24408	GO:0017146	TAS	part_of	NMDA selective glutamate receptor complex	12535174	Component
+10116	24409	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10116	24409	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	8702950|16477151|22493736|23625947|28384476	Component
+10116	24409	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24409	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24409	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24410	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10116	24410	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	1350383|8702950|16477151|24876489|28384476	Component
+10116	24410	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24410	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24410	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24411	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10116	24411	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24411	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24411	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24412	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	7512349	Component
+10116	24412	GO:0017146	IBA	part_of	NMDA selective glutamate receptor complex	21873635	Component
+10116	24412	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	17050728|23625947	Component
+10116	24412	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24412	GO:0017146	ISS	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	24414	GO:0038037	ISO	part_of	G protein-coupled receptor dimeric complex	-	Component
+10116	24511	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	24511	GO:0008305	IDA	part_of	integrin complex	17157995	Component
+10116	24514	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10116	24660	GO:0008305	ISO	part_of	integrin complex	-	Component
+10116	24821	GO:0042106	TAS	part_of	gamma-delta T cell receptor complex	8607875	Component
+10116	24825	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	24922	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	24922	GO:1902711	IEA	part_of	GABA-A receptor complex	-	Component
+10116	24922	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	24922	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+10116	24947	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	24954	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10116	24954	GO:0005899	ISO	part_of	insulin receptor complex	-	Component
+10116	25075	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10116	25101	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	20796176	Component
+10116	25101	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+10116	25101	GO:0005892	IGI	part_of	acetylcholine-gated channel complex	21540349	Component
+10116	25101	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25101	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	25101	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	12153472	Component
+10116	25102	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	20796176	Component
+10116	25102	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25102	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	25103	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	9030613|20796176	Component
+10116	25103	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25103	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	25103	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	1689727	Component
+10116	25118	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	25118	GO:0008305	IEA	part_of	integrin complex	-	Component
+10116	25155	GO:0019815	IEA	part_of	B cell receptor complex	-	Component
+10116	25155	GO:0019815	ISO	part_of	B cell receptor complex	-	Component
+10116	25155	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+10116	25155	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	25187	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10116	25237	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+10116	25242	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	25243	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	25259	GO:1990779	IEA	part_of	glycoprotein Ib-IX-V complex	-	Component
+10116	25259	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10116	25300	GO:0042101	IDA	part_of	T cell receptor complex	8409430	Component
+10116	25300	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	25300	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10116	25300	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	25302	GO:0005892	IBA	part_of	acetylcholine-gated channel complex	21873635	Component
+10116	25302	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	11259617|12645078|21540349	Component
+10116	25302	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25302	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	12069582	Component
+10116	25366	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10116	25450	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	25450	GO:1902711	IMP	part_of	GABA-A receptor complex	2540033	Component
+10116	25450	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	25451	GO:1902710	IDA	part_of	GABA receptor complex	12930820	Component
+10116	25451	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	25451	GO:1902711	IMP	part_of	GABA-A receptor complex	18281286	Component
+10116	25451	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	25467	GO:0005899	IMP	part_of	insulin receptor complex	15069075	Component
+10116	25590	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	9030613|11259617|20796176	Component
+10116	25590	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+10116	25590	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25590	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	12153472	Component
+10116	25690	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	25710	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	25710	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10116	25710	GO:0042105	IEA	part_of	alpha-beta T cell receptor complex	-	Component
+10116	25710	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	25713	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	25718	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10116	25724	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	25724	GO:0008305	IEA	part_of	integrin complex	-	Component
+10116	25724	GO:0008305	ISO	part_of	integrin complex	-	Component
+10116	25724	GO:0008305	TAS	part_of	integrin complex	8026337	Component
+10116	25752	GO:0042101	IEA	part_of	T cell receptor complex	-	Component
+10116	25753	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22461452	Component
+10116	25753	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	25753	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10116	29199	GO:1990712	IEA	part_of	HFE-transferrin receptor complex	-	Component
+10116	29199	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	29260	GO:0046696	IEA	part_of	lipopolysaccharide receptor complex	-	Component
+10116	29260	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10116	29260	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+10116	29263	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10116	29302	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	29302	GO:0008305	IDA	part_of	integrin complex	17157995	Component
+10116	29302	GO:0008305	IEA	part_of	integrin complex	-	Component
+10116	29302	GO:0008305	ISO	part_of	integrin complex	-	Component
+10116	29373	GO:0070724	IEA	part_of	BMP receptor complex	-	Component
+10116	29373	GO:0070724	ISO	part_of	BMP receptor complex	-	Component
+10116	29381	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10116	29381	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10116	29422	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22461452	Component
+10116	29422	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	29495	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	29495	GO:0032281	ISS	part_of	AMPA glutamate receptor complex	-	Component
+10116	29559	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	16540562	Component
+10116	29559	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10116	29559	GO:0032983	ISO	part_of	kainate selective glutamate receptor complex	-	Component
+10116	29581	GO:0098666	IEA	part_of	G protein-coupled serotonin receptor complex	-	Component
+10116	29581	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10116	29591	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10116	29595	GO:0098666	ISO	part_of	G protein-coupled serotonin receptor complex	-	Component
+10116	29627	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	11836517	Component
+10116	29627	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	29627	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014|19946266	Component
+10116	29627	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	29628	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	11836517	Component
+10116	29628	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	29628	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	29628	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+10116	29628	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	29629	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	11836517	Component
+10116	29629	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	29629	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	29629	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	29629	GO:0032983	IDA	part_of	kainate selective glutamate receptor complex	20107073	Component
+10116	29657	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	29689	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29694	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29695	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29705	GO:1902710	IDA	part_of	GABA receptor complex	12930820	Component
+10116	29705	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29705	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	29705	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+10116	29707	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29708	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29709	GO:1902710	IDA	part_of	GABA receptor complex	12930820	Component
+10116	29709	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	29709	GO:1902711	IEA	part_of	GABA-A receptor complex	-	Component
+10116	29709	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	29709	GO:1902711	ISS	part_of	GABA-A receptor complex	-	Component
+10116	50592	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10116	50592	GO:0008328	TAS	part_of	ionotropic glutamate receptor complex	11836517	Component
+10116	50592	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	50592	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	50592	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+10116	50592	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	50646	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	11239437	Component
+10116	50646	GO:0017146	IMP	part_of	NMDA selective glutamate receptor complex	15814199	Component
+10116	54239	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	9030613|11259617|11956333|20796176	Component
+10116	54239	GO:0005892	IGI	part_of	acetylcholine-gated channel complex	21540349	Component
+10116	54239	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	54239	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	54240	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22461452	Component
+10116	54240	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	54240	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10116	54257	GO:0008328	IDA	part_of	ionotropic glutamate receptor complex	10627597	Component
+10116	54257	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10116	54257	GO:0032983	ISO	part_of	kainate selective glutamate receptor complex	-	Component
+10116	58948	GO:0032281	IEA	part_of	AMPA glutamate receptor complex	-	Component
+10116	58948	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	58963	GO:1904602	IEA	part_of	serotonin-activated cation-selective channel complex	-	Component
+10116	58963	GO:1904602	ISO	part_of	serotonin-activated cation-selective channel complex	-	Component
+10116	60350	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10116	60350	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10116	60350	GO:0046696	ISS	part_of	lipopolysaccharide receptor complex	-	Component
+10116	60350	GO:0046696	TAS	part_of	lipopolysaccharide receptor complex	12218159	Component
+10116	60371	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	60663	GO:0005899	IBA	part_of	insulin receptor complex	21873635	Component
+10116	63868	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10116	64350	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	64350	GO:0008305	IEA	part_of	integrin complex	-	Component
+10116	64574	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	25193338	Component
+10116	64678	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	65024	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	12401316	Component
+10116	65024	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	65024	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	25193338	Component
+10116	65187	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	65191	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	65191	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	79211	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	79220	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10116	79246	GO:1904602	ISO	part_of	serotonin-activated cation-selective channel complex	-	Component
+10116	79557	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	22461452	Component
+10116	79557	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	79557	GO:0005892	NAS	part_of	acetylcholine-gated channel complex	15701510	Component
+10116	79557	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	1702709	Component
+10116	79558	GO:0048179	IDA	part_of	activin receptor complex	8248234	Component
+10116	79558	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10116	79558	GO:0070724	IBA	part_of	BMP receptor complex	21873635	Component
+10116	81008	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	81008	GO:0008305	IDA	part_of	integrin complex	1315319	Component
+10116	81008	GO:0008305	IEA	part_of	integrin complex	-	Component
+10116	81022	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	81657	GO:0038037	ISO	part_of	G protein-coupled receptor dimeric complex	-	Component
+10116	81657	GO:1902710	IDA	part_of	GABA receptor complex	15304491	Component
+10116	81658	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	81721	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+10116	81721	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	81721	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	83577	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	83633	GO:1902710	ISO	part_of	GABA receptor complex	-	Component
+10116	83834	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	84347	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	84347	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	84347	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	84351	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	93667	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	114517	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	114517	GO:0008305	ISO	part_of	integrin complex	-	Component
+10116	116482	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	116630	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10116	116689	GO:0042105	IEA	part_of	alpha-beta T cell receptor complex	-	Component
+10116	116689	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	116727	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10116	140674	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	140675	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	140724	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	140724	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	140724	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	140725	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	140725	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	140725	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	140726	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	140726	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	140728	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	140728	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	140729	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	140729	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	170796	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	11823786	Component
+10116	170796	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	170796	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	170945	GO:0005892	ISO	part_of	acetylcholine-gated channel complex	-	Component
+10116	170945	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	171055	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+10116	171055	GO:0019815	ISO	part_of	B cell receptor complex	-	Component
+10116	171081	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10116	171131	GO:0005892	IDA	part_of	acetylcholine-gated channel complex	9030613	Component
+10116	171131	GO:0005892	ISS	part_of	acetylcholine-gated channel complex	-	Component
+10116	171131	GO:0005892	TAS	part_of	acetylcholine-gated channel complex	2703489	Component
+10116	171333	GO:0072536	ISO	part_of	interleukin-23 receptor complex	-	Component
+10116	171369	GO:0035631	IBA	part_of	CD40 receptor complex	21873635	Component
+10116	171369	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	191573	GO:0017146	IDA	part_of	NMDA selective glutamate receptor complex	16477151|17182766	Component
+10116	191573	GO:0017146	IEA	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	191573	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	192258	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	245921	GO:0048179	IBA	part_of	activin receptor complex	21873635	Component
+10116	245921	GO:0048179	IDA	part_of	activin receptor complex	15196700	Component
+10116	245921	GO:0048179	IEA	part_of	activin receptor complex	-	Component
+10116	245921	GO:0048179	ISO	part_of	activin receptor complex	-	Component
+10116	246756	GO:0002947	IBA	part_of	tumor necrosis factor receptor superfamily complex	21873635	Component
+10116	246756	GO:0002947	ISO	part_of	tumor necrosis factor receptor superfamily complex	-	Component
+10116	252920	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	282827	GO:0034751	ISO	part_of	aryl hydrocarbon receptor complex	-	Component
+10116	286975	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	288562	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	288753	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	289392	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	289606	GO:1902711	IBA	part_of	GABA-A receptor complex	21873635	Component
+10116	289606	GO:1902711	IEA	part_of	GABA-A receptor complex	-	Component
+10116	289606	GO:1902711	ISO	part_of	GABA-A receptor complex	-	Component
+10116	296456	GO:0008305	ISO	part_of	integrin complex	-	Component
+10116	297376	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	298521	GO:0032983	IBA	part_of	kainate selective glutamate receptor complex	21873635	Component
+10116	300678	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10116	300678	GO:0042105	IEA	part_of	alpha-beta T cell receptor complex	-	Component
+10116	300678	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	301252	GO:0034751	ISO	part_of	aryl hydrocarbon receptor complex	-	Component
+10116	301252	GO:0034751	ISS	part_of	aryl hydrocarbon receptor complex	-	Component
+10116	301348	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	303285	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10116	305795	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	307171	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	308579	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	308995	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	309280	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	309361	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	309684	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	310681	GO:0070724	ISO	part_of	BMP receptor complex	-	Component
+10116	310681	GO:1990712	ISO	part_of	HFE-transferrin receptor complex	-	Component
+10116	310683	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	311144	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	311245	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	311245	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10116	311786	GO:0002947	ISO	part_of	tumor necrosis factor receptor superfamily complex	-	Component
+10116	311786	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	311786	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10116	312213	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	312652	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	312812	GO:0017146	ISO	part_of	NMDA selective glutamate receptor complex	-	Component
+10116	313783	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	315163	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	315217	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	315346	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	315346	GO:0008305	IDA	part_of	integrin complex	12821041	Component
+10116	315609	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	315609	GO:0042105	IBA	part_of	alpha-beta T cell receptor complex	21873635	Component
+10116	315609	GO:0042105	ISO	part_of	alpha-beta T cell receptor complex	-	Component
+10116	315744	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	316009	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	316009	GO:0002116	ISO	part_of	semaphorin receptor complex	-	Component
+10116	317368	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	360606	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	361705	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	362289	GO:0019815	IBA	part_of	B cell receptor complex	21873635	Component
+10116	362289	GO:0019815	ISO	part_of	B cell receptor complex	-	Component
+10116	362364	GO:0046696	IBA	part_of	lipopolysaccharide receptor complex	21873635	Component
+10116	362364	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10116	362398	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	362464	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	362788	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	362788	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10116	362800	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	362873	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	363517	GO:0002116	IBA	part_of	semaphorin receptor complex	21873635	Component
+10116	364386	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	364786	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	448830	GO:0046696	ISO	part_of	lipopolysaccharide receptor complex	-	Component
+10116	497926	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	497926	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	498075	GO:0042101	IBA	part_of	T cell receptor complex	21873635	Component
+10116	498075	GO:0042101	ISO	part_of	T cell receptor complex	-	Component
+10116	498564	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	498999	GO:0034751	IBA	part_of	aryl hydrocarbon receptor complex	21873635	Component
+10116	499271	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	499913	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	500219	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	501160	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	501160	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	501231	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	501231	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	502858	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10116	652957	GO:0030526	ISO	part_of	granulocyte macrophage colony-stimulating factor receptor complex	-	Component
+10116	684173	GO:0035631	ISO	part_of	CD40 receptor complex	-	Component
+10116	685004	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	685269	GO:0008305	IBA	part_of	integrin complex	21873635	Component
+10116	686098	GO:0005899	IDA	part_of	insulin receptor complex	14525909	Component
+10116	687813	GO:0098802	IBA	part_of	plasma membrane signaling receptor complex	21873635	Component
+10116	689932	GO:0072536	IBA	part_of	interleukin-23 receptor complex	21873635	Component
+10116	689932	GO:0072536	ISO	part_of	interleukin-23 receptor complex	-	Component
+10116	690252	GO:0032281	IDA	part_of	AMPA glutamate receptor complex	19265014	Component
+10116	691429	GO:0032281	IBA	part_of	AMPA glutamate receptor complex	21873635	Component
+10116	691429	GO:0032281	ISO	NOT part_of	AMPA glutamate receptor complex	-	Component
+10116	691992	GO:1990779	ISO	part_of	glycoprotein Ib-IX-V complex	-	Component
+10116	100361134	GO:0008328	ISO	part_of	ionotropic glutamate receptor complex	-	Component
+10116	100361134	GO:0032281	ISO	part_of	AMPA glutamate receptor complex	-	Component
+10116	100361706	GO:0019815	ISO	part_of	B cell receptor complex	-	Component
+10116	100913063	GO:0019815	ISO	part_of	B cell receptor complex	-	Component
+36329	812501	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+36329	812916	GO:0005892	IEA	part_of	acetylcholine-gated channel complex	-	Component
+352472	8620669	GO:0008305	IEA	part_of	integrin complex	-	Component

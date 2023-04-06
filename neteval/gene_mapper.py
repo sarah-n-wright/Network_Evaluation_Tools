@@ -3,6 +3,7 @@ import numpy as np
 import neteval.query_uniprot as uni
 import neteval.query_hgnc as hgnc
 import neteval.query_ensembl as ensg
+from neteval.processing_functions import Timer
 import mygene
 import csv
 import re
