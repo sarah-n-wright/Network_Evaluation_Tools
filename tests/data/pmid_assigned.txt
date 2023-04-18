@@ -1,0 +1,20 @@
+PMID	Classification	SubClassification
+15546613	Genetic	Synthetic;Dosage
+14633992	Genetic	Pos;Neg Genetic
+15829968	Regulatory	Unassigned
+14988562	Mixed	Mixed
+12808131	Physical	Protein-RNA
+16137620	Physical	Protein-RNA
+15616580	Genetic	Mixed
+15899964	Physical	test
+15525513	Physical	FRET
+16109380	Physical	FRET
+15688035	Physical	Co-fractionation
+15494311	Physical	Co-fractionation
+15988478	Physical	Mixed
+15808511	Physical	Proximity Label-MS
+15706352	Physical	Affinity Capture (MS;Western)
+11799067	Physical	PCA
+15782160	Physical	Unassigned
+15688037	test	Unassigned
+15893730	Physical	Unassigned
