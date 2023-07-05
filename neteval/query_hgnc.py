@@ -33,7 +33,7 @@ def query_mygene(gene_list, scopes, fields, retries=10):
 
 def search_approved_symbols(ids):
     headers = {'Accept': 'application/json'}
-    uri = 'http://rest.genenames.org'
+    uri = 'https://rest.genenames.org'
     path = '/search/symbol/*+AND+status:Approved'
     target = urlparse(uri+path)
     method = 'GET'
@@ -57,7 +57,7 @@ def search_approved_symbols(ids):
 
 def query_previous_symbols(ids, approved_df=pd.DataFrame()):
     headers = {'Accept': 'application/json'}
-    uri = 'http://rest.genenames.org'
+    uri = 'https://rest.genenames.org'
     previous_map = {}
     print("Checking previous symbols")
     #print("Number of ids to check", len(ids))
@@ -86,7 +86,7 @@ def query_previous_symbols(ids, approved_df=pd.DataFrame()):
 
 def query_alias_symbols(ids, approved_df=pd.DataFrame()):
     headers = {'Accept': 'application/json'}
-    uri = 'http://rest.genenames.org'
+    uri = 'https://rest.genenames.org'
     alias_map = {}
     print("Searching aliases")
     for symbol in ids:
@@ -111,7 +111,7 @@ def query_alias_symbols(ids, approved_df=pd.DataFrame()):
 
 def query_other_id(ids, target_id):
     headers = {'Accept': 'application/json'}
-    uri = 'http://rest.genenames.org'
+    uri = 'https://rest.genenames.org'
     if target_id == "Entrez":
         field = 'entrez_id'
     target_map = {}
