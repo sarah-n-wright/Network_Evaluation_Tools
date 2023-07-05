@@ -25,7 +25,7 @@ def check_min_genes_per_network(gene_set, network_file_list, datadir, min_genes=
 
 def check_all_genesets_against_network(gene_sets, network_file, min_genes=20):
     net_genes = pd.read_csv(network_file)
-    net_genes['Unique_Nodes'] = net_genes['Unique_Nodes'].astype(str)
+    net_genes['Unique_Nodes'] = net_genes['Unique_Nodes'].astype(int)
     remove_sets = []
     for set_id in gene_sets:
         result = check_single_geneset(gene_sets[set_id], net_genes, min_genes)
@@ -45,6 +45,9 @@ def check_single_geneset(set_nodes, net_genes, min_genes=20):
 def filter_gene_sets(genesets, network_file_list, datadir, min_genes=20):
     with open(network_file_list, 'r') as f:
         prefs = f.readlines()
+    print(prefs)
+    print(datadir) 
+    print(genesets['Reperfusion Injury'])
     node_files = [datadir + p.strip()+".nodelist" for p in prefs]
     keep_gene_sets = {set_id:genesets[set_id] for set_id in genesets}
     for network in node_files:
@@ -67,7 +70,7 @@ def convert_genesets(genesets, initial_id, target_id):
         return new_gene_sets 
     
 def write_gene_sets(genesets, outfile, sep="\t"):
-    out_strings = [sep.join([set_id] + list(genesets[set_id])) for set_id in genesets]
+    out_strings = [sep.join([set_id] + [str(g) for g in genesets[set_id]]) for set_id in genesets]
     with open(outfile,'w') as tfile:
         tfile.write('\n'.join(out_strings))
 
@@ -75,6 +78,7 @@ def write_gene_sets(genesets, outfile, sep="\t"):
 def get_disgenet_sets(diseasefile, email, password, outfile, source, types=["disease"], min_genes=20, max_genes=300):
     # first get a list of diseases that have between 20 and 300 genes
     disease_stats = pd.read_csv(diseasefile, sep="\t")
+    # filter by disease type
     if "diseaseType" in disease_stats.columns:
         disease_stats = disease_stats[disease_stats.diseaseType.isin(types)]
         keep_diseases = disease_stats[(disease_stats.NofGenes >= min_genes) & (disease_stats.NofGenes <= max_genes)]
@@ -189,23 +193,66 @@ def clean_gwas_gene_id(geneid):
     return geneid.split(', ')
 
 
+def parse_geneset_arguments(args):
+    if args.s == "disgen":
+        disgen_args = args.A.split(";")
+        disgen_args = {arg.split("=")[0]:arg.split("=")[1] for arg in disgen_args}
+        disgen_args['min'] = int(disgen_args['min'])
+        disgen_args['max'] = int(disgen_args['max'])
+        disgen_args['types'] = disgen_args['types'].split(",")
+        args.A = disgen_args
+    if args.s != "disgen":
+        raise NotImplementedError("Only disgenet sets are currently supported")
+    args.m = int(args.m)
+    return args
+
+
 
 if __name__=="__main__":
-    #email = getpass("User Email:")
-    #parser = argparse.ArgumentParser(description='GetDisGenetSets')
-    #parser.add_argument('--email', metavar='d', required=True)
-    #parser.add_argument('--password', metavar="nodeA", required=True)
-    #args = parser.parse_args()    
+    parser = argparse.ArgumentParser(description='Process Evaluation Data')
+    parser.add_argument('-e', metavar='email', required=False, default=None)
+    parser.add_argument('-p', metavar="password", required=False, default=None)
+    parser.add_argument('-s', metavar="set_type", required=True)
+    parser.add_argument('-A', metavar='disgen_args', required=False, default="source=BEFREE;min=10;max=500;types=disease;file=/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv")
+    parser.add_argument('-o', metavar='outpath', required=True)
+    parser.add_argument('-n', metavar='network_list', required=False, default=None)
+    parser.add_argument('-d', metavar='network_dir', required=False, default=None)
+    parser.add_argument('-m', metavar='net_min', required=False, default=20)
+    parser.add_argument('-u', metavar='update', default=False)
+    parser.add_argument('-S', metavar='set_file', required=False, default=None)
+
+    args = parser.parse_args()
+    args = parse_geneset_arguments(args)   
+    
+    # TODO this file needs a lot of cleanup and testing, particularly to add capability for other genesets
+    
+    # Update the genesets
+    if args.u:
+        if args.set_type == "disgen":
+            get_disgenet_sets(args.disgen_args['file'], args.email, args.password, 
+                    outfile=args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', source=args.disgen_args['source'],
+                    types=args.disgen_args['types'], min_genes=args.disgen_args['min'] , max_genes=args.disgen_args['max'])
+    
+        # Process the genesets
+            process_disgenet_data(args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', 
+                                args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_genesets.tsv', id_type='gene_symbol',
+                                min_genes=args.disgen_args['min'] )
+            
+    if args.n is not None:
+        gene_sets = dit.load_node_sets(args.S, id_type="Entrez")
+        keep_gene_sets = filter_gene_sets(gene_sets, network_file_list= args.n, datadir= args.d, min_genes= args.m)
+        write_gene_sets(keep_gene_sets, args.o + 'Disgenet_' + args.A['source'] + '_filtered_genesets.tsv')
+    
     #password = getpass("User Password:")
     #process_disgenet_data("/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv",
     #                        outfile='/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/DisGeNET_genesets_BEFREE_2023.txt')
     #process_disgenet_data("/cellar/users/snwright/Data/Transfer/Disgenet_GWASDB_gda.tsv",
     #                        outfile='/cellar/users/snwright/Data/Transfer/Disgenet_GWASDB_genesets.tsv', id_type="gene_symbol")
-    get_disgenet_sets('/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/HPO_diseases.tsv', "snwright@ucsd.edu", "Ballon44!", 
-                    outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv', source="HPO",
-                    types=["disease", "phenotype"], min_genes=10, max_genes=300)
-    process_disgenet_data("/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv",
-                            outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_genesets.tsv', id_type="gene_symbol", min_genes=10)
+    #get_disgenet_sets('/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/HPO_diseases.tsv', "snwright@ucsd.edu", "Ballon44!", 
+    #                outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv', source="HPO",
+    #                types=["disease", "phenotype"], min_genes=10, max_genes=300)
+    #process_disgenet_data("/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv",
+    #                        outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_genesets.tsv', id_type="gene_symbol", min_genes=10)
     #get_intersecting_genes('Git/Network_Evaluation_Tools/Data/v1_net_prefixes.txt', 
                             #datadir='/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/')
     # process_gwas_catalog_data('/cellar/users/snwright/Data/Network_Analysis/Reference_Data/gwas_cat_Jan13_2023.txt', "", pval_th=5e-8, include_intergenic=False, min_genes=20, max_genes=300)
