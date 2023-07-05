@@ -3,7 +3,7 @@ import numpy as np
 import neteval.query_uniprot as uni
 import neteval.query_hgnc as hgnc
 import neteval.query_ensembl as ensg
-from neteval.processing_functions import Timer
+from neteval.Timer import Timer
 import mygene
 import csv
 import re
@@ -159,8 +159,12 @@ def convert_node_ids(nodes, initial_id, target_id, timer=None):
         
     elif initial_id in ["Ensembl", "Refseq", "EnsemblProtein"]:
         converted_df, still_missing = query_mygene(nodes, scopes=mygene_fields[initial_id], fields=mygene_fields[target_id])
-        converted_df = converted_df.dropna(subset=[mygene_fields[target_id]])
-        converted_node_map = converted_df[mygene_fields[target_id]].to_dict()
+        if mygene_fields[target_id] in converted_df.columns:
+            converted_df = converted_df.dropna(subset=[mygene_fields[target_id]])
+            converted_node_map = converted_df[mygene_fields[target_id]].to_dict()
+        else:
+            converted_node_map = {}
+            still_missing = converted_df.index.tolist()
         
     timer.end("Convert node IDs")
     return converted_node_map, still_missing
