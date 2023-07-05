@@ -95,6 +95,7 @@ def calculate_small_network_AUPRC(params):
 	# print("Node set:", node_set)
 	intersect = [nodes for nodes in node_set if nodes in kernel.index]
 	AUPRCs = []
+	FDRs = []
 	sample_size = int(round(p*len(intersect)))
 	for i in range(n):																				# Number of times to run the sampling
 		sample = random.sample(intersect, sample_size)													# get node set sample
@@ -106,9 +107,10 @@ def calculate_small_network_AUPRC(params):
 		intersect_non_sample_sorted = y_actual[y_actual==1].index
 		# intersect_non_sample sorted
 		P_totals = {node:float(y_actual.loc[:node].shape[0]) for node in intersect_non_sample_sorted}
-		auprc = calculate_precision_recall(node_set_name+'(rep '+str(i)+")", 
-                        intersect_non_sample_sorted, P_totals, verbose=verbose)[1]
+		geneset, auprc, fdr = calculate_precision_recall(node_set_name+'(rep '+str(i)+")", 
+                        intersect_non_sample_sorted, P_totals, verbose=verbose)
 		AUPRCs.append(auprc)
+		FDRs.append(fdr)
 		# TP, FN = 0, len(intersect_non_sample_sorted)													# initialize precision and recall curves
 		# precision, recall = [1], [0]																	# initialize true positives and false negatives
 		# for node in intersect_non_sample_sorted:														# Slide down sorted nodes by summed prop value by nodes that are in intersect_non_sample
@@ -126,7 +128,7 @@ def calculate_small_network_AUPRC(params):
 		# 	raise(e)# Calculate Area Under Precision-Recall Curve (AUPRC)
 	if verbose:
 		print('AUPRC Analysis for given node set', '('+repr(len(intersect))+' nodes in network) complete:', round(time.time()-runtime, 2), 'seconds.')
-	return [node_set_name, np.mean(AUPRCs)]
+	return [node_set_name, np.mean(AUPRCs), np.mean(FDRs)]
 
 
 def calculate_precision_recall(geneset, intersect_non_sample_sorted, P_totals, verbose=False):
@@ -134,15 +136,30 @@ def calculate_precision_recall(geneset, intersect_non_sample_sorted, P_totals, v
 	runtime = time.time()
 	TP, FN = 0, len(intersect_non_sample_sorted)	# initialize true positives and false negatives
 	precision, recall = [1], [0]					# initialize precision and recall curves
+	fdr = [1]
 	for node in intersect_non_sample_sorted:		# Step down sorted nodes by summed prop value by nodes that are in intersect_non_sample
 		TP += 1.0										# Calculate true positives found at this point in list
 		FN -= 1.0										# Calculate false negatives found at this point in list
 		precision.append(TP/float(P_totals[node]))		# Calculate precision ( TP / TP+FP ) and add point to curve
-		recall.append(TP/float(TP+FN))					# Calculate recall ( TP / TP+FN ) and add point to curve
-	AUPRC = metrics.auc(recall, precision)				# Calculate Area Under Precision-Recall Curve (AUPRC)
+		recall.append(TP/float(TP+FN))		
+		fdr.append(1-TP/float(P_totals[node]))# Calculate recall ( TP / TP+FN ) and add point to curve
+	AUPRC = metrics.auc(recall, precision)
+	recall_at_fdr = find_recall_at_fdr(fdr, recall, threshold=0.25)# Calculate Area Under Precision-Recall Curve (AUPRC)
 	if verbose:
 		print('AUPRC Analysis for given node set:', geneset, 'complete:', round(time.time()-runtime, 2), 'seconds.')
-	return [geneset, AUPRC]
+	return geneset, AUPRC, recall_at_fdr
+
+
+def find_recall_at_fdr(fdr_vals, recall, threshold=0.25):
+	results = pd.DataFrame({'fdr':fdr_vals, 'recall':recall})
+	low_fdr = results[results['fdr'] < threshold]
+	if low_fdr.shape[0] > 0:
+		return low_fdr['recall'].max()
+	else:
+		min_fdr = results['fdr'].min()
+		print("!!MIN FDR is:", min_fdr)
+		return results[results['fdr'] == min_fdr]['recall'].max()
+
 
 # Caclulate AUPRC of a single node set's recovery for large networks (>=250k edges)
 # This method is slower than the small network case, as well as forces the memory footprint to be too large
@@ -165,11 +182,27 @@ def calculate_large_network_AUPRC(params):
 
 # Wrapper to calculate AUPRC of multiple node sets' recovery for small networks (<250k edges)
 def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True):
+	"""Top level function to calculate AUPRC of multiple node sets' recovery for small networks (<10k edges)
+		Args:
+			net_kernel (pandas.DataFrame): Network kernel to use for AUPRC analysis
+			genesets (dict): Dictionary of node sets to calculate AUPRC for
+			genesets_p (dict): Dictionary sub-sampling parameters for each node set
+			n (int): Number of sub-sampling iterations to perform
+			cores (int): Number of cores to use for parallelization
+			bg (list): List of nodes to use as background for AUPRC analysis
+			verbose (bool): Whether to print progress to stdout
+	"""
 	# Construct params list
 	if bg is None:
 		bg_intersect = list(net_kernel.index)
 	else:
 		bg_intersect = list(set(bg).intersection(set(net_kernel.index)))
+	# Parameters:
+	# geneset (str): Name of node set to calculate AUPRC for
+	# genesets (list/set): Nodes in the geneset
+	# genesets_p (float): Proportion of nodes in geneset to sample
+	# n (int): Number of sub-sampling iterations to perform
+	# bg_intersect (list): List of nodes to use as background for AUPRC analysis
 	AUPRC_Analysis_params = [[geneset, genesets[geneset], genesets_p[geneset], n, bg_intersect, verbose] for geneset in genesets]
 	# Determine parallel calculation status
 	if cores == 1:
@@ -187,9 +220,11 @@ def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 		# Close worker pool
 		pool.close()
 	# Construct AUPRC results
-	geneset_AUPRCs = {result[0]:result[1] for result in AUPRC_results}		
+	geneset_AUPRCs = {result[0]:result[1] for result in AUPRC_results}
+	geneset_FDRs = {result[0]:result[2] for result in AUPRC_results}		
 	AUPRCs_table = pd.Series(geneset_AUPRCs, name='AUPRC')
-	return AUPRCs_table
+	FDRs_table = pd.Series(geneset_FDRs, name='Recall at FDR')
+	return AUPRCs_table, FDRs_table
 
 # Wrapper to calculate AUPRC of multiple node sets' recovery for large networks (>=250k edges)
 def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True):
@@ -257,10 +292,12 @@ def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 		# Close worker pool
 		pool.close()		  
 	# Construct AUPRC results
-	geneset_AUPRCs = pd.DataFrame(AUPRC_results, columns=['Gene Set', 'AUPRCs']).set_index('Gene Set', drop=True)
+	geneset_AUPRCs = pd.DataFrame(AUPRC_results, columns=['Gene Set', 'AUPRCs', "Recall_at_FDR"]).set_index('Gene Set', drop=True)
 	geneset_AUPRCs_merged = {geneset:geneset_AUPRCs.loc[geneset]['AUPRCs'].mean() for geneset in geneset_list}
+	geneset_FDRs_merged = {geneset:geneset_AUPRCs.loc[geneset]['Recall_at_FDR'].mean() for geneset in geneset_list}
 	AUPRCs_table = pd.Series(geneset_AUPRCs_merged, name='AUPRC')
-	return AUPRCs_table
+	FDRs_table = pd.Series(geneset_FDRs_merged, name='Recall_at_FDR')
+	return AUPRCs_table, FDRs_table
 
 # Wrapper to calculate AUPRCs of multiple node sets given network and node set files
 def AUPRC_Analysis_single(network_file, genesets_file, shuffle=False, kernel_file=None, prop_constant=None, 
