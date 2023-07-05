@@ -1,5 +1,6 @@
 import argparse
 from neteval.processing_functions import *
+from neteval.gene_mapper import query_mygene
 import pandas as pd
 import csv
 
@@ -83,8 +84,24 @@ if __name__=="__main__":
     #print(node_a, node_b, species, score, header)
     #print(type(header))
     print(args)
-
     if True:
+        nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
+                    score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
+                    prefixes=prefixes)
+        nd.clean_data()
+        original_nodes = nd.get_unique_nodes()
+        mygene_fields = {"Symbol": "symbol", "Entrez": 'entrezgene', "Uniprot": "uniprot", "Ensembl": "ensembl.gene",
+                    "Refseq":"refseq", "EnsemblProtein":"ensembl.protein"}
+        scopes = ",".join([mygene_fields[x] for x in args.i])
+        fields = mygene_fields[args.t]
+        mapped, unmapped = query_mygene(original_nodes, scopes, fields, retries=10)
+        save_file = "/cellar/users/snwright/Data/Network_Analysis/mapping_test.txt"
+        with open(save_file, "a") as f:
+            f.write("\t".join([args.N, str(len(original_nodes)), str(len(unmapped))])+"\n")
+
+    
+
+    if False:
         nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
                     score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
                     prefixes=prefixes)

@@ -5,66 +5,13 @@ from neteval.type_mapper import *
 import neteval.query_uniprot as uni
 import neteval.query_hgnc as hgnc
 import neteval.query_ensembl as ensg
+from neteval.Timer import Timer
 import mygene
 import csv
 import re
 from itertools import combinations
 import os
 
-from datetime import datetime
-
-def print_time(message=""):
-    now = datetime.now()
-    print(now.strftime("%H:%M:%S"), message)
-    
-    
-def print_delta(a, b, message=""):
-    diff = b-a
-    print(str(diff), message)
-    
-    
-class Timer:
-    def __init__(self):
-        self.start_times = {}
-        self.finish_times = {}
-        self.elapsed_times = {}
-        self.tasks = []
-        self.current_task_stack = []
-        self.indents = {}
-        
-    def start(self, taskstr):
-        if taskstr in self.start_times.keys():
-            taskstr=taskstr + "1"
-            i=1
-            while taskstr in self.start_times.keys():
-                i += 1
-                taskstr = taskstr[0:-1] + str(i) 
-        self.current_task_stack.append(taskstr)
-        self.indents[taskstr] = len(self.current_task_stack) - 1
-        self.tasks.append(taskstr)
-        self.start_times[taskstr] = datetime.now()
-   
-        
-    def end(self, taskstr):
-        if taskstr in self.finish_times:
-            matching_tasks = [task for task in self.start_times.keys() if taskstr in task]
-            taskstr = matching_tasks[-1]
-        self.current_task_stack.remove(taskstr)
-        self.finish_times[taskstr] = datetime.now()
-        self.elapsed_times[taskstr] = str(self.finish_times[taskstr] - self.start_times[taskstr])
-        
-    def print_all_times(self):
-        try:
-            for task in self.tasks:
-                if task not in self.elapsed_times:
-                    self.end(task)
-                if self.indents[task] > 0:
-                    print("".join(["|", "---"*self.indents[task], ">"]),self.elapsed_times[task], task)
-                else:
-                    print(self.elapsed_times[task], task)
-        except:
-            print(self.elapsed_times)
-        
 
 def update_nodes_x(nodes, id_type, keep="present", timer=None):
     """ Takes a set of node identifiers and updates them to the latest version of the same identifier type.
@@ -358,39 +305,9 @@ class NetworkData:
         
         # Load the data
         self.T.start("Load data")
-        chars = ['"', "@", ""]
-        quoting = csv.QUOTE_ALL
-        for i, quotechar in enumerate(chars):
-            quoting = csv.QUOTE_NONE if i == (len(chars) - 1) else csv.QUOTE_ALL
-            index=None
-            try:
-                test_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=10, quoting=quoting, quotechar=quotechar)
-                if (header is not None) and any(["Unnamed" in col for col in test_data.columns]):
-                    index = False
-                    
-                if test_mode:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
-                    if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
-                # Possible malformed file, first column being incorrectly used as an index? Force it to not assign index
-                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', nrows=test_size, quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                
-                else:
-                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
-                    self.data = pd.read_csv(datafile, sep=sep, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)
-                    if (header is not None) and any(["Unnamed" in col for col in self.raw_data.columns]):
-                        self.raw_data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                        self.data = pd.read_csv(datafile, sep=sep, index_col=False, header=header, engine='python', quoting=quoting, quotechar=quotechar, usecols=self.cols)
-                break
-            except:
-                print("WARNING: Data not able to be loaded with quotechar", quotechar)
-                if i == len(chars) - 1:
-                    raise pd.errors.ParserError("Data could not be loaded with available quote characters")
-                
-        # Intialize an index column:
-        self.data[net_name+"_ID"] = self.data.index.values
-        self.cols.append(net_name+"_ID")
+        
+        self.import_data(datafile, header, sep, net_name, test_mode, test_size)
+            
         self.T.end("Load data")
         # Check that the columns are in the data
         #print(self.raw_data.head())
@@ -421,6 +338,41 @@ class NetworkData:
             
         # create dictinary for tracking the stats
         self.stats = {"edges":{"raw":len(self.raw_data)}, "nodes":{}}
+        
+    def import_data(self, datafile, header, sep, net_name, test_mode=True, test_size=1000):
+        chars = ['"', "@", ""]
+        quoting = csv.QUOTE_ALL
+        for i, quotechar in enumerate(chars):
+            quoting = csv.QUOTE_NONE if i == (len(chars) - 1) else csv.QUOTE_ALL
+            index=None
+            nrows = test_size if test_mode else None
+            try:
+                test_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=10, quoting=quoting, quotechar=quotechar)
+                if (header is not None) and any(["Unnamed" in col for col in test_data.columns]):
+                    index=False
+                try:
+                    self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='python', nrows=nrows, 
+                                                quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)   
+                    self.data = self.raw_data.copy()
+                except pd.errors.ParserError as err:
+                    if "NULL" in str(err):
+                        self.raw_data = pd.read_csv(datafile, sep=sep, header=header, engine='c', nrows=nrows, 
+                                                quoting=quoting, quotechar=quotechar, usecols=self.cols, index_col=index)   
+                        self.data = self.raw_data.copy()
+                    else:
+                        raise err
+                except ValueError as e:
+                    print(test_data.cols)
+                    raise e
+                break
+            except:
+                print("WARNING: Data not able to be loaded with quotechar", quotechar)
+                if i == len(chars) - 1:
+                    raise pd.errors.ParserError("Data could not be loaded with available quote characters")
+                
+        # Intialize an index column:
+        self.data[net_name+"_ID"] = self.data.index.values
+        self.cols.append(net_name+"_ID")
     
     #@profile
     def clean_data(self):
@@ -524,10 +476,19 @@ class NetworkData:
         try:
             node_array.sort()
         except TypeError as e:
-            print("TYPE ERROR")
-            print(self.data.head())
-            print(node_array)
-            raise e
+            if "not supported between instances" in str(e):
+                try:
+                    self.data[self.node_a] = self.data[self.node_a].astype(str)
+                    self.data[self.node_b] = self.data[self.node_b].astype(str)
+                    node_array = self.data.loc[:, (self.node_a, self.node_b)].to_numpy()
+                    node_array.sort()
+                except Exception as e:
+                    raise e
+            else:
+                print("TYPE ERROR")
+                print(self.data.head())
+                print(node_array)
+                raise e
         sorted_data = pd.DataFrame(node_array)
         sorted_data.columns = [self.node_a, self.node_b]
         if self.data.shape[1] > 2:
@@ -680,7 +641,7 @@ class NetworkData:
         self.data = self.data.drop_duplicates(subset=[self.node_a, self.node_b])
         self.stats["edges"]["de-duped_final"] = len(self.data)
         
-    def write_network_data(self, outpath, percentile=90):
+    def write_network_data(self, outpath, percentile=97):
         # rename columns
         self.T.start("Write data")
         final_names= {self.node_a: self.target_id_type + "_A", self.node_b: self.target_id_type + "_B", self.net_name+"_ID": "ID"}
@@ -688,13 +649,14 @@ class NetworkData:
             final_names[self.score] = "Score"
         if self.score is not None:
             self.subset_on_score("Score", percentile)
+            score_subset_nodes = pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes(score_subset=True))})
         pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes())}).to_csv(outpath + self.net_name + ".nodelist", sep="\t", index=False) 
-        pd.DataFrame({"Unique_Nodes": list(self.get_unique_nodes(score_subset=True))}).to_csv(outpath + self.net_name + "_"+ str(percentile) + ".nodelist", sep="\t", index=False)    
         self.data.rename(columns = final_names, inplace=True)
         self.data.to_csv(outpath + self.net_name + "_net.txt", sep="\t", index=False)
         
         if self.score is not None:
             self.score_subset.rename(columns = final_names, inplace=True)
+            score_subset_nodes.to_csv(outpath + self.net_name + "_"+ str(percentile) + ".nodelist", sep="\t", index=False)    
             self.score_subset.to_csv(outpath + self.net_name + "_"+ str(percentile) + "_net.txt", sep="\t", index=False)
 
         self.T.end("Write data")
@@ -707,11 +669,10 @@ class NetworkData:
     
 #if __name__=="__main__":
 if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PROPER_v1.csv"
-    nd = NetworkData(datafile, node_a="Gene1", node_b="Gene2", 
-                    target_id_type='Entrez',  identifiers='Symbol', species= "Cell line specificity", 
-                    species_code="shared", score="BH-corrected p-value[p]",
-                    header=0, net_name="proper", test_mode=True, sep=",")
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/PrePPI/preppi.human_af.interactome.txt"
+    nd = NetworkData(datafile, node_a="prot1", node_b="prot2", 
+                    target_id_type='Entrez',  identifiers='Uniprot',score="total_score",
+                    header=0, net_name="preppie", test_mode=False, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()
     nd.convert_nodes()
@@ -721,10 +682,10 @@ if False:
 
 
 if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons12_uniprot_test.txt"
-    nd = NetworkData(datafile, node_a=0, node_b=2, 
-                    target_id_type='Entrez',  identifiers=['Uniprot', 'Symbol'], 
-                    header=None, net_name="hprd_test", test_mode=True, sep="\t")
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/PIPs/PredictedInteractions100.txt"
+    nd = NetworkData(datafile, node_a='Name1', node_b='Name2', 
+                    target_id_type='Entrez',  identifiers='Symbol', 
+                    header=0, net_name="pips", test_mode=True, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()
     nd.convert_nodes()
@@ -734,10 +695,10 @@ if False:
     
     
 if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/ConsensusPathDB_human_PPI_v35.tsv"
-    nd = NetworkData(datafile, node_a="interaction_participants", node_b=None, score=None,
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/ComPPI/comppi--compartments--tax_hsapiens_loc_all.txt.gz"
+    nd = NetworkData(datafile, node_a="Interactor A", node_b="Interactor B", score="Interaction Score",
                     target_id_type='Entrez',  identifiers='Uniprot',
-                    header=1, net_name="consensusDB", test_mode=True, sep="\t")
+                    header=0, net_name="test", test_mode=False, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()
     nd.convert_nodes()
@@ -746,10 +707,10 @@ if False:
     nd.write_stats(outpath)
     
 if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/iRefIndex/9606.mitab.06-11-2021.txt.zip"
-    nd = NetworkData(datafile, node_a="#uidA", node_b="uidB", score=None, species=["taxa", "taxb"], species_code="taxid:9606(Homo sapiens)",
-                    target_id_type='Entrez',  identifiers=['Uniprot', 'Refseq'], prefixes=[("uniprotkb:"), ("refseq:")],
-                    header=0, net_name="iref_test", test_mode=True, sep="\t")
+    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/huMAP/humap2_ppis_geneid_20200821.pairsWprob.gz"
+    nd = NetworkData(datafile, node_a=0, node_b=1, score=2,
+                    target_id_type='Entrez',  identifiers=['Entrez', 'Ensembl'], 
+                    header=None, net_name="humap", test_mode=True, sep="\t")
     outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
     nd.clean_data()
     nd.convert_nodes()
@@ -758,7 +719,7 @@ if False:
     nd.write_stats(outpath)
 
 if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/IntAct/intact_test.txt"
+    datafile = "/cellar/users/snwright/Data/Network_Analyqsis/Network_Data_Raw/IntAct/intact_test.txt"
     nd = NetworkData(datafile, node_a=0, node_b=1, score=None,
                     target_id_type='Entrez',  identifiers='Uniprot', prefixes=[("uniprotkb:")],
                     header=None, net_name="intact_b_test", test_mode=True, sep="\t")
