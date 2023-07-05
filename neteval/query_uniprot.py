@@ -178,7 +178,6 @@ def get_id_mapping_results_stream(url):
     return decode_results(request, file_format, compressed)
 
 def perform_uniprot_query(ids, from_db, to_db):
-    # need to see how this performs for actual conversions
     dbs = {"Entrez":'GeneID', "Ensembl": 'Ensembl', "Symbol": 'Gene_Name', "Uniprot": "UniProtKB", "DIP":"DIP"}
     field = 'primaryAccession' if to_db == "Uniprot" else None
     job_id = submit_id_mapping(
