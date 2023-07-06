@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from adjustText import adjust_text
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, HuberRegressor
 import seaborn as sns
 
 class EvaluationResults:
@@ -120,7 +120,7 @@ class EvaluationResults:
 					x = np.array([sizes[net] for net in y.index])
 					if len(x.shape) == 1:
 						x = x.reshape(-1,1)
-					reg = LinearRegression().fit(x, y)
+					reg = HuberRegressor().fit(x, y)
 					fits[disease] = (reg.coef_, reg.intercept_)
 					disease_residuals[disease] = y - reg.predict(x)
 				self.size_adjusted[metric][geneset] = pd.DataFrame(disease_residuals)
@@ -149,7 +149,6 @@ class EvaluationResults:
 		raw_results = pd.DataFrame({metric:raw_results}).join(size_df)
 		size_results = self.size_adjusted[metric][geneset].loc[:,disease]
 		size_results = pd.DataFrame({metric+"_adj":size_results}).join(size_df)
-		fit_coeffs = self.fits[metric][geneset][disease]
 
 		self._calculate_fit_line(metric, geneset, disease)
 		fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(14,7))
