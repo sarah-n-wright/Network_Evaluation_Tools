@@ -181,7 +181,7 @@ def calculate_large_network_AUPRC(params):
 	# return [geneset, AUPRC]
 
 # Wrapper to calculate AUPRC of multiple node sets' recovery for small networks (<250k edges)
-def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True):
+def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None):
 	"""Top level function to calculate AUPRC of multiple node sets' recovery for small networks (<10k edges)
 		Args:
 			net_kernel (pandas.DataFrame): Network kernel to use for AUPRC analysis
@@ -197,6 +197,10 @@ def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 		bg_intersect = list(net_kernel.index)
 	else:
 		bg_intersect = list(set(bg).intersection(set(net_kernel.index)))
+	if min_nodes is not None:
+		print("NUMBER INPUT GENESETS: ", len(genesets)	)
+		genesets = {geneset:genesets[geneset] for geneset in genesets if len(set(genesets[geneset]).intersection(set(net_kernel.index))) >= min_nodes}
+		print("NUMBER FILTERED GENESETS: ", len(genesets))
 	# Parameters:
 	# geneset (str): Name of node set to calculate AUPRC for
 	# genesets (list/set): Nodes in the geneset
@@ -227,9 +231,13 @@ def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
 	return AUPRCs_table, FDRs_table
 
 # Wrapper to calculate AUPRC of multiple node sets' recovery for large networks (>=250k edges)
-def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True):
+def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None):
 	starttime = time.time()
 	# Construct binary gene set sub-sample matrix
+	if min_nodes is not None:
+		print("NUMBER INPUT GENESETS: ", len(genesets)	)
+		genesets = {geneset:genesets[geneset] for geneset in genesets if len(set(genesets[geneset]).intersection(set(net_kernel.index))) >= min_nodes}
+		print("NUMBER FILTERED GENESETS: ", len(genesets))
 	geneset_list = list(genesets.keys())
 	m, c = len(geneset_list), net_kernel.shape[0]
 	subsample_mat = np.zeros((n*m, c))

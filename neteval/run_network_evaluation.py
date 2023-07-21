@@ -71,6 +71,8 @@ if __name__ == "__main__":
 		help='Number of cores to be utilized by machine for performance calculation step. NOTE: Each core must have enough memory to store at least network-sized square matrix and given node sets to perform calculations.')	
 	parser.add_argument('-bg', '--background', type=str, default='network', choices=['genesets', 'network'], required=False,
 		help='Establishes the background gene set to calculate AUPRC over. Default is to use all genes in the network, can change to use only genes from the union of all gene sets tested (i.e. disease genes only).')	
+	parser.add_argument('-ming', '--min_genes', type=int, default=None, required=False,
+        help='Enforce a minimum number of nodes from the network in each geneset. Any genesets without sufficient seed genes will be removed from the analysis')
 
 	# Network performance score calculations (with null networks)
 	parser.add_argument("-i", "--null_iter", type=positive_int, default=30, required=False,
@@ -137,10 +139,10 @@ if __name__ == "__main__":
 	# Calculate AUPRC for each gene set on actual network (large networks are >=10k nodes)
 	if network_size < 10000:
 		#TODO take background variable again
-		actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True)
+		actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
 	else:
 		#TODO take backgrond variable again
-		actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True)
+		actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
 
 	# Save the actual network's AUPRC values
 	actual_AUPRC_values.to_csv(args.actual_AUPRCs_save_path)
@@ -171,10 +173,10 @@ if __name__ == "__main__":
 			# Calculate null network AUPRCs
 			if network_size < 10000:
 				#TODO make background an input again
-				shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True)
+				shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
 			else:
 				#TODO make background an input again
-				shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True)
+				shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
 			null_AUPRCs.append(shuffNet_AUPRCs)
 			null_FDRs.append(shuffNet_FDRs)
 		# Construct table of null AUPRCs
