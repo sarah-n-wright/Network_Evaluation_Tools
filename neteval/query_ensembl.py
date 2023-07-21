@@ -10,9 +10,9 @@ def get_latest_ensembl_id(ids):
     # Initialize an empty list to store the results
     results_df_list = []
     # Split the list of IDs into batches of 1000
-    for i in range(0, len(ids), 100):
-        print("Query batch", i, "-", min(i+100, len(ids)))
-        batch_ids = ids[i:min(i+100, len(ids))]
+    for i in range(0, len(ids), 1000):
+        print("Query batch", i, "-", min(i+1000, len(ids)))
+        batch_ids = ids[i:min(i+1000, len(ids))]
         # Send the API request with the current batch of IDs with retry logic
         retries = 5
         session = requests.Session()
