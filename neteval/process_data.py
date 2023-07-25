@@ -84,7 +84,7 @@ if __name__=="__main__":
     #print(node_a, node_b, species, score, header)
     #print(type(header))
     print(args)
-    if True:
+    if False:
         nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
                     score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
                     prefixes=prefixes)
@@ -101,7 +101,7 @@ if __name__=="__main__":
 
     
 
-    if False:
+    if True:
         nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
                     score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
                     prefixes=prefixes)
