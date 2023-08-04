@@ -218,34 +218,64 @@ def dcg_at_k( y_true, scores, k=None):
     discounts = np.log2(np.arange(len(y_true)) + 2)
     return np.sum(gain / discounts)
 
+def evaluation_wrapper(args, predicted_files, test_files, input_files=None, benchmarks=['self'], verbose=True):
+    if 'self' in benchmarks:
+        out = epr.evaluate_10_fold_cv_performance(predicted_files, test_files)
+        out.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_results.tsv", sep="\t", index=False)
+        if verbose:
+            print("Self evaluation complete.")
+    if 'corum' in benchmarks:
+        assert input_files is not None, "Must provide input files to evaluate against corum."
+        corum_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/corum.pc_net.txt"
+        corum = epr.evaluate_gold_standard_performance(input_files, predicted_files, corum_file)
+        corum.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_corum_results.tsv", sep="\t", index=False)
+        if verbose: 
+            print("Corum evaluation complete.")
+    if 'kegg' in benchmarks:
+        kegg_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/kegg.pc_net.txt"
+        kegg = epr.evaluate_gold_standard_performance(input_files, predicted_files, kegg_file)
+        kegg.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_kegg_results.tsv", sep="\t", index=False)
+        if verbose:
+            print("KEGG evaluation complete.")
+    if 'panther' in benchmarks:
+        panther_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/panther.pc_net.txt"
+        panther = epr.evaluate_gold_standard_performance(input_files, predicted_files, panther_file)
+        panther.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_panther_results.tsv", sep="\t", index=False)
+        if verbose:
+            print("Panther evaluation complete.")
+        
+    
+
 
 if __name__ == "__main__":
     # Run the edge prediction script
     parser = argparse.ArgumentParser(description='Run edge prediction on a network.')
-    parser.add_argument("network_prefix", type=str, 
+    parser.add_argument("--networkprefix", type=str, 
 		help='Prefix of network to be evaluated. File must be 2-column edge list where each line is a gene interaction separated by a tab delimiter.')
-    parser.add_argument("run_what", type=str, default="Both", choices=["Prediction", "Evaluation", "Both"])
+    parser.add_argument("--runwhat", type=str, default="Both", choices=["Prediction", "Evaluation", "Both"])
+    parser.add_argument('--benchmarks',nargs='+', default=['self'], choices=['self', 'corum', 'kegg', 'panther'], )
     args = parser.parse_args()
     # class Args:
     #     def __init__(self):
-    #         self.network_prefix = 'bioplex.v3.293T'
-    #         self.run_what = "Evaluation"
+    #         self.networkprefix = 'bioplex.v3.293T'
+    #         self.runwhat = "Evaluation"
     # args = Args()
     
-    epr = EdgePredictionResults(DATADIR+ args.network_prefix+"_net.txt", args.network_prefix)
-    if args.run_what in ["Prediction", "Both"]:
+    epr = EdgePredictionResults(DATADIR+ args.networkprefix+"_net.txt", args.networkprefix)
+    if args.runwhat in ["Prediction", "Both"]:
         predicted_files, test_files, input_files = epr.run_10_fold_cv("L3", nfolds=10)
     # save the prediciton and test file paths
-        pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.network_prefix + "_L3_filepaths.tsv", sep="\t", index=False)
-    if args.run_what in ["Both", 'Evaluation']:
-        if args.run_what == "Evaluation":
-            files_df = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.network_prefix + "_L3_filepaths.tsv", sep="\t")
+        pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_filepaths.tsv", sep="\t", index=False)
+    if args.runwhat in ["Both", 'Evaluation']:
+        if args.runwhat == "Evaluation":
+            files_df = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_filepaths.tsv", sep="\t")
             predicted_files = list(files_df['prediction_files'].values)
             test_files = list(files_df['test_files'].values)
             input_files = list(files_df['input_files'].values)
-        #out = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.network_prefix + "_L3_results.tsv", sep="\t")
-        out = epr.evaluate_10_fold_cv_performance(predicted_files, test_files)
-        out.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.network_prefix + "_L3_results.tsv", sep="\t", index=False)
-        corum_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/corum.pc_net.txt"
-        corum = epr.evaluate_gold_standard_performance(input_files, predicted_files, corum_file)
-        corum.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.network_prefix + "_L3_corum_results.tsv", sep="\t", index=False)
+            evaluation_wrapper(args, predicted_files, test_files, input_files, benchmarks=args.benchmarks)
+        #out = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_results.tsv", sep="\t")
+        #out = epr.evaluate_10_fold_cv_performance(predicted_files, test_files)
+        #out.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_results.tsv", sep="\t", index=False)
+        #corum_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/corum.pc_net.txt"
+        #corum = epr.evaluate_gold_standard_performance(input_files, predicted_files, corum_file)
+        #corum.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_corum_results.tsv", sep="\t", index=False)
