@@ -1,6 +1,6 @@
 from neteval.shuffle_networks import shuffle_network
 from neteval.data_import_export_tools import load_node_sets
-from neteval.network_evaluation_functions import calculate_p, small_network_AUPRC_wrapper, construct_prop_kernel, calculate_network_performance_score, calculate_network_performance_gain
+from neteval.network_evaluation_functions import calculate_p, small_network_AUPRC_wrapper, construct_prop_kernel, calculate_network_performance_score, calculate_network_performance_gain, calculate_precision_recall
 from neteval.network_propagation import closed_form_network_propagation, calculate_alpha, normalize_network
 import unittest
 import pandas as pd
@@ -26,6 +26,9 @@ class Test(unittest.TestCase):
             if os.path.exists(self.dir_path + "/data/"+f):
                 os.remove(self.dir_path + "/data/"+f)
         # delete files generated
+        
+    def test_calculate_precision_recall(self):
+        pass
     
     def test_calculate_p(self):
         genesets_p = calculate_p(self.G, self.genesets, id_type='Entrez')
