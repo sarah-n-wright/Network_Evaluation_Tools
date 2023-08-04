@@ -343,12 +343,16 @@ class EvaluationResults:
 					if len(x.shape) == 1:
 						x = x.reshape(-1,1)
 					# perform a linear fit using Huber regression to account for outliers
-					reg = HuberRegressor().fit(x, y)
+					try:
+						reg = HuberRegressor().fit(x, y)
+					except ValueError:
+						print("HuberRegression failed for " + metric + "-" + geneset + "-" + disease + ", using LinearRegression")
+						reg = LinearRegression().fit(x, y)
 					# calculate the residuals as the adjusted performance metric
 					fits[disease] = (reg.coef_, reg.intercept_)
-					disease_residuals[disease] = y - reg.predict(x)
+					disease_residuals[disease] = y - reg.predict(x) + reg.intercept_
 				# save the residuals and fits
-				self.size_adjusted[metric][geneset] = pd.DataFrame(disease_residuals)
+				self.size_adjusted[metric][geneset] = pd.DataFrame(disease_residuals).T
 				self.fits[metric][geneset] = fits
 				# re rank the data
 				rankings[metric + "-" + geneset] = pd.DataFrame(disease_residuals).rank(axis=0, ascending=False).mean(axis=1)
@@ -373,12 +377,14 @@ class EvaluationResults:
 		if geneset not in self.size_adjusted[metric]:
 			print("Geneset not available")
 			return
-		if disease not in self.size_adjusted[metric][geneset]:
+		if disease not in self.size_adjusted[metric][geneset].index:
 			print("Disease not available")
 			return
 		# get data
 		raw_results = self.results[metric][geneset].loc[disease]
-		if len(self.sizes[self.prefixes[0]]) == 1:
+		if type(self.sizes[self.prefixes[0]]) == int:
+			size_df= pd.DataFrame({"Size":self.sizes})
+		elif (self.sizes[self.prefixes[0]]) == 1:
 			size_df = pd.DataFrame({"Size":self.sizes})
 			size_df['Size'] = size_df["Size"].apply(lambda x: x[0])
 		else:
@@ -482,7 +488,7 @@ class EvaluationResults:
 			plt.savefig(savepath, dpi=300, bbox_inches='tight')
 
 	def plot_boxplot(self, metric, geneset, subset=None, network_subset=None, 
-			n_subset=100, max_display=50, savepath=None):
+			n_subset=100, max_display=50, savepath=None, size_adjusted_metric=False):
 		"""Plot a violin plot of the performance metric for each network. Allows for
 		subsetting of the genesets and networks to be plotted. 
 
@@ -502,7 +508,10 @@ class EvaluationResults:
 		Returns:
 			None
 		"""
-		result_df = self.results[metric][geneset]
+		if size_adjusted_metric:
+			result_df = self.size_adjusted[metric][geneset]
+		else:
+			result_df = self.results[metric][geneset]
 		# perform subsetting
 		if network_subset is not None:
 			result_df = result_df.loc[:,network_subset]
