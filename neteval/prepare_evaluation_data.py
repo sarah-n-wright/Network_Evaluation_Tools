@@ -10,10 +10,22 @@ import re
 
 
 def check_min_genes_per_network(gene_set, network_file_list, datadir, min_genes=20):
+    """Check that a gene set has at least min_genes in each network in the network_file_list.
+
+    Args:
+        gene_set (set): set of gene ids
+        network_file_list (str): path to file containing list of network prefixes
+        datadir (str): path to directory containing network files
+        min_genes (int): minimum number of genes required in each network
+    
+    Returns:
+        bool: True if gene set has at least min_genes in each network, False otherwise
+
+    """
     with open(network_file_list, 'r') as f:
         prefs = f.readlines()
     node_files = [datadir + p.strip()+".nodelist" for p in prefs]
-    
+    # iterate over networks
     for net_file in node_files:
         net_genes = set(pd.read_csv(net_file).Unique_Nodes.astype(str).values)
         intersect = net_genes.intersection(gene_set)
@@ -24,6 +36,16 @@ def check_min_genes_per_network(gene_set, network_file_list, datadir, min_genes=
 
 
 def check_all_genesets_against_network(gene_sets, network_file, min_genes=20):
+    """Check that all gene sets have at least min_genes in the network specified by network_file.
+    
+    Args:
+        gene_sets (dict): dictionary of gene sets
+        network_file (str): path to network file
+        min_genes (int): minimum number of genes required in each network
+    
+    Returns:
+        dict: dictionary of gene sets that have at least min_genes in the network specified by network_file
+    """
     net_genes = pd.read_csv(network_file)
     net_genes['Unique_Nodes'] = net_genes['Unique_Nodes'].astype(int)
     remove_sets = []
@@ -37,17 +59,57 @@ def check_all_genesets_against_network(gene_sets, network_file, min_genes=20):
     return gene_sets
     
 def check_single_geneset(set_nodes, net_genes, min_genes=20):
+    """ Check that a single gene set has at least min_genes in the network specified by net_genes.
+    Args:
+        set_nodes (set): set of gene ids
+        net_genes (pd.DataFrame): dataframe containing network genes
+        min_genes (int): minimum number of genes required in each network
+    
+    Returns:   
+        bool: True if gene set has at least min_genes in the network specified by net_genes, False otherwise
+    """
     intersection_df = net_genes[net_genes.Unique_Nodes.isin(set_nodes)]
     return len(intersection_df) >= min_genes
     
         
+def filter_gene_sets(genesets, datadir, network_file_list=None, min_genes=1, max_genes=20000):
+    """ Filter gene sets to remove those that do not have at least min_genes in each network specified by network_file_list.
+    Args:
+        genesets (dict): dictionary of gene sets
+        datadir (str): path to directory containing network files
+        network_file_list (str): path to file containing list of network prefixes
+        min_genes (int): minimum number of genes required in each network
+        max_genes (int): maximum number of genes allowed in each network
+        
+    Returns:
+        dict: dictionary of gene sets that have at least min_genes in each network specified by network_file_list
+    
+    """
+    print(network_file_list)
+    if (network_file_list is not None) and (network_file_list != ""):
+        genesets = filter_gene_sets_by_network(genesets, network_file_list, datadir, min_genes=min_genes)
+    out_genesets = {}
+    for set_id in genesets:
+        if len(genesets[set_id]) >= min_genes and len(genesets[set_id]) <= max_genes:
+            out_genesets[set_id] = genesets[set_id]
+    return genesets
 
-def filter_gene_sets(genesets, network_file_list, datadir, min_genes=20):
+def filter_gene_sets_by_network(genesets, network_file_list, datadir, min_genes=20):
+    """ Filter gene sets to remove those that do not have at least min_genes in each network specified by network_file_list.
+    Args:
+        genesets (dict): dictionary of gene sets
+        network_file_list (str): path to file containing list of network prefixes
+        datadir (str): path to directory containing network files
+        min_genes (int): minimum number of genes required in each network
+        
+    Returns:
+        dict: dictionary of gene sets that have at least min_genes in each network specified by network_file_list
+    """
     with open(network_file_list, 'r') as f:
         prefs = f.readlines()
     print(prefs)
     print(datadir) 
-    print(genesets['Reperfusion Injury'])
+    #print(genesets['Reperfusion Injury'])
     node_files = [datadir + p.strip()+".nodelist" for p in prefs]
     keep_gene_sets = {set_id:genesets[set_id] for set_id in genesets}
     for network in node_files:
@@ -57,6 +119,14 @@ def filter_gene_sets(genesets, network_file_list, datadir, min_genes=20):
 
 
 def convert_genesets(genesets, initial_id, target_id):
+    """ Convert gene sets from one id type to another.
+    Args:
+        genesets (dict): dictionary of gene sets
+        initial_id (str): initial id type
+        target_id (str): target id type
+    Returns:
+        dict: dictionary of gene sets with ids converted from initial_id to target_id
+    """
         all_nodes = set()
         for set_id in genesets:
             all_nodes = all_nodes.union(genesets[set_id])
@@ -70,178 +140,94 @@ def convert_genesets(genesets, initial_id, target_id):
         return new_gene_sets 
     
 def write_gene_sets(genesets, outfile, sep="\t"):
+    """ Write gene sets to file.
+    Args:
+        genesets (dict): dictionary of gene sets
+        outfile (str): path to output file
+        sep (str): separator for output file
+    
+    Returns:
+        None
+    """
     out_strings = [sep.join([set_id] + [str(g) for g in genesets[set_id]]) for set_id in genesets]
     with open(outfile,'w') as tfile:
         tfile.write('\n'.join(out_strings))
-
-
-def get_disgenet_sets(diseasefile, email, password, outfile, source, types=["disease"], min_genes=20, max_genes=300):
-    # first get a list of diseases that have between 20 and 300 genes
-    disease_stats = pd.read_csv(diseasefile, sep="\t")
-    # filter by disease type
-    if "diseaseType" in disease_stats.columns:
-        disease_stats = disease_stats[disease_stats.diseaseType.isin(types)]
-        keep_diseases = disease_stats[(disease_stats.NofGenes >= min_genes) & (disease_stats.NofGenes <= max_genes)]
-        disease_ids = keep_diseases.diseaseId.values
-    else:
-        disease_stats = disease_stats[disease_stats["type"].isin(types)]
-        keep_diseases = disease_stats[(disease_stats.num_genes >= min_genes) & (disease_stats.num_genes <= max_genes)]
-        disease_ids = keep_diseases.diseaseid.values
-    disease_gene_dfs = []
-    for disease in tqdm(disease_ids):
-        disease_gene_dfs.append(query_disgenet_disease(email, password, disease, source))
-    gda_df = pd.concat(disease_gene_dfs)
-    gda_df.to_csv(outfile, sep="\t")
-
-    
-def query_disgenet_disease(email, password, disease_code, source):
-    # credit disgenet website
-    auth_params = {"email":email,"password":password}
-    api_host = "https://www.disgenet.org/api"
-    api_key = None
-    s = requests.Session()
-    try:
-        r = s.post(api_host+'/auth/', data=auth_params)
-        if(r.status_code == 200):
-            #Lets store the api key in a new variable and use it again in new requests
-            json_response = r.json()
-            api_key = json_response.get("token")
-            #print(api_key + "This is your user API key.") #Comment this line if you don't want your API key to show up in the terminal
-        else:
-            print(r.status_code)
-            print(r.text)
-    except requests.exceptions.RequestException as req_ex:
-        print(req_ex)
-        print("Something went wrong with the request.")
-
-    if api_key:
-        #Add the api key to the requests headers of the requests Session object in order to use the restricted endpoints.
-        s.headers.update({"Authorization": "Bearer %s" % api_key}) 
-        #Lets get all the diseases associated to a gene eg. APP (EntrezID 351) and restricted by a source.
-        gda_response = s.get(api_host+'/gda/disease/'+disease_code, params={'source':source})
-        try:
-            result = pd.DataFrame.from_records(gda_response.json())
-            result['diseaseId'] = disease_code
-            return result
-        except ValueError:
-            print("ERROR:", gda_response.json())
-    if s:
-        s.close()
-
-def process_disgenet_data(datafile, outfile, sep="\t", id_type="geneid", min_genes=20):
-    data = pd.read_csv(datafile, sep=sep, index_col=0)
-    disease_counts = data.diseaseId.value_counts()
-    keep_ids = list(disease_counts[disease_counts>=min_genes].index)
-    data_keep = data[data.diseaseId.isin(keep_ids)]
-    disease_sets = {}
-    id_map = data_keep.loc[:, ('diseaseId', 'disease_name')].drop_duplicates().set_index("diseaseId")['disease_name'].to_dict()
-    for set_id in keep_ids:
-        disease_sets[id_map[set_id]] = sep.join(data_keep[data_keep.diseaseId == set_id][id_type].astype(str).values) 
-    out_strings = [sep.join([set_id, disease_sets[set_id]]) for set_id in disease_sets]
-    with open(outfile,'w') as tfile:
-        tfile.write('\n'.join(out_strings))
-    
-    
-def process_gwas_catalog_data(datafile, outfile, pval_th=5e-8, include_intergenic=False, min_genes=20, max_genes=300):
-    cols = ['DISEASE/TRAIT','SNP_GENE_IDS', 'INTERGENIC', 'P-VALUE', 'MAPPED_TRAIT']
-    if include_intergenic:
-        cols = cols + ['UPSTREAM_GENE_ID', 'DOWNSTREAM_GENE_ID', 'UPSTREAM_GENE_DISTANCE', 'DOWNSTREAM_GENE_DISTANCE']
-    data = pd.read_csv(datafile, sep="\t", usecols=cols, nrows=1000)
-    data = data[data["P-VALUE"] <= pval_th]
-    data = data.dropna(subset=['SNP_GENE_IDS'])
-    if not include_intergenic:
-        data = data[data["INTERGENIC"] == 0]
-    trait_counts =  data['MAPPED_TRAIT'].value_counts().to_dict()
-    keep_traits = [d for d in trait_counts if ((trait_counts[d] > min_genes) & (trait_counts[d] < max_genes))]
-    gwas_sets = {}
-    for trait in keep_traits:
-        trait_set = process_gwas_genes(data, trait, intergenic=include_intergenic)
-        if len(trait_set) > min_genes:
-            gwas_sets[trait] = trait_set
-    
-def process_gwas_genes(data, trait, intergenic=False):
-    coding_data = data[((data['MAPPED_TRAIT']==trait) & (data['INTERGENIC']==0))]
-    if len(coding_genes) > 0:
-        coding_genes = coding_data['SNP_GENE_IDS'].apply(lambda x: clean_gwas_gene_id(x))
-        coding_genes = [item for sublist in coding_genes for item in sublist]
-        coding_genes = set(coding_genes)
-    else:
-        coding_genes = set()
-    if intergenic:
-        intergenic_genes = process_gwas_intergenic(data, trait)
-    else:
-        intergenic_genes = set()
-    return coding_genes.union(intergenic_genes)
         
         
-def process_gwas_intergenic(data, trait):
-    trait_data = data[((data['MAPPED_TRAIT']==trait) & (data['INTERGENIC']==1))]
-    #TODO are there entries with only downstream or upstream only??
-    trait_data.dropna(subset=["UPSTREAM_GENE_ID","UPSTREAM_GENE_DISTANCE",'DOWNSTREAM_GENE_DISTANCE','DOWNSTREAM_GENE_ID'])
-    if len(trait_data) > 0:
-        genes = trait_data.apply(lambda x: clean_gwas_gene_id(x["UPSTREAM_GENE_ID"]) if 
-                                    x["UPSTREAM_GENE_DISTANCE"] < x['DOWNSTREAM_GENE_DISTANCE'] else 
-                                    clean_gwas_gene_id(x['DOWNSTREAM_GENE_ID']), axis=1)
-        genes = [item for sublist in genes for item in sublist]
-        genes = set(genes)
-    else:
-        return set()
-    
-
-def clean_gwas_gene_id(geneid):
-    #TODO do I want to keep multiples?
-    return geneid.split(', ')
-
-
-def parse_geneset_arguments(args):
-    if args.s == "disgen":
-        disgen_args = args.A.split(";")
-        disgen_args = {arg.split("=")[0]:arg.split("=")[1] for arg in disgen_args}
-        disgen_args['min'] = int(disgen_args['min'])
-        disgen_args['max'] = int(disgen_args['max'])
-        disgen_args['types'] = disgen_args['types'].split(",")
-        args.A = disgen_args
-    if args.s != "disgen":
-        raise NotImplementedError("Only disgenet sets are currently supported")
-    args.m = int(args.m)
-    return args
-
-
-
-if __name__=="__main__":
+if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Process Evaluation Data')
-    parser.add_argument('-e', metavar='email', required=False, default=None)
-    parser.add_argument('-p', metavar="password", required=False, default=None)
-    parser.add_argument('-s', metavar="set_type", required=True)
-    parser.add_argument('-A', metavar='disgen_args', required=False, default="source=BEFREE;min=10;max=500;types=disease;file=/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv")
-    parser.add_argument('-o', metavar='outpath', required=True)
-    parser.add_argument('-n', metavar='network_list', required=False, default=None)
-    parser.add_argument('-d', metavar='network_dir', required=False, default=None)
-    parser.add_argument('-m', metavar='net_min', required=False, default=20)
-    parser.add_argument('-u', metavar='update', default=False)
-    parser.add_argument('-S', metavar='set_file', required=False, default=None)
-
+    parser.add_argument('-s', metavar='set_source_file', required=True, type=str)
+    parser.add_argument('-i', metavar='id_type', required=True, type=str)
+    parser.add_argument('-n', metavar='network_list', required=False, default='', type=str)
+    parser.add_argument('-o', metavar='output', required=True, type=str)
+    parser.add_argument('-C', action='store_true')
+    parser.add_argument('-F', action='store_true')
+    parser.add_argument('-d', metavar='datadir', required=False, default='', type=str)
+    parser.add_argument('-m', metavar='min_genes', required=False, default=10, type=int)
+    parser.add_argument('-M', metavar='max_genes', required=False, default=500, type=int)
+    
     args = parser.parse_args()
-    args = parse_geneset_arguments(args)   
+    assert (args.C or args.F), "Must specify at least one of -C or -F"
     
-    # TODO this file needs a lot of cleanup and testing, particularly to add capability for other genesets
+    genesets = dit.load_node_sets(args.s, id_type=args.i)
+    if args.C:
+        genesets = convert_genesets(genesets, initial_id=args.i, target_id='Entrez')
+    if args.i != 'Entrez':
+        for set_id in genesets:
+            genesets[set_id] = {int(node) for node in list(genesets[set_id])}
+    if args.F:
+        print(args.n)
+        datadir='/cellar/users/snwright/Data'
+        genesets = filter_gene_sets(genesets, args.d, network_file_list=args.n, min_genes=args.m, max_genes=args.M)
+    write_gene_sets(genesets, args.o)
+        
+# def parse_geneset_arguments(args):
+#     if args.s == "disgen":
+#         disgen_args = args.A.split(";")
+#         disgen_args = {arg.split("=")[0]:arg.split("=")[1] for arg in disgen_args}
+#         disgen_args['min'] = int(disgen_args['min'])
+#         disgen_args['max'] = int(disgen_args['max'])
+#         disgen_args['types'] = disgen_args['types'].split(",")
+#         args.A = disgen_args
+#     if args.s != "disgen":
+#         raise NotImplementedError("Only disgenet sets are currently supported")
+#     args.m = int(args.m)
+#     return args
+
+# if __name__=="__main__":
+#     parser = argparse.ArgumentParser(description='Process Evaluation Data')
+#     parser.add_argument('-e', metavar='email', required=False, default=None)
+#     parser.add_argument('-p', metavar="password", required=False, default=None)
+#     parser.add_argument('-s', metavar="set_type", required=True)
+#     parser.add_argument('-A', metavar='disgen_args', required=False, default="source=BEFREE;min=10;max=500;types=disease;file=/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv")
+#     parser.add_argument('-o', metavar='outpath', required=True)
+#     parser.add_argument('-n', metavar='network_list', required=False, default=None)
+#     parser.add_argument('-d', metavar='network_dir', required=False, default=None)
+#     parser.add_argument('-m', metavar='net_min', required=False, default=20)
+#     parser.add_argument('-u', metavar='update', default=False)
+#     parser.add_argument('-S', metavar='set_file', required=False, default=None)
+
+#     args = parser.parse_args()
+#     args = parse_geneset_arguments(args)   
     
-    # Update the genesets
-    if args.u:
-        if args.set_type == "disgen":
-            get_disgenet_sets(args.disgen_args['file'], args.email, args.password, 
-                    outfile=args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', source=args.disgen_args['source'],
-                    types=args.disgen_args['types'], min_genes=args.disgen_args['min'] , max_genes=args.disgen_args['max'])
+#     # TODO this file needs a lot of cleanup and testing, particularly to add capability for other genesets
     
-        # Process the genesets
-            process_disgenet_data(args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', 
-                                args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_genesets.tsv', id_type='gene_symbol',
-                                min_genes=args.disgen_args['min'] )
+#     # Update the genesets
+#     if args.u:
+#         if args.set_type == "disgen":
+#             get_disgenet_sets(args.disgen_args['file'], args.email, args.password, 
+#                     outfile=args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', source=args.disgen_args['source'],
+#                     types=args.disgen_args['types'], min_genes=args.disgen_args['min'] , max_genes=args.disgen_args['max'])
+    
+#         # Process the genesets
+#             process_disgenet_data(args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', 
+#                                 args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_genesets.tsv', id_type='gene_symbol',
+#                                 min_genes=args.disgen_args['min'] )
             
-    if args.n is not None:
-        gene_sets = dit.load_node_sets(args.S, id_type="Entrez")
-        keep_gene_sets = filter_gene_sets(gene_sets, network_file_list= args.n, datadir= args.d, min_genes= args.m)
-        write_gene_sets(keep_gene_sets, args.o + 'Disgenet_' + args.A['source'] + '_filtered_genesets.tsv')
+#     if args.n is not None:
+#         gene_sets = dit.load_node_sets(args.S, id_type="Entrez")
+#         keep_gene_sets = filter_gene_sets(gene_sets, network_file_list= args.n, datadir= args.d, min_genes= args.m)
+#         write_gene_sets(keep_gene_sets, args.o + 'Disgenet_' + args.A['source'] + '_filtered_genesets.tsv')
     
     #password = getpass("User Password:")
     #process_disgenet_data("/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv",
