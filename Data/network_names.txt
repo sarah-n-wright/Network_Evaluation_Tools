@@ -40,6 +40,7 @@ innatedb_all:InnateDB
 preppi:PrePPI
 humap_90:HuMAP
 pips:PIPs
+mint:MINT
 GM_colocal:Colocal.
 GM_coexp_97:Coexp. 97
 GM_coexp_90:Coexp. 90
