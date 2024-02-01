@@ -70,7 +70,7 @@ def write_networkx_to_file(G, outfilepath, timer=None, verbose=False):
 # Construct dictionary of node sets from input text file to perform AUPRC analysis on for network of interest
 # File format: Each line is a delimited list with the first item in the list is the name of the node set
 # All other nodes in the list follow the node set name
-def load_node_sets(node_set_file, delimiter='\t', verbose=False, id_type="Symbol"):
+def load_node_sets(node_set_file, delimiter='\t', verbose=False, id_type="Entrez"):
 	"""_summary_
 
 	Args:
@@ -89,11 +89,25 @@ def load_node_sets(node_set_file, delimiter='\t', verbose=False, id_type="Symbol
 	node_sets = {node_set[0]:set(node_set[1:]) for node_set in node_set_lines_split}
 	if id_type == "Entrez":
 		for set_id in node_sets:
-			node_sets[set_id] = {int(node) for node in list(node_sets[set_id])}
+			node_sets[set_id] = {int(node) for node in list(node_sets[set_id]) if node.isnumeric()}
 	if verbose:
 		print('Node cohorts loaded:', node_set_file)
 	return node_sets
 
+
+def write_node_sets(genesets, outfile, sep="\t"):
+    """ Write gene sets to file.
+    Args:
+        genesets (dict): dictionary of gene sets
+        outfile (str): path to output file
+        sep (str): separator for output file
+    
+    Returns:
+        None
+    """
+    out_strings = [sep.join([set_id] + [str(g) for g in genesets[set_id]]) for set_id in genesets]
+    with open(outfile,'w') as tfile:
+        tfile.write('\n'.join(out_strings))
 
 ######################################
 ##	OLD FUNCTIONS - TO BE REMOVED 	##

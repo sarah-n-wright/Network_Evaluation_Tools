@@ -6,6 +6,7 @@ def get_latest_ensembl_id(ids):
     server = "https://rest.ensembl.org"
     ext = "/archive/id"
     ids = list(ids)
+    ids = [x.split('.')[0] for x in ids]
     headers={ "Content-Type" : "application/json", "Accept" : "application/json"}
     # Initialize an empty list to store the results
     results_df_list = []
@@ -14,7 +15,7 @@ def get_latest_ensembl_id(ids):
         print("Query batch", i, "-", min(i+1000, len(ids)))
         batch_ids = ids[i:min(i+1000, len(ids))]
         # Send the API request with the current batch of IDs with retry logic
-        retries = 5
+        retries = 15
         session = requests.Session()
         session.mount('https://', requests.adapters.HTTPAdapter(max_retries=retries))
         r = session.post(server+ext, headers=headers, data='{ "id" :' + json.dumps(list(batch_ids)) +'}')
@@ -25,9 +26,15 @@ def get_latest_ensembl_id(ids):
             r.raise_for_status()
             sys.exit()
         # Process the API response
-        decoded = r.json()
-        decoded_df = pd.DataFrame.from_dict(decoded)
-        decoded_df["to"] = decoded_df.apply(parse_archive_results, axis=1)
+        try:
+            decoded = r.json()
+            decoded_df = pd.DataFrame.from_dict(decoded)
+            decoded_df["to"] = decoded_df.apply(parse_archive_results, axis=1)
+        except:
+            print("Error decoding response for batch", i, "-", min(i+1000, len(ids)))
+            print(decoded_df.head())
+            print(ids)
+            raise Exception("Error generating/decoding response for batch")
         batch_results_df = decoded_df.loc[:, ("id", "to")]
         batch_results_df.columns = ["from", "to"]
         results_df_list.append(batch_results_df)
@@ -84,3 +91,18 @@ def ensembl_to_uniprot():
 
 def ensembl_to_entrez():
     pass
+
+if __name__=='__main__':
+    ids = [ 'ENSG00000167183.2',
+    'ENSG00000280236.2',
+    'ENSG00000236582.1',
+    'ENSG00000231504.1',
+    'ENSG00000101188.4',
+    'ENSG00000244429.1',
+    'ENSG00000185319.5',
+    'ENSG00000263745.6',
+    'ENSG00000267662.1',
+    'ENSG00000276940.1',
+    'ENSG00000250903.8',]
+    results = get_latest_ensembl_id(ids)
+    print(results)

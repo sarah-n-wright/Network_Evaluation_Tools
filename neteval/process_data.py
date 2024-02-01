@@ -112,7 +112,7 @@ if __name__=="__main__":
         except:
             pass
         nd.remove_duplicates()
-        nd.write_network_data(args.o)
+        nd.write_network_data(args.o, percentile=90)
         nd.write_stats(args.o)
         print("Processing of", args.N, "completed.")
     

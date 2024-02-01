@@ -4,6 +4,8 @@ import requests
 import shutil
 import argparse
 
+## TODO for some reason this is not workigng. Might have to separate this kind of stuff out from the main package. 
+
 def download_file(url, out_dir):
     """
     Download a file from a URL and save it to the specified location.
@@ -61,6 +63,7 @@ def create_gwas_gene_sets(datafile, outfile, min_genes= 5, max_genes=500, includ
     for trait in keep_traits:
         if split_date is not None:
             test_set = process_gwas_genes(data[data['DATE'] >= split_date], trait, intergenic=include_intergenic)
+            print(test_set)
             if len(test_set) > min_genes:
                 gwas_sets[trait] = test_set
                 train_set = process_gwas_genes(data[data['DATE'] < split_date], trait, intergenic=include_intergenic)
@@ -117,7 +120,7 @@ if __name__=='__main__':
     # add argument parsing
     parser = argparse.ArgumentParser(description='Get and clean latest GWAS Catalog data')
     parser.add_argument('-o', metavar='out_directory', required=True, type=str)
-    parser.add_argument('-u', metavar='update', action='store_true')
+    parser.add_argument('-u', action='store_true')
     parser.add_argument('-m', metavar='min_genes', default=5, type=int)
     parser.add_argument('-M', metavar='max_genes', default=500, type=int)
     parser.add_argument('-D', metavar='split_date', required=False, type=str, default=None)

@@ -127,17 +127,17 @@ def convert_genesets(genesets, initial_id, target_id):
     Returns:
         dict: dictionary of gene sets with ids converted from initial_id to target_id
     """
-        all_nodes = set()
-        for set_id in genesets:
-            all_nodes = all_nodes.union(genesets[set_id])
-        updated_nodes, unmapped1 = update_nodes(all_nodes, id_type=initial_id)
-        converted_nodes, unmapped2 = convert_node_ids(updated_nodes.values(),initial_id=initial_id, target_id=target_id)
-        node_map = {g: converted_nodes[updated_nodes[g]] for g in updated_nodes if updated_nodes[g] in converted_nodes}
-        new_gene_sets = {}
-        for set_id in genesets:
-            new_gene_sets[set_id] = {node_map[g] for g in genesets[set_id] if g in node_map} 
-        print("Unmapped genes:", len(unmapped1 + list(unmapped2)), "/", len(all_nodes))
-        return new_gene_sets 
+    all_nodes = set()
+    for set_id in genesets:
+        all_nodes = all_nodes.union(genesets[set_id])
+    updated_nodes, unmapped1 = update_nodes(all_nodes, id_type=initial_id)
+    converted_nodes, unmapped2 = convert_node_ids(updated_nodes.values(),initial_id=initial_id, target_id=target_id)
+    node_map = {g: converted_nodes[updated_nodes[g]] for g in updated_nodes if updated_nodes[g] in converted_nodes}
+    new_gene_sets = {}
+    for set_id in genesets:
+        new_gene_sets[set_id] = {node_map[g] for g in genesets[set_id] if g in node_map} 
+    print("Unmapped genes:", len(unmapped1 + list(unmapped2)), "/", len(all_nodes))
+    return new_gene_sets 
     
 def write_gene_sets(genesets, outfile, sep="\t"):
     """ Write gene sets to file.

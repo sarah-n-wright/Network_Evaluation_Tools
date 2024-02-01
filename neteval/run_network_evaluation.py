@@ -9,6 +9,8 @@ import neteval.network_propagation as prop
 import argparse
 import os
 import pandas as pd
+import numpy as np
+from memory_profiler import profile
 
 # Checking valid alpha and p values (Range is 0.0-1.0 exclusive)
 # Value can also be None.
@@ -40,7 +42,11 @@ def valid_infile(in_file):
 def valid_outfile(out_file):
     outdir = '/'.join(out_file.split('/')[:-1])
     if not os.path.isdir(outdir):
-        raise argparse.ArgumentTypeError("{0} is not a valid output directory".format(outdir))
+        try: 
+            # create the directory
+            os.makedirs(outdir)
+        except OSError:
+            raise argparse.ArgumentTypeError("{0} is not a valid output directory".format(outdir))
     if os.access(outdir, os.W_OK):
         return out_file
     else:
@@ -87,22 +93,22 @@ if __name__ == "__main__":
     parser.add_argument('-gsp', '--performance_gain_save_path', type=valid_outfile, default=None, required=False,
         help='CSV file path of where to save network evaluation results as gain in AUPRC over median null AUPRCs.')
     parser.add_argument('-dev', '--dev_mode', default=False, action="store_true", required=False)
+    
+    ## Updated arguments
+    parser.add_argument('-o', '--outdir', default=None, required=False)
+    parser.add_argument('-pref', '--network_prefix', type=str, default=None, required=False)
+    parser.add_argument('-k',type=int, default=10, required=False)
+    
     args = parser.parse_args()
     # If null networks need to be constructed
-    if args.null_iter > 0:
-        # A file path must be given to either save the null networks or the null network performance
-        if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None):
-            parser.error('Save path required for null network edge lists or null network evaluation results.')
+
 
     ####################################
     ##### Network Evaluation Setup #####
     ####################################
-
-    # Limit core usage (if defined)
-    #TODO Seems like it is sufficient to use the number of cores within the calls to Pool?
-    #mkl.set_num_threads(args.cores)
     if args.dev_mode:
         # Load Network
+        print("Available cores:", os.cpu_count())
         if args.weighted:
             attributes = ''
             raise NotImplementedError('Weighted networks not yet supported')
@@ -111,16 +117,30 @@ if __name__ == "__main__":
         network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose, keep_attributes=attributes)
         network_size = len(network.nodes())
         genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
-        genesets_p = {geneset:args.sample_p for geneset in genesets}
-        alpha = args.alpha
-        
+        if args.alpha is None:
+            alpha = prop.calculate_alpha(network)
+        else:
+            alpha = args.alpha
+        if args.sample_p is None:
+            genesets_p = nef.calculate_p(network, genesets, id_type="Entrez")
+        else:
+            genesets_p = {geneset:args.sample_p for geneset in genesets}    
+            
+        # TODO figure out background argument
         # Perform analysis
-        analyzer = nef.NetworkAnalyzer(network=network, genesets=genesets, outdir='TODO',
-                                alpha=alpha, sample_proportion=args.sample_p, num_samples=args.sub_sample_iter,
-                                null_iterations=args.null_iter, weighted=args.weighted)
-
+        analyzer = nef.NetworkAnalyzer(network=network, genesets=genesets, outdir=args.outdir, net_pref = args.network_prefix,
+                                alpha=alpha, sample_proportion=genesets_p, num_samples=args.sub_sample_iter,
+                                null_iterations=args.null_iter, weighted=args.weighted, k=args.k, min_genes=args.min_genes)
         analyzer.perform_analysis()
+        analyzer.calculate_performance_metrics()
+        analyzer.write_results()
+        analyzer.finish_analysis()
+        
     else:
+        if args.null_iter > 0:
+        # A file path must be given to either save the null networks or the null network performance
+            if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None):
+                parser.error('Save path required for null network edge lists or null network evaluation results.')
         # Load Network
         network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose)
         network_size = len(network.nodes())
@@ -129,8 +149,11 @@ if __name__ == "__main__":
         genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
 
         # Calculate gene set sub-sample rate with network (if not set)
-        # TODO remove hardcoding here	
-        genesets_p = nef.calculate_p(network, genesets, id_type="Entrez")
+        if args.sample_p is None:
+            genesets_p, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
+        else:
+            _, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
+            genesets_p = {geneset:args.sample_p for geneset in genesets}
         # if args.sample_p is None:
         # 	genesets_p = nef.calculate_p(network, genesets)
         # else:
@@ -140,7 +163,10 @@ if __name__ == "__main__":
 
         # Calculate network kernel (also determine propagation constant if not set)
         #TODO allow for specifying alpha with an input	
-        alpha = prop.calculate_alpha(network)
+        if args.alpha is None:
+            alpha = prop.calculate_alpha(np.log10(len(network.edges)), mean_coverage, np.mean(list(genesets_p.values())))
+        else:
+            alpha = args.alpha
         kernel = nef.construct_prop_kernel(network, alpha=alpha, verbose=True)
         # Change background gene list if needed
         if args.background == 'genesets':
@@ -178,16 +204,26 @@ if __name__ == "__main__":
             null_AUPRCs = []
             null_FDRs = []
             for i in range(args.null_iter):
+                print('Null iteration:', i+1)
                 # Construct null networks and calculate AUPRCs for each gene set on each null network
-                shuffNet = shuf.shuffle_network(network, n_swaps=1)
-                # Save null network if null network output directory is given
                 if args.null_network_outdir is not None:
-                    shuf.write_shuffled_network(shuffNet, datafile=None, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt')
-                    #shuffNet_edges = shuffNet.edges()
-                    #gct.write_edgelist(shuffNet_edges, args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt',
-                    #	delimiter='\t', binary=True)
-                    if args.verbose:
+                    # check if samed netowrk exists
+                    try:
+                        shuffNet = shuf.load_shuffled_network(datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                    except FileNotFoundError:
+                        shuffNet = shuf.shuffle_network(network, n_swaps=1)
+                        shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
                         print('Shuffled Network', i+1, 'written to file')
+                else:
+                    shuffNet = shuf.shuffle_network(network, n_swaps=1)
+                # Save null network if null network output directory is given
+                    if args.null_network_outdir is not None:
+                        shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                        #shuffNet_edges = shuffNet.edges()
+                        #gct.write_edgelist(shuffNet_edges, args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt',
+                        #	delimiter='\t', binary=True)
+                        if args.verbose:
+                            print('Shuffled Network', i+1, 'written to file')
                 # Construct null network kernel
                 shuffNet_kernel = nef.construct_prop_kernel(shuffNet, alpha=alpha, verbose=False)
                 # Calculate null network AUPRCs
@@ -200,6 +236,7 @@ if __name__ == "__main__":
                 null_AUPRCs.append(shuffNet_AUPRCs)
                 null_FDRs.append(shuffNet_FDRs)
             # Construct table of null AUPRCs
+            print('Calculating AUPRCs')
             null_AUPRCs_table = pd.concat(null_AUPRCs, axis=1)
             null_AUPRCs_table.columns = ['shuffNet'+repr(i+1) for i in range(len(null_AUPRCs))]
             null_FDRs_table = pd.concat(null_AUPRCs, axis=1)

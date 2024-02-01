@@ -225,7 +225,11 @@ def extract_id_with_prefix(id_str, pref_sep):
     else:
         # Handle case where pref_sep contains a list of tuples
         for prefix, separator in pref_sep:
-            if prefix in id_str:  # otherwise try next prefix if available
+            if prefix == '':
+                if separator and separator in id_str:
+                    id_str = id_str.split(separator)[0]
+                    return id_str
+            elif prefix in id_str:  # otherwise try next prefix if available
                 id_str = id_str.split(prefix)[1]
                 if separator and separator in id_str:
                     id_str = id_str.split(separator)[0]
@@ -667,18 +671,18 @@ class NetworkData:
         stats_df.to_csv(outpath + self.net_name + ".stats", sep="\t", index=True)
         self.T.print_all_times()
     
-#if __name__=="__main__":
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/PrePPI/preppi.human_af.interactome.txt"
-    nd = NetworkData(datafile, node_a="prot1", node_b="prot2", 
-                    target_id_type='Entrez',  identifiers='Uniprot',score="total_score",
-                    header=0, net_name="preppie", test_mode=False, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
+if __name__=="__main__":
+    if True:
+        datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Final_Download/ProteomeHD/ProteomeHD.csv"
+        nd = NetworkData(datafile, node_a="protein_X", node_b="Coreg_with_protein_X", 
+                        target_id_type='Entrez',  identifiers='Uniprot',score=None,
+                        header=0, net_name="prothd", test_mode=True, sep=",", prefixes=[('', ';')])
+        outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_final/"
+        nd.clean_data()
+        nd.convert_nodes()
+        final_nodes = nd.get_unique_nodes()
+        nd.write_network_data(outpath)
+        nd.write_stats(outpath)
 
 
 if False:

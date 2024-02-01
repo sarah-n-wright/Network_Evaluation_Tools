@@ -10,6 +10,7 @@ def parse_arguments(args):
     parser.add_argument('-d', metavar='datapath', required=True)
     parser.add_argument('-o', metavar='outpath', required=True)
     parser.add_argument('-n',  type=int, required=True, nargs='+')
+    parser.add_argument('-m', metavar='method', default='parsimonious')
     parser.add_argument('--name', type=str, required=True)
     parser.add_argument('--nodepref', default='Entrez_')
     args = parser.parse_args(args)
@@ -21,7 +22,8 @@ def get_node_edge_files(datadir, prefix_file):
         network_list = f.readlines()
     node_files = {net.split("\n")[0]: datadir + net.split("\n")[0]+".nodelist" for net in network_list}
     edge_files = {net.split("\n")[0]: datadir + net.split("\n")[0]+"_net.txt" for net in network_list}
-    return node_files, edge_files
+    nets = [net.split("\n")[0] for net in network_list]
+    return node_files, edge_files, nets
 
 
 def get_unique_nodes_edges(node_files, edge_files, node_pref):
@@ -83,9 +85,25 @@ if __name__=="__main__":
     #                         '-n', '2', '--name', 'test', '--nodepref', 'Entrez_',
     #                         '/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/v2_net_prefixes.txt'
     #                         ])
-    node_f, edge_f = get_node_edge_files(args.d, args.prefix_file)
-    n_dict, e_dict, data_dict = get_unique_nodes_edges(node_f, edge_f, node_pref=args.nodepref)
-    for n in args.n:
-        create_network_subset(e_dict, data_dict, args.o, min_dbs=n, node_pref=args.nodepref, name=args.name)
+    print(args)
+    node_f, edge_f, nets = get_node_edge_files(args.d, args.prefix_file)
+    print(node_f)
+    assert args.m in ['parsimonious', 'ordered'], "Method must be one of 'parsimonious' or 'ordered'."
+    if args.m == 'parsimonious':
+        n_dict, e_dict, data_dict = get_unique_nodes_edges(node_f, edge_f, node_pref=args.nodepref)
+        for n in args.n:
+            create_network_subset(e_dict, data_dict, args.o, min_dbs=n, node_pref=args.nodepref, name=args.name)
+    elif args.m == 'ordered':
+        n_dict = defaultdict(int)
+        e_dict = defaultdict(int)
+        data_dict = defaultdict(list)
+        n_dict, e_dict, data_dict = get_unique_nodes_edges({net:node_f[net] for net in nets[:2]}, {net:edge_f[net] for net in nets[:2]}, node_pref=args.nodepref)
+        assert len(args.n) == 1, "Only one minimum number of databases can be specified for ordered method."
+        for i in range(args.n[0], len(node_f)+1):
+            n_dict, e_dict, data_dict = parse_file_network(node_f[nets[i]], edge_f[nets[i]], n_dict, e_dict, data_dict, nets[i], args.nodepref)
+            #top_nets = nets[:i]
+            #print(i, top_nets)
+            #n_dict, e_dict, data_dict = get_unique_nodes_edges({net:node_f[net] for net in top_nets}, {net:edge_f[net] for net in top_nets}, node_pref=args.nodepref)
+            create_network_subset(e_dict, data_dict, args.o, min_dbs=args.n[0], node_pref=args.nodepref, name=args.name+str(i)+'_')
     
     

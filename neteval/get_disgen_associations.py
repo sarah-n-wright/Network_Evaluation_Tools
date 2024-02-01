@@ -100,7 +100,7 @@ if __name__=='__main__':
     parser.add_argument('-o', metavar='out_directiory', required=True, type=str)
     parser.add_argument('-m', metavar='min_genes', default=5, type=int)
     parser.add_argument('-M', metavar='max_genes', default=500, type=int)
-    parser.add_argument('-u', metavar='update', action='store_true')
+    parser.add_argument('-u', action='store_true')
     parser.add_argument('-E', metavar='email', required=True, type=str)
     parser.add_argument('-P', metavar='password', required=True, type=str)
     parser.add_argument('-S', metavar='source', required=False, type=str, default='BEFREE')
@@ -111,7 +111,7 @@ if __name__=='__main__':
     if args.d is None:
         args.u = True
     if args.u:
-        get_latest_disgenet_disease_list(args.E, args.P, args.S, outfile=args.o + 'disease_list_'+args.S+current_data+'.tsv')
+        get_latest_disgenet_disease_list(args.E, args.P, args.S, outfile=args.o + 'disease_list_'+args.S+current_date+'.tsv')
     
     get_disgenet_associations(args.o + 'disease_list_'+args.S+current_date+'.tsv', args.E, args.P, 
                     args.o+'gda_'+args.S+current_date+'.tsv', source=args.S,

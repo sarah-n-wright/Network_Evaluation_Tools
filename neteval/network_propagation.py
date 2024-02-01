@@ -24,7 +24,7 @@ def normalize_network(network, symmetric_norm=False):
 # transposed adjacency array, it is already in the correct orientation
 
 # Calculate optimal propagation coefficient (updated model)
-def calculate_alpha(network, m=-0.02935302, b=0.74842057):
+def calculate_alpha_OLD(network, avg_coverage, m=-0.02935302, b=0.74842057):
     log_edge_count = np.log10(len(network.edges()))
     alpha_val = round(m*log_edge_count+b,3)
     if alpha_val <=0:
@@ -32,6 +32,16 @@ def calculate_alpha(network, m=-0.02935302, b=0.74842057):
         # There should never be a case where Alpha >= 1, as avg node degree will never be negative
     else:
         return alpha_val
+    
+def calculate_alpha(net_size, avg_coverage, avg_p, size_coef=-0.05780307, coverage_coef=0.00035229, p_coef=0.246, intercept=0.591, mina=0.2, maxa=0.9):
+    a = intercept + net_size*size_coef + avg_coverage * coverage_coef + avg_p*p_coef
+    if a < mina:
+        print('Using alternative minimum alpha')
+        return mina
+    elif a > maxa:
+        print('Using alternative maximum alpha')
+        return maxa
+    return a
 
 # Closed form random-walk propagation (as seen in HotNet2) for each subgraph: Ft = (1-alpha)*Fo * (I-alpha*norm_adj_mat)^-1
 # Concatenate to previous set of subgraphs

@@ -28,6 +28,7 @@ def check_response(response):
 
 
 def submit_id_mapping(from_db, to_db, ids):
+    print("IDS:", ids)
     request = requests.post(
         f"{API_URL}/idmapping/run",data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
     )
@@ -55,8 +56,11 @@ def check_id_mapping_results_ready(job_id):
             else:
                 raise Exception(j["jobStatus"])
         else:
-            return bool(j["results"] or j["failedIds"])
-
+            try:
+                return bool(j["results"] or j["failedIds"])
+            except KeyError:
+                print("J", j)
+                return bool(j["results"])
 
 def get_batch(batch_response, file_format, compressed):
     batch_url = get_next_link(batch_response.headers)

@@ -54,6 +54,11 @@ def shuffle_network(G, n_swaps, timer=None):
 def write_shuffled_network(G, datafile, outpath, timer=None):
     outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
     dit.write_networkx_to_file(G, outfilepath=outfile, timer=timer)
+    
+def load_shuffled_network(datafile, outpath, timer=None):
+    outfile = outpath + os.path.split(datafile)[1].split(".txt")[0] + "_shuffled.txt"
+    G = dit.load_edgelist_to_networkx(outfile, timer=timer)
+    return G
 
 
 
