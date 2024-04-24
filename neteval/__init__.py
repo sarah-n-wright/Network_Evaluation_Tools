@@ -4,4 +4,4 @@
 
 __author__ = """Sarah Wright"""
 __email__ = 'snwright@ucsd.edu'
-__version__ = '0.1.011'
+__version__ = '0.1.12'
