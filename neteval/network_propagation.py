@@ -6,7 +6,7 @@ import time
 import numpy as np
 import scipy
 import pandas as pd
-import copy
+
 
 # Normalize network (or network subgraph) for random walk propagation
 def normalize_network(network, symmetric_norm=False):

@@ -217,7 +217,8 @@ class EvaluationResults:
                 failed_count += 1
                 if self.verbose:
                     print("FAILED:", f)
-        print("Failed to load", failed_count, "files out of", len(files), "for", use_metric, "and", use_geneset)
+        if failed_count > 0:
+            print("Failed to load", failed_count, "files out of", len(files), "for", use_metric, "and", use_geneset)
         # concatenate the results and pivot to get the correct format
         if use_metric == "AUPRC":
             results = pd.concat(results_list).pivot(columns="Network", index="Unnamed: 0", values="AUPRC")

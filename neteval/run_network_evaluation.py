@@ -10,7 +10,6 @@ import argparse
 import os
 import pandas as pd
 import numpy as np
-from memory_profiler import profile
 
 # Checking valid alpha and p values (Range is 0.0-1.0 exclusive)
 # Value can also be None.
@@ -92,12 +91,6 @@ if __name__ == "__main__":
         help='CSV file path of where to save network evaluation results as z-scores.')
     parser.add_argument('-gsp', '--performance_gain_save_path', type=valid_outfile, default=None, required=False,
         help='CSV file path of where to save network evaluation results as gain in AUPRC over median null AUPRCs.')
-    parser.add_argument('-dev', '--dev_mode', default=False, action="store_true", required=False)
-    
-    ## Updated arguments
-    parser.add_argument('-o', '--outdir', default=None, required=False)
-    parser.add_argument('-pref', '--network_prefix', type=str, default=None, required=False)
-    parser.add_argument('-k',type=int, default=10, required=False)
     
     args = parser.parse_args()
     # If null networks need to be constructed
@@ -106,153 +99,122 @@ if __name__ == "__main__":
     ####################################
     ##### Network Evaluation Setup #####
     ####################################
-    if args.dev_mode:
-        # Load Network
-        print("Available cores:", os.cpu_count())
-        if args.weighted:
-            attributes = ''
-            raise NotImplementedError('Weighted networks not yet supported')
-        else:
-            attributes = False # check that there is a column for this and that this is in the 
-        network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose, keep_attributes=attributes)
-        network_size = len(network.nodes())
-        genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
-        if args.alpha is None:
-            alpha = prop.calculate_alpha(network)
-        else:
-            alpha = args.alpha
-        if args.sample_p is None:
-            genesets_p = nef.calculate_p(network, genesets, id_type="Entrez")
-        else:
-            genesets_p = {geneset:args.sample_p for geneset in genesets}    
-            
-        # TODO figure out background argument
-        # Perform analysis
-        analyzer = nef.NetworkAnalyzer(network=network, genesets=genesets, outdir=args.outdir, net_pref = args.network_prefix,
-                                alpha=alpha, sample_proportion=genesets_p, num_samples=args.sub_sample_iter,
-                                null_iterations=args.null_iter, weighted=args.weighted, k=args.k, min_genes=args.min_genes)
-        analyzer.perform_analysis()
-        analyzer.calculate_performance_metrics()
-        analyzer.write_results()
-        analyzer.finish_analysis()
-        
+    if args.null_iter > 0:
+    # A file path must be given to either save the null networks or the null network performance
+        if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None):
+            parser.error('Save path required for null network edge lists or null network evaluation results.')
+    # Load Network
+    network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose)
+    network_size = len(network.nodes())
+
+    # Load Gene sets
+    genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
+
+    # Calculate gene set sub-sample rate with network (if not set)
+    if args.sample_p is None:
+        genesets_p, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
     else:
-        if args.null_iter > 0:
-        # A file path must be given to either save the null networks or the null network performance
-            if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None):
-                parser.error('Save path required for null network edge lists or null network evaluation results.')
-        # Load Network
-        network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose)
-        network_size = len(network.nodes())
+        _, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
+        genesets_p = {geneset:args.sample_p for geneset in genesets}
+    # if args.sample_p is None:
+    # 	genesets_p = nef.calculate_p(network, genesets)
+    # else:
+    # 	genesets_p = {geneset:args.sample_p for geneset in genesets}
+    # if args.verbose:
+    # 	print('Gene set sub-sample rates set')
 
-        # Load Gene sets
-        genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
-
-        # Calculate gene set sub-sample rate with network (if not set)
-        if args.sample_p is None:
-            genesets_p, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
-        else:
-            _, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
-            genesets_p = {geneset:args.sample_p for geneset in genesets}
-        # if args.sample_p is None:
-        # 	genesets_p = nef.calculate_p(network, genesets)
-        # else:
-        # 	genesets_p = {geneset:args.sample_p for geneset in genesets}
-        # if args.verbose:
-        # 	print('Gene set sub-sample rates set')
-
-        # Calculate network kernel (also determine propagation constant if not set)
-        #TODO allow for specifying alpha with an input	
-        if args.alpha is None:
-            alpha = prop.calculate_alpha(np.log10(len(network.edges)), mean_coverage, np.mean(list(genesets_p.values())))
-        else:
-            alpha = args.alpha
-        kernel = nef.construct_prop_kernel(network, alpha=alpha, verbose=True)
-        # Change background gene list if needed
-        if args.background == 'genesets':
-            background_node_set = set()
-            for geneset in genesets:
-                background_node_set = background_node_set.union(genesets[geneset])
-            background_nodes = list(background_node_set.intersection(set(kernel.index)))
-        else:
-            background_nodes = list(kernel.index)
+    # Calculate network kernel (also determine propagation constant if not set)
+    #TODO allow for specifying alpha with an input	
+    if args.alpha is None:
+        alpha = prop.calculate_alpha(np.log10(len(network.edges)), mean_coverage, np.mean(list(genesets_p.values())))
+    else:
+        alpha = args.alpha
+    kernel = nef.construct_prop_kernel(network, alpha=alpha, verbose=True)
+    # Change background gene list if needed
+    if args.background == 'genesets':
+        background_node_set = set()
+        for geneset in genesets:
+            background_node_set = background_node_set.union(genesets[geneset])
+        background_nodes = list(background_node_set.intersection(set(kernel.index)))
+    else:
+        background_nodes = list(kernel.index)
 
 
-        ############################################
-        ##### Network Performance Calculations #####
-        ############################################
+    ############################################
+    ##### Network Performance Calculations #####
+    ############################################
 
-        # Calculate AUPRC for each gene set on actual network (large networks are >=10k nodes)
-        if network_size < 10000:
-            #TODO take background variable again
-            actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
-        else:
-            #TODO take backgrond variable again
-            actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+    # Calculate AUPRC for each gene set on actual network (large networks are >=10k nodes)
+    if network_size < 10000:
+        #TODO take background variable again
+        actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+    else:
+        #TODO take backgrond variable again
+        actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
 
-        # Save the actual network's AUPRC values
-        actual_AUPRC_values.to_csv(args.actual_AUPRCs_save_path)
-        actual_FDR_values.to_csv(args.actual_AUPRCs_save_path + '_FDR')
+    # Save the actual network's AUPRC values
+    actual_AUPRC_values.to_csv(args.actual_AUPRCs_save_path)
+    actual_FDR_values.to_csv(args.actual_AUPRCs_save_path + '_FDR')
 
 
-        #################################################
-        ##### Null Network Performance Calculations #####
-        #################################################
+    #################################################
+    ##### Null Network Performance Calculations #####
+    #################################################
 
-        # If number of null networks > 0:
-        if args.null_iter > 0:
-            null_AUPRCs = []
-            null_FDRs = []
-            for i in range(args.null_iter):
-                print('Null iteration:', i+1)
-                # Construct null networks and calculate AUPRCs for each gene set on each null network
-                if args.null_network_outdir is not None:
-                    # check if samed netowrk exists
-                    try:
-                        shuffNet = shuf.load_shuffled_network(datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
-                    except FileNotFoundError:
-                        shuffNet = shuf.shuffle_network(network, n_swaps=1)
-                        shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
-                        print('Shuffled Network', i+1, 'written to file')
-                else:
+    # If number of null networks > 0:
+    if args.null_iter > 0:
+        null_AUPRCs = []
+        null_FDRs = []
+        for i in range(args.null_iter):
+            print('Null iteration:', i+1)
+            # Construct null networks and calculate AUPRCs for each gene set on each null network
+            if args.null_network_outdir is not None:
+                # check if samed netowrk exists
+                try:
+                    shuffNet = shuf.load_shuffled_network(datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                except FileNotFoundError:
                     shuffNet = shuf.shuffle_network(network, n_swaps=1)
-                # Save null network if null network output directory is given
-                    if args.null_network_outdir is not None:
-                        shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
-                        #shuffNet_edges = shuffNet.edges()
-                        #gct.write_edgelist(shuffNet_edges, args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt',
-                        #	delimiter='\t', binary=True)
-                        if args.verbose:
-                            print('Shuffled Network', i+1, 'written to file')
-                # Construct null network kernel
-                shuffNet_kernel = nef.construct_prop_kernel(shuffNet, alpha=alpha, verbose=False)
-                # Calculate null network AUPRCs
-                if network_size < 10000:
-                    #TODO make background an input again
-                    shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
-                else:
-                    #TODO make background an input again
-                    shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
-                null_AUPRCs.append(shuffNet_AUPRCs)
-                null_FDRs.append(shuffNet_FDRs)
-            # Construct table of null AUPRCs
-            print('Calculating AUPRCs')
-            null_AUPRCs_table = pd.concat(null_AUPRCs, axis=1)
-            null_AUPRCs_table.columns = ['shuffNet'+repr(i+1) for i in range(len(null_AUPRCs))]
-            null_FDRs_table = pd.concat(null_AUPRCs, axis=1)
-            null_FDRs_table.columns = ['shuffNet'+repr(i+1) for i in range(len(null_AUPRCs))]
-            if args.verbose:
-                print('All null network gene set AUPRCs calculated')
-            # Save null network AUPRCs if save path is given
-            if args.null_AUPRCs_save_path is not None:
-                null_AUPRCs_table.to_csv(args.null_AUPRCs_save_path)
-                null_FDRs_table.to_csv(args.null_AUPRCs_save_path + "_FDR")
-            # Calculate performance score for each gene set's AUPRC if performance score save path is given
-            if args.performance_save_path is not None:
-                network_performance = nef.calculate_network_performance_score(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
-                network_performance.to_csv(args.performance_save_path)
-            # Calculate network performance gain over median null AUPRC if AUPRC performance gain save path is given
-            if args.performance_gain_save_path is not None:
-                network_perf_gain = nef.calculate_network_performance_gain(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
-                network_perf_gain.to_csv(args.performance_gain_save_path)
-        
+                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                    print('Shuffled Network', i+1, 'written to file')
+            else:
+                shuffNet = shuf.shuffle_network(network, n_swaps=1)
+            # Save null network if null network output directory is given
+                if args.null_network_outdir is not None:
+                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                    #shuffNet_edges = shuffNet.edges()
+                    #gct.write_edgelist(shuffNet_edges, args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt',
+                    #	delimiter='\t', binary=True)
+                    if args.verbose:
+                        print('Shuffled Network', i+1, 'written to file')
+            # Construct null network kernel
+            shuffNet_kernel = nef.construct_prop_kernel(shuffNet, alpha=alpha, verbose=False)
+            # Calculate null network AUPRCs
+            if network_size < 10000:
+                #TODO make background an input again
+                shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+            else:
+                #TODO make background an input again
+                shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+            null_AUPRCs.append(shuffNet_AUPRCs)
+            null_FDRs.append(shuffNet_FDRs)
+        # Construct table of null AUPRCs
+        print('Calculating AUPRCs')
+        null_AUPRCs_table = pd.concat(null_AUPRCs, axis=1)
+        null_AUPRCs_table.columns = ['shuffNet'+repr(i+1) for i in range(len(null_AUPRCs))]
+        null_FDRs_table = pd.concat(null_AUPRCs, axis=1)
+        null_FDRs_table.columns = ['shuffNet'+repr(i+1) for i in range(len(null_AUPRCs))]
+        if args.verbose:
+            print('All null network gene set AUPRCs calculated')
+        # Save null network AUPRCs if save path is given
+        if args.null_AUPRCs_save_path is not None:
+            null_AUPRCs_table.to_csv(args.null_AUPRCs_save_path)
+            null_FDRs_table.to_csv(args.null_AUPRCs_save_path + "_FDR")
+        # Calculate performance score for each gene set's AUPRC if performance score save path is given
+        if args.performance_save_path is not None:
+            network_performance = nef.calculate_network_performance_score(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
+            network_performance.to_csv(args.performance_save_path)
+        # Calculate network performance gain over median null AUPRC if AUPRC performance gain save path is given
+        if args.performance_gain_save_path is not None:
+            network_perf_gain = nef.calculate_network_performance_gain(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
+            network_perf_gain.to_csv(args.performance_gain_save_path)
+    

@@ -5,8 +5,6 @@ from multiprocessing import Pool
 import neteval.data_import_export_tools as dit
 import neteval.network_propagation as prop
 import neteval.shuffle_networks as shuf
-from neteval.Timer import Timer
-import networkx as nx
 import numpy as np
 import os
 import random
@@ -15,313 +13,7 @@ import sklearn.metrics as metrics
 import pandas as pd
 import time
 import warnings
-from collections import defaultdict
 warnings.filterwarnings(action='ignore', category=DeprecationWarning)
-
-class NetworkAnalyzer:
-    def __init__(self, network, genesets, outdir, out_pref, network_path, alpha=0.5, sample_proportion=0.2, 
-                    num_samples=50, null_iterations=200, weighted=False, background=None,
-                    verbose=False, k=20, min_genes=0):
-        self.timer = Timer()
-        self.timer.start('Overall')
-        self.timer.start('Initialization')
-        self.num_samples = num_samples
-        self.null_iterations = null_iterations
-        self.alpha = alpha
-        if isinstance(sample_proportion, float):
-            self.sample_proportions = {geneset:sample_proportion for geneset in genesets}
-        else:
-            self.sample_proportions = sample_proportion
-        self.genesets = genesets
-        self.network_path = network_path
-        self.network = network
-        self.out_pref = out_pref
-        self.weighted = weighted
-        self.verbose = verbose
-        self.k = k
-        self.min_genes = min_genes
-        ## Get the network propagation kernel
-        self.timer.start('Kernel Construction')
-        self.kernel = construct_prop_kernel(self.network, alpha=self.alpha, 
-                                            verbose=self.verbose, weighted=self.weighted)
-        self.timer.end('Kernel Construction')
-        ## Construct the background set as the background of all genes in at least one geneset
-        if background is None:
-            self.background = list(network.nodes())
-        else:
-            self.background = self.create_geneset_background()
-        # check that all output paths exist
-        self.outdir = outdir
-        if not os.path.exists(os.path.dirname(self.outdir)):
-            os.makedirs(os.path.dirname(self.outdir))
-            if verbose:
-                print("Created directory:", os.path.dirname(self.outdir))
-        for folder in ['AURPCs', 'AUPRCs/Null_AUPRCs', 'Performance', 'Performance_Gain', 'Null_Networks']:
-            if not os.path.exists(os.path.join(self.outdir, folder)):
-                os.makedirs(os.path.join(self.outdir, folder))
-                if verbose:
-                    print("Created directory:", os.path.join(self.outdir, folder))    
-        self.timer.start("Filter GeneSets")
-        self.filter_genesets()
-        self.timer.end("Filter GeneSets")
-        
-        #self.out_pref = os.path.join(outdir, "_".join([self.net_pref, str(self.alpha), str(self.sample_proportion), str(self.num_samples), str(self.null_iterations)]))
-
-        self.timer.end('Initialization')
-    
-    def create_geneset_background(self):
-        background_node_set = set()
-        for geneset in self.genesets:
-            background_node_set = background_node_set.union(self.genesets[geneset])
-        background_nodes = list(background_node_set.intersection(set(self.kernel.index)))
-        return background_nodes
-    
-    def filter_genesets(self):
-        if self.min_genes is not None:
-            if self.min_genes > 0:
-                if self.verbose:
-                    print("NUMBER INPUT GENESETS: ", len(self.genesets)	)
-                filtered_genesets = {geneset:self.genesets[geneset] for geneset in self.genesets if len(set(self.genesets[geneset]).intersection(set(self.kernel.index))) >= self.min_genes}
-                if self.verbose:
-                    print("NUMBER FILTERED GENESETS: ", len(filtered_genesets))
-                self.genesets = filtered_genesets
-                self.sample_proportions = {geneset:self.sample_proportions[geneset] for geneset in self.sample_proportions if geneset in self.genesets}
-        
-    #     def _parellelize_analysis(self, node_set):
-    #     intersect = [nodes for nodes in self.genesets[node_set] if nodes in self.kernel.index]
-    #     subsample_result = self.perform_geneset_subsample_propagations(intersect)
-    #     null_result = self.perform_null_geneset_propagations(intersect, node_set)
-    #     return subsample_result, null_result
-    
-    # def perform_analysis(self):
-    #     self.timer.start('Analysis')
-    #     subsample_results = {}
-    #     null_results = {}
-    #     batch = 0
-    #     # create a multiprocessing pool with a max of 10 processes
-    #     pool = Pool(processes=5)
-    #     geneset_names = list(self.genesets.keys())
-    #     for i, output in enumerate(pool.map(self._parellelize_analysis, geneset_names)):
-    #         subsample_results[geneset_names[i]], null_results[geneset_names[i]] = output[0], output[1]
-    
-    def perform_analysis(self):
-        self.timer.start('Analysis')
-        subsample_results = {}
-        batch = 0
-        self.timer.start("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-        for i, node_set in enumerate(self.genesets):
-            intersect = [nodes for nodes in self.genesets[node_set] if nodes in self.kernel.index]
-            if len(intersect) < self.min_genes:
-                continue
-            if (i+1) % 100 == 0:
-                self.timer.end("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-                batch += 1
-                self.timer.start("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-            subsample_results[node_set]= self.perform_geneset_subsample_propagations(self.kernel, intersect, self.sample_proportions[node_set])
-        self.timer.end("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-        self.subsample_results = self.create_multiIndex_results(subsample_results)
-        self.timer.end('Analysis')
-        
-        
-    def perform_shuffling_analysis(self):
-        self.timer.start('Shuffled Propagations')
-        all_null_results = {}
-        for i in range(self.null_iterations):
-            self.timer.start('Shuffled Propagation '+str(i))
-            if self.verbose:
-                print('Null Iteration:', i, 'of', self.null_iterations)
-            all_null_results[i] = self.perform_shuffled_propagations(i)
-            self.timer.end('Shuffled Propagation '+str(i))
-        ## TODO check that this is the right format. 
-        self.null_results = pd.concat(all_null_results, axis=0).swaplevel(0,1).sort_index() 
-        self.timer.end('Shuffled Propagations')
-        
-    def perform_shuffled_propagations(self, i):
-        # get shuffled network
-        self.timer.start('Load shuffled network')
-        try:
-            shuffNet = shuf.load_shuffled_network(datafile=self.network_path, outpath=os.path.join(self.outdir, 'Null_Networks', 'shuffNet_' +repr(i+1)+'_'))
-        except FileNotFoundError:
-            warnings.warn("Shuffled network not found. Creating new shuffled network.")
-            shuffNet = shuf.shuffle_network(self.network, n_swaps=1)
-            shuf.write_shuffled_network(shuffNet, datafile=self.network_path, outpath=os.path.join(self.outdir, 'Null_Networks', 'shuffNet_' +repr(i+1)+'_'))
-            if self.verbose:
-                print('Shuffled Network', i+1, 'written to file')
-        self.timer.end('Load shuffled network')
-        # get shuffled kernel
-        self.timer.start('Construct shuffled kernel')
-        shuff_kernel = construct_prop_kernel(shuffNet, alpha=self.alpha, 
-                                            verbose=self.verbose, weighted=self.weighted)
-        self.timer.end('Construct shuffled kernel')
-        self.timer.start('Propagation Analysis')
-        null_results = {}
-        for j, node_set in enumerate(self.genesets):
-            intersect = [nodes for nodes in self.genesets[node_set] if nodes in shuff_kernel.index]
-            if len(intersect) < self.min_genes:
-                continue
-            if (j+1) % 100 == 0:
-                if self.verbose:
-                    print( j, "of", len(self.genesets), 'completed.')
-            null_results[node_set] = self.perform_geneset_subsample_propagations(shuff_kernel, intersect, self.sample_proportions[node_set])
-        self.null_results = self.create_multiIndex_results(null_results)
-        self.timer.end('Propagation Analysis')
-
-        return self.create_multiIndex_results(null_results)
-    
-    # def perform_analysis_old(self):
-    #     self.timer.start('Analysis')
-    #     subsample_results = {}
-    #     null_results = {}
-    #     batch = 0
-    #     self.timer.start("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-    #     for i, node_set in enumerate(self.genesets):
-    #         if self.verbose:
-    #             print("Performing analysis for node set:", node_set, i, "of", len(self.genesets))
-    #         intersect = [nodes for nodes in self.genesets[node_set] if nodes in self.kernel.index]
-    #         if len(intersect) < self.min_genes:
-    #             continue
-    #         subsample_results[node_set]= self.perform_geneset_subsample_propagations(intersect, self.sample_proportions[node_set])
-    #         null_results[node_set] = self.perform_null_geneset_propagations(intersect, self.sample_proportions[node_set])
-    #         if (i+1) % 100 == 0:
-    #             self.timer.end("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-    #             batch += 1
-    #             self.timer.start("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-    #     self.timer.end("Batch " + str(batch*100) + "-" + str((batch+1)*100))
-    #     self.subsample_results = self.create_multiIndex_results(subsample_results)
-    #     #self.subsample_results_stds = pd.DataFrame.from_dict(subsample_results['stds'], orient='index')
-    #     self.null_results = self.create_multiIndex_results(null_results)
-    #     #self.null_results_stds = pd.DataFrame.from_dict(null_results['stds'], orient='index')
-    #     self.timer.end('Analysis')
-        
-
-    
-    def create_multiIndex_results(self, results_dict):
-        rekeyed_dict= {(outerKey, innerKey): values for outerKey, innerDict in results_dict.items() for innerKey, values in innerDict.items()}
-        return pd.DataFrame.from_dict(rekeyed_dict, orient='index')
-    
-    def perform_geneset_subsample_propagations(self, kernel, node_set, sample_p):
-        sample_size = int(round(sample_p*len(node_set)))
-        results_dict = {}
-        for i in range(self.num_samples):
-            sample = random.sample(node_set, sample_size)
-            results_dict[i] = self.perform_single_propagation(kernel, node_set, sample)
-        summary_results = pd.DataFrame.from_dict(results_dict, orient='index').describe(percentiles=[]).loc[['mean', 'std', '50%']]
-        return summary_results.to_dict(orient='index')
-    
-    def perform_single_propagation(self, kernel, node_set, sample):
-        test_set = [node for node in node_set if node not in sample]
-        bg_non_sample = [node for node in self.background if node not in sample]							 			# nodes in background gene list not in sample
-        propagation_results = kernel.loc[sample][bg_non_sample].sum().sort_values(ascending=False)
-        y_actual = pd.Series(0, index=propagation_results.index, dtype=int)									# nodes sorted by mean prop value
-        y_actual.loc[test_set]+=1
-        sorted_test_set = y_actual[y_actual==1].index # get the test_set ordered by propagation score
-        test_ranks = {node:float(y_actual.loc[:node].shape[0]) for node in sorted_test_set}
-        metrics = calculate_precision_recall_metrics(sorted_test_set, test_ranks, verbose=self.verbose, k=self.k)
-        return metrics
-    
-    # def perform_null_geneset_propagations(self, geneset, sample_p):
-    #     sample_size = int(round(sample_p*len(geneset)))
-    #     results_dict = {}
-    #     for i in range(self.null_iterations):
-    #         null_set = self.get_degree_matched_nodeset(geneset)
-    #         null_sample = random.sample(null_set, sample_size)
-    #         results_dict[i] = self.perform_single_propagation(geneset, null_sample)
-    #     results_df = pd.DataFrame.from_dict(results_dict, orient='index')
-    #     summary_results = results_df.describe(percentiles=[]).loc[['mean', 'std', '50%']]
-    #     null_medians = summary_results.loc['50%']
-    #     null_MAD = abs(results_df.subtract(null_medians)).median(axis=0)
-    #     k = 1/stats.norm.ppf(0.75)	# Mean absolute deviation scaling factor to make median absolute deviation behave similarly to the standard deviation of a normal distribution
-    #     null_MAD_scaled = k*null_MAD
-    #     return {**summary_results.to_dict(orient='index'), **{'scaled_MAD':null_MAD_scaled.to_dict()}}
-    #     #return summary_results.loc['mean'].to_dict(), summary_results.loc['std'].to_dict()
-
-            
-    # def get_degree_matched_nodeset(self, nodeset):
-    #     null_set = []
-    #     for node in nodeset:
-    #         random_node = self.BinnedNodes.random_degree_matched_node(self.network.degree(node))
-    #         while random_node in null_set: # in case a duplicate node is selected
-    #             random_node = self.BinnedNodes.random_degree_matched_node(self.network.degree(node))
-    #         null_set.append(random_node)
-    #     return null_set
-    
-    def calculate_performance_metrics(self):
-        assert hasattr(self, 'subsample_results'), "Subsample results have not been calculated. Please run perform_analysis()"
-        self.timer.start('Performance Calculation')
-        self.t_results = self.perform_t_analysis()
-        self.robust_z_results = self.perform_robust_z_analysis()
-        self.timer.end('Performance Calculation')
-        
-    def write_results(self):
-        self.timer.start("Write outputs")
-        # TODO do I want to switch the format of this? take a look at the two and decide which is more intuitive. 
-        # get AUPRCs metics
-        pd.DataFrame(self.get_all_metrics('AUPRC')).to_csv(self.out_pref + '_AUPRCs.tsv', sep="\t")
-        pd.DataFrame(self.get_all_metrics('recall_at_fdr')).to_csv(self.out_pref+'_Recall_at_FDR.tsv', sep="\t")
-        pd.DataFrame(self.get_all_metrics('precision_at_'+ str(self.k))).to_csv(self.out_pref+'_Precision_at'+ str(self.k)+'.tsv', sep="\t")
-    
-    def get_all_metrics(self, measure):
-        means, medians = self.subsample_results.xs('mean', level=1)[measure], self.subsample_results.xs('50%', level=1)[measure]
-        t, pt, gaint = self.t_results.xs('stat', level=1)[measure], self.t_results.xs('pval', level=1)[measure], self.t_results.xs('gain', level=1)[measure]
-        z, pz, gainz = self.robust_z_results.xs('stat', level=1)[measure], self.robust_z_results.xs('pval', level=1)[measure], self.robust_z_results.xs('gain', level=1)[measure]
-        return {'mean':means, 'median':medians, 't':t, 'pval_t':pt, 'gain_t':gaint, 'z':z, 'pval_z':pz, 'gain_z':gainz}
-        
-        
-    def perform_t_analysis(self):
-        subsample_ses = self.subsample_results.xs('std', level=1) / np.sqrt(self.num_samples)
-        null_ses = self.null_results.xs('std', level=1) / np.sqrt(self.null_iterations)
-        sqrt_se1_se0 = np.sqrt((subsample_ses ** 2) + (null_ses ** 2))
-        observed_means = self.subsample_results.xs('mean', level=1)
-        null_means = self.null_results.xs('mean', level=1)
-        t_scores = (observed_means - null_means) / sqrt_se1_se0
-        t_sigs = t_scores.applymap(lambda x: stats.t.sf(np.abs(x), self.num_samples + self.null_iterations - 2))
-        gain = (observed_means - null_means) / null_means
-        t_results = pd.concat({'stat': t_scores, 'pval':t_sigs, 'gain':gain}, axis=0).swaplevel(0,1).sort_index()   
-        return t_results
-    
-    def perform_robust_z_analysis(self):
-        mean_minus_median = self.subsample_results.xs('mean', level=1) - self.null_results.xs('50%', level=1)
-        z_norm = mean_minus_median / self.null_results.xs('scaled_MAD', level=1)
-        z_gain = mean_minus_median / self.null_results.xs('50%', level=1)
-        z_sig = z_norm.applymap(lambda x: stats.norm.sf(np.abs(x)))
-        z_results = pd.concat({'stat': z_norm, 'pval':z_sig, 'gain':z_gain}, axis=0).swaplevel(0,1).sort_index()
-        return z_results
-
-    # class DegreeBinnedNodes:
-    #     def __init__(self, network, min_bin_size):
-    #         degree_dict = defaultdict(list)
-    #         for node in network.nodes():
-    #             degree_dict[network.degree(node)].append(node)
-    #         self.bins = [0]
-    #         self.bin_sizes = []
-    #         bin_size = 0
-    #         for degree in sorted(degree_dict.keys()):
-    #             if bin_size < min_bin_size:
-    #                 bin_size += len(degree_dict[degree])
-    #             else:
-    #                 self.bins.append(degree)
-    #                 self.bin_sizes.append(bin_size)
-    #                 bin_size = 0
-    #         if bin_size < min_bin_size:
-    #             # there are not sufficient nodes in final bin so remove it, and add the final bin
-    #             self.bins.pop()
-    #             self.bin_sizes[-1] += bin_size
-    #         self.bins.append(degree+1)
-
-    #         self.bin_dict = defaultdict(list)
-    #         for i, left_edge in enumerate(self.bins[:-1]):
-    #             for degree in range(left_edge, self.bins[i+1]):
-    #                 self.bin_dict[left_edge] += degree_dict[degree]
-    #         # map all degrees to their bin
-    #         self.degree_to_bin = {deg: left_edge for i, left_edge in enumerate(self.bins[:-1]) for deg in range(left_edge, self.bins[i+1])}
-            
-    #     def random_degree_matched_node(self, degree):
-    #         return random.choice(self.bin_dict[self.degree_to_bin[degree]])
-    
-    # def finish_analysis(self):
-    #     self.timer.end('Overall')
-    #     self.timer.print_all_times()
-            
 
 def calculate_precision_recall_metrics(test_set_sorted, test_ranks, verbose=False, k=None):
     #geneset, intersect_non_sample_sorted, P_totals, verbose = params[0], params[1], params[2], params[3]
@@ -364,28 +56,6 @@ def precision_at_k(precision, ranks, k):
     p_at_k = tp/k
     return p_at_k
 
-
-
-##### OLD FUNCTIONS #####
-
-# Shuffle network in degree-preserving manner
-# Input: network - networkx formatted network
-# For large networks this can be slow: may need to be sped up to prevent bottlenecking
-def old_shuffle_network(network, max_tries_n=10, verbose=False):
-    # Shuffle Network
-    shuff_time = time.time()
-    edge_len=len(network.edges())
-    shuff_net=network.copy()
-    try:
-        nx.double_edge_swap(shuff_net, nswap=edge_len, max_tries=edge_len*max_tries_n)
-    except:
-        if verbose:
-            print('Note: Maximum number of swap attempts ('+repr(edge_len*max_tries_n)+') exceeded before desired swaps achieved ('+repr(edge_len)+').')
-    if verbose:
-        # Evaluate Network Similarity
-        shared_edges = len(set(network.edges()).intersection(set(shuff_net.edges())))
-        print('Network shuffled:', time.time()-shuff_time, 'seconds. Edge similarity:', shared_edges/float(edge_len))
-    return shuff_net
 
 # Calculate optimal sub-sampling proportion for test/train
 # Input: NetworkX object and dictionary of {geneset name:list of genes}
@@ -443,15 +113,6 @@ def global_var_initializer(global_net_kernel):
     global kernel
     kernel = global_net_kernel
 
-
-def calculate_network_AUPRC(params):
-    runtime = time.time()
-    
-    
-def network_AUPRC_wrapper(params):
-    runtime = time.time()
-
-
 # Calculate AUPRC of a single node set's recovery for small networks (<250k edges)
 # This method is faster for smaller networks, but still has a relatively large memory footprint
 # The parallel setup for this situation requires passing the network kernel to each individual thread
@@ -478,21 +139,7 @@ def calculate_small_network_AUPRC(params):
                         intersect_non_sample_sorted, P_totals, verbose=verbose)
         AUPRCs.append(auprc)
         FDRs.append(fdr)
-        # TP, FN = 0, len(intersect_non_sample_sorted)													# initialize precision and recall curves
-        # precision, recall = [1], [0]																	# initialize true positives and false negatives
-        # for node in intersect_non_sample_sorted:														# Slide down sorted nodes by summed prop value by nodes that are in intersect_non_sample
-        # 	TP += 1.0									   													# Calculate true positives found at this point in list
-        # 	FN -= 1.0																					   	# Calculate false negatives found at this point in list
-        # 	precision.append(TP/float(y_actual.loc[:node].shape[0]))										 	# Calculate precision ( TP / TP+FP ) and add point to curve
-        # 	recall.append(TP/float(TP+FN))
-        # try:# Calculate recall ( TP / TP+FN ) and add point to curve
-        # 	AUPRCs.append(metrics.auc(recall, precision))
-        # except ValueError as e:
-        # 	print("Recall:", recall)
-        # 	print("Preceision:", precision)
-        # 	print("Intersect_non_sample_sorted:", intersect_non_sample_sorted)
-        # 	print("Sample:", sample)
-        # 	raise(e)# Calculate Area Under Precision-Recall Curve (AUPRC)
+
     if verbose:
         print('AUPRC Analysis for given node set', '('+repr(len(intersect))+' nodes in network) complete:', round(time.time()-runtime, 2), 'seconds.')
     return [node_set_name, np.mean(AUPRCs), np.mean(FDRs)]
@@ -542,18 +189,7 @@ def find_recall_at_fdr(fdr_vals, recall, threshold=0.25):
 def calculate_large_network_AUPRC(params):
     geneset, intersect_non_sample_sorted, P_totals, verbose = params[0], params[1], params[2], params[3]
     return calculate_precision_recall(geneset, intersect_non_sample_sorted, P_totals, verbose=verbose)
-    # runtime = time.time()
-    # TP, FN = 0, len(intersect_non_sample_sorted)	# initialize true positives and false negatives
-    # precision, recall = [1], [0]					# initialize precision and recall curves
-    # for node in intersect_non_sample_sorted:		# Step down sorted nodes by summed prop value by nodes that are in intersect_non_sample
-    # 	TP += 1.0										# Calculate true positives found at this point in list
-    # 	FN -= 1.0										# Calculate false negatives found at this point in list
-    # 	precision.append(TP/float(P_totals[node]))		# Calculate precision ( TP / TP+FP ) and add point to curve
-    # 	recall.append(TP/float(TP+FN))					# Calculate recall ( TP / TP+FN ) and add point to curve
-    # AUPRC = metrics.auc(recall, precision)				# Calculate Area Under Precision-Recall Curve (AUPRC)
-    # if verbose:
-    # 	print('AUPRC Analysis for given node set:', geneset, 'complete:', round(time.time()-runtime, 2), 'seconds.')
-    # return [geneset, AUPRC]
+
 
 # Wrapper to calculate AUPRC of multiple node sets' recovery for small networks (<250k edges)
 def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None):
@@ -793,26 +429,3 @@ def calculate_network_performance_gain(actual_net_AUPRCs, shuff_net_AUPRCs, verb
     if verbose:
         print('AUPRC relative performance gain calculated')
     return AUPRC_gain
-
-
-if __name__=='__main__':
-    if False:
-        ranks = {'a':1, 'b':4, 'c': 9}
-        precision = [1, 1, 0.5, 1/3]
-        true_precisions = [1, 1, 1/2, 1/3, 2/4, 2/5, 2/6, 2/7, 2/8, 3/9, 3/10]
-        precision_at_k(precision, ranks, 3)
-    if False:
-        network_path = '/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/dip.PC_net.txt'
-        node_sets_file = '/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/disgen_all_genesets_aim2.txt'
-        outdir = '/cellar/users/snwright/Data/Network_Analysis/Evaluation/dev'
-        network = dit.load_edgelist_to_networkx(network_path, verbose=False, keep_attributes=False)
-        network_size = len(network.nodes())
-        alpha = prop.calculate_alpha(network)
-        genesets = dit.load_node_sets(node_sets_file, verbose=False, id_type="Entrez")
-        # get just the first 10 genesets
-        genesets = {k:genesets[k] for k in list(genesets.keys())[:10]}
-        sample_p = calculate_p(network, genesets)
-        na = NetworkAnalyzer(network, genesets, outdir, 'dip_test', alpha=alpha, sample_proportion=sample_p, 
-                            num_samples=5, null_iterations=5, k=5)
-        na.perform_analysis()
-        na.calculate_performance_metrics()
