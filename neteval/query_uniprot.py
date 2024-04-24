@@ -14,7 +14,7 @@ POLLING_INTERVAL = 3
 API_URL = "https://rest.uniprot.org"
 
 
-retries = Retry(total=5, backoff_factor=0.25, status_forcelist=[500, 502, 503, 504])
+retries = Retry(total=20, backoff_factor=0.25, status_forcelist=[500, 502, 503, 504])
 session = requests.Session()
 session.mount("https://", HTTPAdapter(max_retries=retries))
 
@@ -28,7 +28,8 @@ def check_response(response):
 
 
 def submit_id_mapping(from_db, to_db, ids):
-    print("IDS:", ids)
+    print("From:", from_db, "To:", to_db)
+    print("IDS:", len(ids))
     request = requests.post(
         f"{API_URL}/idmapping/run",data={"from": from_db, "to": to_db, "ids": ",".join(ids)},
     )
@@ -133,6 +134,8 @@ def merge_xml_results(xml_results):
 def print_progress_batches(batch_index, size, total):
     n_fetched = min((batch_index + 1) * size, total)
     print(f"Fetched: {n_fetched} / {total}")
+    if n_fetched == total:
+        print("All results fetched")
 
 
 def get_id_mapping_results_search(url, field=None):

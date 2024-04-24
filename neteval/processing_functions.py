@@ -1,217 +1,25 @@
 import pandas as pd
 import numpy as np
 from neteval.gene_mapper import *
-from neteval.type_mapper import *
-import neteval.query_uniprot as uni
-import neteval.query_hgnc as hgnc
-import neteval.query_ensembl as ensg
 from neteval.Timer import Timer
-import mygene
 import csv
 import re
 from itertools import combinations
 import os
 
-
-def update_nodes_x(nodes, id_type, keep="present", timer=None):
-    """ Takes a set of node identifiers and updates them to the latest version of the same identifier type.
-
-    Args:
-        nodes (set): The set of nodes to be updated
-        id_type (str): The type of identifier being used and updated
-        keep (str): Which nodes should be kept? "updated" for only those that have been updated, "present" for all those present in the dataset, 
-        whether updated or not, "all" to keep all nodes (even if they are not present in the mapping data)
-
-    Returns:
-        dict: Mapping between input nodes (key) and updated identifiers (values)
-    """
-    # must return 1:1
-    if timer is None:
-        timer = Timer()
-    timer.start("Update Nodes")
-    updated_node_map = {}
-    if id_type == "Uniprot":
-        query_nodes = [node for node in nodes if (("_HUMAN" in node) or (re.fullmatch("[a-zA-Z0-9\.-]+", node) is not None))]
-        results, failed = uni.perform_uniprot_query(ids = query_nodes, from_db="UniProtKB_AC-ID", to_db="Uniprot")
-        #print("DUPLICATED UNIPROT MAPPINGS")
-        #print(results.loc[results.duplicated()])
-        #remove duplicates
-        failed = list(failed) + [node for node in nodes if node not in query_nodes]
-        results = results.drop_duplicates(subset=["from"])
-    elif id_type == "Symbol":
-        exclude_prefix_suffix = ["CHEBI:", "_HUMAN"]
-        query_nodes = [node for node in list(nodes) if re.search("|".join(exclude_prefix_suffix), node) is None]
-        results, failed = hgnc.perform_hgnc_query(query_nodes, "Symbol", "Symbol")
-        results = pd.DataFrame.from_dict(results, orient="index", columns = ["to"])
-        results["from"] = results.index.values
-        failed = list(failed) + [node for node in list(nodes) if re.search("|".join(exclude_prefix_suffix), node) is not None]
-    elif id_type in ["Ensembl", "EnsemblProtein"]:
-        results, failed = ensg.get_latest_ensembl_id(nodes)
-    elif id_type == "Entrez":
-        results, failed = get_mygene(nodes, 'entrezgene')
-        results.index = results.index.astype(str)
-        results["to"] = results["to"].astype(str)
-        results["from"] = results["from"].astype(str)
-    elif id_type == "DIP":
-        dip_ids = [n for n in nodes if "DIP-" in n]
-        results = pd.DataFrame({"to":dip_ids, "from":dip_ids})
-        failed = [n for n in nodes if "DIP-" not in n]
-    elif id_type == "Refseq":
-        refseq_ids = [n for n in nodes if "_" in n]
-        results = pd.DataFrame({"to":refseq_ids, "from":refseq_ids})
-        failed = [n for n in nodes if "_" not in n]
-
-    # process the final data
-    if keep == "updated":
-        results = results.loc[results["from"] != results["to"]]
-    elif keep == "all":
-        results = pd.concat([results, pd.DataFrame({"from": failed, "to": np.nan})], axis=0)
-    # convert to a dictionary
-    if len(results) > 0:
-        results = results.set_index('from')
-        updated_node_map = results["to"].to_dict()
-    else:
-        updated_node_map = {}
-    timer.end("Update Nodes")
-    return updated_node_map, failed
-    
-def convert_node_ids_x(nodes, initial_id, target_id, timer=None):
-    """ Converts nodes between two different identifier types
-
-    Args:
-        nodes (set): Set of nodes to be converted
-        initial_id (str): Identifier type of input nodes
-        target_id (str): Identifier type to be converted to
-        
-    Returns:
-        dict: mapping between input nodes and new identifier
-        set: nodes that were not able to be mapped to new identifiers.
-    """
-    # TODO can any of these be looped together?
-    # TODO for multiple Ids will need to split and do each separately. 
-    mygene_fields = {"Symbol": "symbol", "Entrez": 'entrezgene', "Uniprot": "uniprot", "Ensembl": "ensembl.gene",
-                    "Refseq":"refseq", "EnsemblProtein":"ensembl.protein"}
-    if timer is None:
-        timer = Timer()
-    timer.start("Convert node IDs")
-    if (initial_id == "Symbol") and (target_id == 'Entrez'):
-        # we will use mygeneinfo to do the conversion...
-        converted_df, missing = query_mygene(nodes, "symbol", "entrezgene")
-        converted_node_map = converted_df.dropna(subset=["_id"])["_id"].to_dict()
-        if len(missing) > 0:
-            missing_map, still_missing = hgnc.query_other_id(missing, "Entrez")
-            converted_node_map = {**converted_node_map, **missing_map}
-        else:
-            still_missing=missing
-    elif (initial_id == "Entrez") and (target_id == "Symbol"):
-        converted_df, still_missing = get_mygene(nodes, "symbol")
-        converted_df["from"] = converted_df["from"].astype(str)
-        converted_df.index = converted_df.index.astype(str)
-        converted_node_map = converted_df["to"].to_dict()
-    elif (initial_id == "Uniprot") or (initial_id == "DIP"):
-        if (initial_id == "DIP"):
-            dip_df, missing_dip = uni.perform_uniprot_query(ids = nodes, from_db="DIP", to_db="Uniprot")
-            dip_df['from'] = dip_df['from'].astype(str)
-            dip_df['to'] = dip_df['to'].astype(str)
-            if (target_id == "Uniprot"):
-                return
-            else:
-                nodes = dip_df["to"].unique()
-        
-        converted_df, still_missing = uni.perform_uniprot_query(ids = nodes, from_db="UniProtKB_AC-ID", to_db=target_id)
-        converted_df['from'] = converted_df['from'].astype(str)
-        converted_df.index = converted_df["from"]
-        converted_df['to'] = converted_df['to'].astype(str)
-        converted_node_map = converted_df['to'].to_dict()
-        # secondary check for missing ids. 
-        if len(still_missing) > 0:
-            secondary, still_missing = query_mygene(still_missing, scopes='uniprot', fields=mygene_fields[target_id])
-            if mygene_fields[target_id] in secondary.columns:  #otherwise none were found
-                
-                secondary = secondary.dropna(subset=[mygene_fields[target_id]])
-                secondary[mygene_fields[target_id]] = secondary[mygene_fields[target_id]].astype(str)
-                # add to the node map
-                converted_node_map = {**converted_node_map, **secondary[mygene_fields[target_id]].to_dict()}
-        # third check for missing ids (convert first to symbol via uniprot and then to Entrez
-        if len(still_missing) > 0:
-            missing_df, still_missing = uni.perform_uniprot_query(ids = set(still_missing), from_db="UniProtKB_AC-ID", to_db='Symbol')
-            if len(missing_df) > 0:
-                tertiary, still_missing = query_mygene(missing_df["to"].values, scopes='symbol', fields=mygene_fields[target_id])
-                still_missing = list(missing_df[missing_df["to"].isin(still_missing)]["from"])
-                missing_df.index = missing_df["from"]
-                missing_dict= missing_df["to"].to_dict()
-                if mygene_fields[target_id] in tertiary.columns:
-                    tertiary = tertiary.dropna(subset=[mygene_fields[target_id]])
-                    tertiary["input"] = tertiary.index.values
-                    tertiary = tertiary.drop_duplicates(subset=[mygene_fields[target_id], "input"])
-                    tertiary_dict = {}
-                    for node in missing_dict:
-                        if missing_dict[node] in tertiary.index.values:
-                            tertiary_dict[node] = tertiary.loc[missing_dict[node], mygene_fields[target_id]]
-                    converted_node_map = {**converted_node_map, **tertiary_dict}
-        if (initial_id == "DIP"):
-            uniprot_df = pd.DataFrame.from_dict(converted_node_map, orient="index", columns=["target"])
-            full_df = dip_df.join(uniprot_df, on="to", how="left")
-            full_df.dropna(inplace=True)
-            full_df.index = full_df["from"]
-            converted_node_map = full_df["target"].to_dict()
-            still_missing = missing_dip + list(set(dip_df["from"]).difference(set(full_df["from"])))
-        
-    elif initial_id in ["Ensembl", "Refseq", "EnsemblProtein"]:
-        converted_df, still_missing = query_mygene(nodes, scopes=mygene_fields[initial_id], fields=mygene_fields[target_id])
-        converted_df = converted_df.dropna(subset=[mygene_fields[target_id]])
-        converted_node_map = converted_df[mygene_fields[target_id]].to_dict()
-        
-    timer.end("Convert node IDs")
-    return converted_node_map, still_missing
-
-def query_mygene_x(gene_list, scopes, fields, retries=10):
-    mg = mygene.MyGeneInfo()
-    for retry in range(retries):
-        try:
-            results_df = mg.querymany(qterms=gene_list, scopes=scopes, fields=fields, species='human', 
-                                returnall=True, verbose=False, as_dataframe=True, entrezonly=True)
-            break
-        except Exception as e:
-            if retry < retries - 1:
-                #print("PF", gene_list)
-                print(f"Retrying mg.querymany: {e}")
-            else:
-                print("Max retries reach for mg.querymany")
-                raise e
-    mapped = results_df["out"]
-    dups = results_df["dup"]
-    missing = results_df["missing"]
-    unmapped = []
-    if len(dups) > 0:
-        unmapped += list(results_df["dup"]["query"].values)
-    if len(missing) > 0:
-        unmapped += list(results_df["missing"]["query"].values)
-    return mapped, unmapped
-
-def get_mygene_x(gene_list, target_id, retries=10):
-    mg = mygene.MyGeneInfo()
-    for retry in range(retries):
-        try:
-            results = mg.getgenes(gene_list, as_dataframe=True, fields=target_id)
-            break
-        except Exception as e:
-            if retry < retries - 1:
-                print(f"Retrying mg.getgenes: {e}")
-            else:
-                print("Max retries reach for mg.getgenes")
-                raise e
-    failed = list(results.loc[results[target_id].isna()].index.values)
-    results = results.dropna(subset=[target_id])
-    results["from"] = results.index.values
-    results = results.loc[:, ("from", target_id)]
-    results.columns = ["from", "to"]
-    
-    return results, failed
-
     
 def extract_id_with_prefix(id_str, pref_sep):
-    add_back_prefixes = ["DIP-", "ESNG", "ESNP"]
+    """Extracts the gene identifier from a string containing a prefix and separator
+    
+    Args:
+        id_str (str): String containing the gene identifier
+        pref_sep (str): Prefix and separator for the gene identifier
+        
+    Returns:
+        str: Extracted gene identifier
+    
+    """
+    add_back_prefixes = ["DIP-", "ESNG", "ESNP"] # prefixes that are actually part of gene identifiers
     if isinstance(pref_sep[0], str):
         # Handle case where pref_sep contains a single string
         prefix = pref_sep[0]
@@ -240,6 +48,15 @@ def extract_id_with_prefix(id_str, pref_sep):
 
 
 def clean_score(score):
+    """Extracts a numeric score from a string with a score
+    
+    Args:
+        score (str): String containing a score
+        
+    Returns:
+        float: Extracted score or NA if no score is found
+    
+    """
     try:
         score = float(score)
         return score
@@ -256,12 +73,30 @@ def clean_score(score):
         return pd.NA
 
 
-
 class NetworkData:
+    """Class for processing and converting network data based on configuration parameters
+    
+    Args:
+        datafile (str): File path to the data file
+        node_a (str): Column name of the first node
+        node_b (str): Column name of the second node
+        identifiers (str or list): Identifier type(s) for the input data
+        target_id_type (str): Identifier type to convert to
+        net_name (str): Name to give the network
+        score (str): Column name for column containing scores for the interactions. Default None.
+        species (str): Column name(s) containing species information for a given interaction. Default None.
+        species_code (str): Value with species columns indicating interactions to keep. Default None.
+        sep (str): Separator for the input data file. Default '\t'.
+        header (int): Row number of the header. Default 0
+        test_mode (bool): True if in test mode (process first 10000 interactions only). Default False.
+        prefixes (str): Prefix and separator for the gene identifiers. Default None.
+        
+    """
     def __init__(self, datafile, node_a, node_b, identifiers, target_id_type, net_name, score=None, species=None, species_code=None, sep="\t", header=0, test_mode=False, prefixes=None):
         test_size=10000
         self.T = Timer()
         self.T.start("Total")
+        self.datafile = datafile
         assert os.path.exists(datafile), "File not found, check path"
         available_id_types = ["Symbol", "Entrez", "Uniprot", "Ensembl", "DIP", "Refseq", "EnsemblProtein"]
         assert species is None or ((species is not None) and (species_code is not None)), "If species column is given, a corresponding value representing the species must be given"
@@ -273,6 +108,7 @@ class NetworkData:
         self.score = score
         if (self.score is not None) and (type(self.score) == str):
             if "[p]" in self.score:
+                # check if scores are p-values (as the best scores are the smallest values in this case)
                 self.score = self.score.split("[p]")[0]
                 self.score = int(self.score) if self.score.isnumeric() else self.score
                 self.score_is_p = True
@@ -283,6 +119,7 @@ class NetworkData:
             
         self.node_a = node_a
         self.node_b = node_b
+        # if only one node column is given, the data is assumed to be a list of complexes
         self.complexes = True if self.node_b is None else False
         
         all_cols = [self.node_a, self.node_b, self.score] + self.species if self.two_species_cols else [self.node_a, self.node_b, self.score, self.species]
@@ -314,16 +151,13 @@ class NetworkData:
             
         self.T.end("Load data")
         # Check that the columns are in the data
-        #print(self.raw_data.head())
         assert self.node_a in self.raw_data.columns,str(node_a) + " is not present as a column in the data"
         assert (self.node_b in self.raw_data.columns, str(node_b)) or self.node_b is None, + " is not present as a column in the data"
         
         if self.score is not None:
             assert self.score in self.raw_data.columns, str(score) + " is not present as a column in the data"
             self.score_subset = pd.DataFrame()
-        
-        #print(self.raw_data.columns)
-        #print(self.raw_data.iloc[1])
+
         print(self.raw_data.head())
         if self.species is not None:
             if self.two_species_cols:
@@ -339,13 +173,26 @@ class NetworkData:
                 #print(self.species_code, type(self.species_code))
                 assert species_code in self.raw_data[self.species].values, "The `species_code` "+ str(species_code) + " is not present in the `species` column"
 
-            
         # create dictinary for tracking the stats
         self.stats = {"edges":{"raw":len(self.raw_data)}, "nodes":{}}
         
-    def import_data(self, datafile, header, sep, net_name, test_mode=True, test_size=1000):
+    def import_data(self, datafile, header, sep, net_name, test_mode=True, test_size=10000):
+        """Imports the data from a file and loads it to the class
+        
+        Args:
+            datafile (str): File path to the data file
+            header (int): Row number of the header
+            sep (str): Separator for the input data file
+            net_name (str): Name to give the network
+            test_mode (bool): True if in test mode (process first 10000 interactions only)
+            test_size (int): Number of interactions to process in test mode. Default 10000.
+            
+        Returns:
+            None
+        """
         chars = ['"', "@", ""]
         quoting = csv.QUOTE_ALL
+        # Try to load the data with different quote characters
         for i, quotechar in enumerate(chars):
             quoting = csv.QUOTE_NONE if i == (len(chars) - 1) else csv.QUOTE_ALL
             index=None
@@ -377,14 +224,23 @@ class NetworkData:
         # Intialize an index column:
         self.data[net_name+"_ID"] = self.data.index.values
         self.cols.append(net_name+"_ID")
-    
-    #@profile
+
     def clean_data(self):
+        """Cleans the data by removing columns, filtering by species, binarizing complexes, and sorting node pairs
+        
+        Args:
+            None
+            
+        Returns:
+            None
+        """
         self.T.start("Clean data")
         self.data = self.data.loc[:, self.cols]
+        # binarize complexes
         if self.complexes:
             self.binarize_complexes()
         self.data = self.data.dropna(subset=[self.node_a, self.node_b])
+        # sort node pairs for easier identification of duplicates
         self.sort_node_pairs()
         self.stats["nodes"]["raw"] = len(self.get_unique_nodes())
         # keep just the desired species data, then remove the column
@@ -400,7 +256,7 @@ class NetworkData:
             self.data.drop(columns = self.species, inplace=True)
             self.stats["edges"]["species"] = len(self.data)
             
-        # drop duplicates, in the case of dscored edges keep the highest scoring if there is a duplicate
+        # drop duplicates, in the case of discordant edges keep the highest scoring if there is a duplicate
         if self.score is not None:
             if len(self.data[self.score].unique()) <= 1:
                 self.data.drop(columns=[self.score])
@@ -417,6 +273,8 @@ class NetworkData:
                 except ValueError:
                     self.data[self.score] = self.data[self.score].apply(lambda x: clean_score(x))
                 self.data.sort_values(by=self.score, ascending=False, inplace=True)
+                
+        # extract gene identifiers from prefixes
         self.extract_from_prefixes()        
         self.stats["edges"]["Node prefix"] = len(self.data)
         self.data.drop_duplicates(inplace=True, subset=[self.node_a, self.node_b])
@@ -428,22 +286,19 @@ class NetworkData:
         self.T.end("Clean data")
         
     def binarize_complexes(self):
+        """Binarizes the complex data by creating pairwise combinations of the complex members
+        
+        Args:
+            None
+            
+        Returns:
+            None
+        """
         results = []
         if any(["_HUMAN" in node for node in self.data[self.node_a].values]):
             separators = "[:,\|\.]"
         else:
             separators = "[:,\|_]"
-        # separator = None
-        # idx=0
-        # while separator is None:
-        #     comp = self.data.iloc[idx][self.node_a]
-        #     try:
-        #         if "_HUMAN" in comp:
-        #             separator = re.search("[:,\|]", comp).group()
-        #         else:
-        #             separator = re.search("[:,\|_]", comp).group()
-        #     except AttributeError:
-        #         idx += 1
         # Iterate over the rows of the input data frame to create a mapping of complex string to pairwise ids
         for comp in self.data[self.node_a]:
             # Get the list of IDs and the values for the other columns
@@ -463,10 +318,16 @@ class NetworkData:
         self.node_a = "NodeA"
         self.node_b = "NodeB"
         self.cols = self.cols + ["NodeA", "NodeB"]
-        
-
                 
     def extract_from_prefixes(self):
+        """Extracts gene identifiers from prefixes
+        
+        Args:
+            None
+            
+        Returns:
+            None
+        """
         if (self.prefix is not None) and (not self.mixed_identifiers):
             new_nodes_a = self.data[self.node_a].apply(lambda x: extract_id_with_prefix(x, self.prefix))
             new_nodes_b = self.data[self.node_b].apply(lambda x: extract_id_with_prefix(x, self.prefix))
@@ -475,6 +336,15 @@ class NetworkData:
             self.data.dropna(subset=[self.node_a,self.node_b])  
             
     def sort_node_pairs(self):
+        """Sorts the node pairs in the data
+        
+        Args:
+            None
+            
+        Returns:
+            None
+        """
+            
         self.T.start("Sort nodes")
         node_array = self.data.loc[:, (self.node_a, self.node_b)].to_numpy()
         try:
@@ -493,6 +363,12 @@ class NetworkData:
                 print(self.data.head())
                 print(node_array)
                 raise e
+        except ValueError as e:
+                print(self.data.head())
+                print(node_array)
+                # save to the directory of datafile
+                np.savetxt(X=node_array, fname=os.path.dirname(self.datafile) + "/node_array.txt", fmt='%s')
+                raise e
         sorted_data = pd.DataFrame(node_array)
         sorted_data.columns = [self.node_a, self.node_b]
         if self.data.shape[1] > 2:
@@ -502,6 +378,15 @@ class NetworkData:
         self.T.end("Sort nodes")
     
     def get_unique_nodes(self, score_subset=False):
+        """Gets the unique nodes in the data
+        
+        Args:
+            score_subset (bool): True if the unique nodes are for the score subset. Default False.
+            
+        Returns:
+            set: Unique nodes in the data
+            
+        """
         self.T.start("Unique nodes")
         if not score_subset:
             n_a = self.data[self.node_a].unique()
@@ -514,16 +399,20 @@ class NetworkData:
         self.T.end("Unique nodes")
         return all_nodes
     
-    #@profile
     def convert_nodes(self):
-        """Updates and converts node identifiers, and then converts all edges to new identifiers. When the input data contains multiple input
+        """Wrapper for updating and converting node identifiers, and then converting all edges to new identifiers. When the input data contains multiple input
         types, they are converted in order. 
+        
+        Args:
+            None
+            
+        Returns:
+            None
         """
         self.T.start("Convert nodes")
         gene_map = {}
         all_nodes = self.get_unique_nodes()
-        #add_nodes = ['CBWD2_HUMAN', 'BUB1_HUMAN', 'MYO3A_HUMAN', 'NUD10_HUMAN', 'NHLC1_HUMAN', 'SRP72_HUMAN', 'NOX4_HUMAN', 'CACO1_HUMAN', 'HDGF_HUMAN', 'ZC3HE_HUMAN', 'ABI2_HUMAN', 'UBN1_HUMAN', 'PI42C_HUMAN', 'DUOX2_HUMAN', 'Myosin 5A', 'SC24C_HUMAN', 'DHE4_HUMAN', 'THIO_HUMAN', 'CIP4_HUMAN', 'PLK4_HUMAN', 'TRI27_HUMAN', 'NOT7', 'Fibrocystin;PARD3', 'KCNA2_HUMAN', 'MTCH1_HUMAN', 'ZSWM7_HUMAN', 'FBLN3_HUMAN', 'PAHX_HUMAN', 'CAH2_HUMAN', 'CTDS2_HUMAN', 'UBP53_HUMAN', 'GRP75_HUMAN', 'TM9S1_HUMAN', 'NMT2_HUMAN', 'STXB1_HUMAN', 'NELL2_HUMAN', 'MMP8_HUMAN', 'U1SBP_HUMAN', 'RPP30_HUMAN', 'WFS1_HUMAN', 'AGO1_HUMAN', 'ERN1_HUMAN', 'CFTR_HUMAN', 'ACOD_HUMAN', 'QARS', 'UB2V1_HUMAN;Ubiquitin conjugating enzyme E2 Kua-UEV', 'CENPB_HUMAN', 'PP2AB_HUMAN', 'FLT3_HUMAN', 'DYL1_HUMAN', 'STX4_HUMAN', 'PNO1_HUMAN', 'HXA2_HUMAN', 'HIST1H2AC', 'NAPSA_HUMAN', 'CDK1_HUMAN', 'PSMF1_HUMAN', 'OLIG3_HUMAN', 'Clathrin adaptor complex AP2, MU subunit', 'PADC1_HUMAN', 'Chorionic gonadotropin beta polypeptide 5;Chorionic gonoadotropin, beta chain', 'FA86C_HUMAN', 'Intercellular adhesion molecule 5', 'GLRX2_HUMAN', 'SHIP1_HUMAN', 'DDX58_HUMAN', 'Transcription initiation factor IIB', 'SPYA_HUMAN', 'FOSB_HUMAN', 'HNF6_HUMAN', 'RD23B_HUMAN', 'CO8A1_HUMAN', 'CX04A_HUMAN', 'TPM1_HUMAN', 'EFHC1_HUMAN', 'COIA1_HUMAN', 'FGF receptor 3', 'Placental ribonuclease inhibitor']
-        #all_nodes = all_nodes.union(set(add_nodes))
+        # create a node map
         if self.mixed_identifiers:
             unmapped = all_nodes
             print("# UNMAPPED", len(unmapped))
@@ -539,10 +428,10 @@ class NetworkData:
                         id_map = {node: clean_map[clean_nodes[node]] for node in clean_nodes if clean_nodes[node] in clean_map}
                     else:
                         id_map = self.get_node_conversion_map(unmapped, id_type, self.target_id_type)
-                        #print(len(id_map))
+
                     # catch ids not in all_nodes
                     gene_map = {**gene_map, **id_map}
-                    #print("# UNMAPPED - ID_MAP = ", len(unmapped) - len(id_map))
+
                     unmapped = all_nodes.difference(set(gene_map.keys()))
                     modified = [node for node in id_map.keys() if node not in all_nodes]
                     if len(modified) > 0:
@@ -554,7 +443,6 @@ class NetworkData:
                                     unmapped.remove(matched_node)
                                     modified_map[matched_node] = id_map[node]
                         gene_map = {**gene_map, **modified_map}
-                    #print("ACTUAL UNMAPPED", len(unmapped))
             node_map = gene_map
         else:
             node_map = self.get_node_conversion_map(all_nodes, self.identifiers, self.target_id_type)
@@ -565,20 +453,21 @@ class NetworkData:
         print("END UNMAPPED NODES")
         self.stats["nodes"]["unmapped"] = len(unmapped_nodes)
         self.stats["nodes"]["mapped"] = len(all_nodes) - len(unmapped_nodes)
+        # use the node map to convert node identifiers
         self.convert_edges(node_map, unmapped_nodes)
         print("Converted")
         self.T.end("Convert nodes")
     
     def get_node_conversion_map(self, nodes, initial_id, target_id):
-        """_summary_
+        """Gets a mapping of node identifiers from the initial identifier to the target identifier. First updates the identifiers to the latest version, then converts the identifiers.
 
         Args:
-            nodes (_type_): _description_
-            initial_id (_type_): _description_
-            target_id (_type_): _description_
-
+            nodes (set): Set of node identifiers
+            initial_id (str or list): Initial identifier type
+            target_id (str): Target identifier type
+            
         Returns:
-            _type_: _description_
+            dict: Mapping of node identifiers from the initial identifier to the target identifier
         """
         # this must return a 1:1 mapping
         self.T.start("Get node conversion map")
@@ -594,28 +483,19 @@ class NetworkData:
                 for node in updated_id_map.keys():
                     if updated_id_map[node] in converted_map.keys(): # to catch nodes that were updated but not mapped to target identifier
                         node_map[node] = converted_map[updated_id_map[node]]
-            #match updated_id_map and node_map to remove intermediate updates
-            #updated_df = pd.DataFrame() # to allow conversion of successive mappings
-        
         self.T.end("Get node conversion map")
         return node_map
-    
-    #@profile
-    def convert_edges_old(self, node_map, unmapped_nodes):
-        # first remove edges with unmapped nodes
-        self.T.start("Convert edges")
-        self.T.start("Remove unmapped")
-        self.data = self.data.loc[((~self.data[self.node_a].isin(unmapped_nodes)) & (~self.data[self.node_b].isin(unmapped_nodes)))]
-        self.T.end("Remove unmapped")
-        self.stats['edges']['mapped'] = len(self.data)
-        # convert node a and node b
-        self.T.start("Replace")
-        self.data.replace(to_replace={self.node_a:node_map, self.node_b: node_map}, inplace=True)
-        self.T.end("Replace")
-        self.T.end("Convert edges")
         
     def convert_edges(self, node_map, unmapped_nodes):
-        # did I need the deep copy??
+        """Converts the node identifiers in the data
+        
+        Args:
+            node_map (dict): Mapping of node identifiers from the initial identifier to the target identifier
+            unmapped_nodes (set): Set of unmapped node identifiers
+            
+        Returns:
+            None
+        """
         self.T.start("Convert edges")
         self.T.start("Remove unmapped")
         self.data = self.data.loc[((~self.data[self.node_a].isin(unmapped_nodes)) & (~self.data[self.node_b].isin(unmapped_nodes)))]
@@ -630,22 +510,46 @@ class NetworkData:
         self.T.end("Convert edges")
 
     def subset_on_score(self, score_col, percentile):
+        """Subsets the data based on a score column and a percentile
+        
+        Args:
+            score_col (str): Column name for the score
+            percentile (int): Percentile to use for the subset
+            
+        Returns:
+            None
+            
+        """
         if self.score is not None:
             # assign minimum score to NA values 
             replace_na = min(0, self.data[self.score].min())
             self.data.loc[self.data[self.score].isna(), self.score] = replace_na
             cutoff = np.percentile(self.data[self.score].values, percentile)
-            # are all scores high=better?
             self.score_subset = self.data.loc[self.data[self.score] > cutoff]
             self.stats['edges']['score_subset'] = len(self.score_subset)
             self.stats['nodes']['score_subset'] = len(self.get_unique_nodes(score_subset=True))
     
     def remove_duplicates(self):
+        """Removes duplicate edges"""
         self.sort_node_pairs()
         self.data = self.data.drop_duplicates(subset=[self.node_a, self.node_b])
         self.stats["edges"]["de-duped_final"] = len(self.data)
         
-    def write_network_data(self, outpath, percentile=97):
+    def remove_self_edges(self):
+        """Removes self edges"""
+        self.data = self.data.loc[self.data[self.node_a] != self.data[self.node_b]]
+        self.stats["edges"]["removed_self_edges"] = len(self.data)
+        
+    def write_network_data(self, outpath, percentile=90):
+        """Writes the processed network data to a file
+        
+        Args:
+            outpath (str): Output path for the network data
+            percentile (int): Percentile to use for the score subset. Default 90.
+            
+        Returns:
+            None
+        """
         # rename columns
         self.T.start("Write data")
         final_names= {self.node_a: self.target_id_type + "_A", self.node_b: self.target_id_type + "_B", self.net_name+"_ID": "ID"}
@@ -667,175 +571,15 @@ class NetworkData:
         self.T.end("Total")
             
     def write_stats(self, outpath):
+        """Writes the processing stats to a file
+        
+        Args:
+            outpath (str): Output path for the stats file
+            
+        Returns:
+            None
+        """
         stats_df = pd.DataFrame.from_dict(self.stats)
         stats_df.to_csv(outpath + self.net_name + ".stats", sep="\t", index=True)
         self.T.print_all_times()
     
-if __name__=="__main__":
-    if True:
-        datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Final_Download/ProteomeHD/ProteomeHD.csv"
-        nd = NetworkData(datafile, node_a="protein_X", node_b="Coreg_with_protein_X", 
-                        target_id_type='Entrez',  identifiers='Uniprot',score=None,
-                        header=0, net_name="prothd", test_mode=True, sep=",", prefixes=[('', ';')])
-        outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_final/"
-        nd.clean_data()
-        nd.convert_nodes()
-        final_nodes = nd.get_unique_nodes()
-        nd.write_network_data(outpath)
-        nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/PIPs/PredictedInteractions100.txt"
-    nd = NetworkData(datafile, node_a='Name1', node_b='Name2', 
-                    target_id_type='Entrez',  identifiers='Symbol', 
-                    header=0, net_name="pips", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-    
-    
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/ComPPI/comppi--compartments--tax_hsapiens_loc_all.txt.gz"
-    nd = NetworkData(datafile, node_a="Interactor A", node_b="Interactor B", score="Interaction Score",
-                    target_id_type='Entrez',  identifiers='Uniprot',
-                    header=0, net_name="test", test_mode=False, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-    
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/Composite_Datasets/huMAP/humap2_ppis_geneid_20200821.pairsWprob.gz"
-    nd = NetworkData(datafile, node_a=0, node_b=1, score=2,
-                    target_id_type='Entrez',  identifiers=['Entrez', 'Ensembl'], 
-                    header=None, net_name="humap", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analyqsis/Network_Data_Raw/IntAct/intact_test.txt"
-    nd = NetworkData(datafile, node_a=0, node_b=1, score=None,
-                    target_id_type='Entrez',  identifiers='Uniprot', prefixes=[("uniprotkb:")],
-                    header=None, net_name="intact_b_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/InBio_Map_core_2016_09_12/core.psimitab"
-    nd = NetworkData(datafile, node_a=0, node_b=1, score=14,
-                    target_id_type='Entrez',  identifiers='Uniprot', prefixes=[("uniprotkb:")],
-                    header=None, net_name="InBio_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/HI-II-14.tsv"
-    nd = NetworkData(datafile, node_a=0, node_b=1, 
-                    target_id_type='Entrez',  identifiers='Ensembl', 
-                    header=None, net_name="HI_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/DIP_Hsapi20170205.txt"
-    nd = NetworkData(datafile, node_a="ID interactor A", node_b="ID interactor B", 
-                    target_id_type='Entrez',  identifiers=["DIP", "Uniprot"],
-                    header=0, net_name="dip_test", test_mode=True, sep="\t", 
-                    prefixes=[("DIP-", "|"), ("uniprotkb:", "|")], species_code="taxid:9606(Homo sapiens)",
-                    species=["Taxid interactor A", "Taxid interactor B"])
-    #nd.data = pd.concat([nd.data, pd.DataFrame({"Gene_A": 'A6NKP2', "Gene_B": "P48506", "Weight": 1}, index=[101])])
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/HI-II-14.tsv"
-    nd = NetworkData(datafile, node_a=0, node_b=1, 
-                    target_id_type='Entrez',  identifiers='Ensembl',
-                    header=None, net_name="HI_test", test_mode=True, sep="\t")
-    #nd.data = pd.concat([nd.data, pd.DataFrame({"Gene_A": 'A6NKP2', "Gene_B": "P48506", "Weight": 1}, index=[101])])
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/GeneMania_2021_COMBINED.DEFAULT_NETWORKS.BP_COMBINING.txt"
-    nd = NetworkData(datafile, node_a="Gene_A", node_b="Gene_B", 
-                    target_id_type='Entrez',  identifiers=['Uniprot', 'Ensembl'], score="Weight",
-                    header=0, net_name="genemania_test", test_mode=True, sep="\t")
-    #nd.data = pd.concat([nd.data, pd.DataFrame({"Gene_A": ['A6NKP2', "ENSG00000260342"], "Gene_B": ["Q96PG1", "ENSG00000188897"], "Weight": [1,1]}, index=[100,101])])
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/BioPlex_293T_Network_10K_Dec_2019.tsv"
-    nd = NetworkData(datafile, node_a="GeneA", node_b="GeneB", 
-                    target_id_type='Symbol',  identifiers='Entrez', 
-                    header=0, net_name="bioplex_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/BIOGRID/BIOGRID-ORGANISM-Homo_sapiens-4.4.213.tab3.txt"
-    nd = NetworkData(datafile, node_a="Entrez Gene Interactor A", node_b="Entrez Gene Interactor B", species="Organism ID Interactor A", 
-                    target_id_type='Entrez',  identifiers='Entrez', species_code=9606, 
-                    score="Score", header=0, net_name="BIOGRID_entrex_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)
-
-
-if False:
-    datafile = "/cellar/users/snwright/Data/Network_Analysis/Network_Data_Raw/PathwayCommons/PathwayCommons.8.bind.BINARY_SIF.hgnc.txt.sif"
-    nd = NetworkData(datafile, node_a=0, node_b=2, species=None, 
-                    target_id_type='Entrez',  identifiers='Symbol', 
-                    header=None, net_name="bind_test", test_mode=True, sep="\t")
-    outpath = "/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/"
-    nd.clean_data()
-    nd.convert_nodes()
-    final_nodes = nd.get_unique_nodes()
-    nd.write_network_data(outpath)
-    nd.write_stats(outpath)

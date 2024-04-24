@@ -1,10 +1,17 @@
 import argparse
 from neteval.processing_functions import *
-from neteval.gene_mapper import query_mygene
-import pandas as pd
-import csv
+
 
 def parse_species(cols, value):
+    """Parse the species columns and value inputs for species filtering
+
+    Args:
+        cols (str): Raw column names or index of the species column(s) from configuration file
+        value (str): Raw value corresponding to the species to keep interactions for from configuration file
+
+    Returns:
+        Parsed values for column and species code
+    """
     if cols == "None":
         species = None
         species_code = None
@@ -25,6 +32,15 @@ def parse_species(cols, value):
     return cols, species_code
 
 def parse_prefix(pref_sep):
+    """Parse the prefix and separator for the gene identifiers
+    
+    Args:
+        pref_sep (str): Raw prefix and separator for gene identifiers from configuration file
+        
+    Returns:
+        Parsed prefix and separator
+    
+    """
     results = []
     if "[" in pref_sep:
         pairs = pref_sep.split("],")
@@ -38,10 +54,7 @@ def parse_prefix(pref_sep):
         return prefs
     else:
         return [pref_sep]
-        
-        
-
-
+    
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Process Network Data.')
@@ -59,12 +72,12 @@ if __name__=="__main__":
     parser.add_argument('--testMode', default='0')
     parser.add_argument('--sep', default="\t")
     parser.add_argument('--prefix', default="None")
+
+    # Collect and check arguments
     args = parser.parse_args()    
-    #print(args.A, args.B)
-    #print(args.B.isnumeric())
+
     node_a = int(args.A) if args.A.isnumeric() else args.A
     node_b = int(args.B) if args.B.isnumeric() else None if args.B == "None" else args.B
-    #print(type(node_a), type(node_b))
 
     species, species_code = parse_species(args.species, args.species_value)
     
@@ -80,38 +93,25 @@ if __name__=="__main__":
         sep = "\s+"
     else:
         sep = args.sep
-    
-    #print(node_a, node_b, species, score, header)
-    #print(type(header))
-    print(args)
-    if False:
-        nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
-                    score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
-                    prefixes=prefixes)
-        nd.clean_data()
-        original_nodes = nd.get_unique_nodes()
-        mygene_fields = {"Symbol": "symbol", "Entrez": 'entrezgene', "Uniprot": "uniprot", "Ensembl": "ensembl.gene",
-                    "Refseq":"refseq", "EnsemblProtein":"ensembl.protein"}
-        scopes = ",".join([mygene_fields[x] for x in args.i])
-        fields = mygene_fields[args.t]
-        mapped, unmapped = query_mygene(original_nodes, scopes, fields, retries=10)
-        save_file = "/cellar/users/snwright/Data/Network_Analysis/mapping_test.txt"
-        with open(save_file, "a") as f:
-            f.write("\t".join([args.N, str(len(original_nodes)), str(len(unmapped))])+"\n")
 
-    
+    print(args)
 
     if True:
+        # load the network
         nd = NetworkData(args.datafile, node_a=node_a, node_b=node_b, species=species, target_id_type=args.t,  identifiers=args.i,
                     score=score, species_code=species_code,header=header, net_name=args.N, test_mode=run_in_test_mode, sep=sep,
                     prefixes=prefixes)
+        # clean the data and convert gene identifiers
         nd.clean_data()
         nd.convert_nodes()
         try:
             final_nodes = nd.get_unique_nodes()
         except:
             pass
+        # remove duplicate and self edges
         nd.remove_duplicates()
+        nd.remove_self_edges()
+        # write the processed network (including score subset if applicable)
         nd.write_network_data(args.o, percentile=90)
         nd.write_stats(args.o)
         print("Processing of", args.N, "completed.")

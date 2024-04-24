@@ -128,9 +128,10 @@ def query_other_id(ids, target_id):
 # parse content with the json module 
             data = json.loads(content)
             for entry in data['response']['docs']:
-                if entry['status'] == "Approved":
-                    if field in entry.keys():
-                        target_map[symbol] = entry[field]
+                if 'status' in entry:
+                    if entry['status'] == "Approved":
+                        if field in entry.keys():
+                            target_map[symbol] = entry[field]
         else:
             print('Error detected: ' + response['status'], symbol)
     missing = set(ids).difference(set(target_map.keys()))
@@ -138,7 +139,11 @@ def query_other_id(ids, target_id):
 
 
 def search_gene_names(ids, approved_df=pd.DataFrame()):
-    name_df, _ = query_mygene(ids, scopes="name,other_names", fields='symbol')
+    try:
+        name_df, _ = query_mygene(ids, scopes="name,other_names", fields='symbol')
+    except KeyError as e:
+        print(ids)
+        raise e
     if 'symbol' in name_df.columns:
         name_df = name_df.dropna(subset=['symbol'])
         name_df = name_df.sort_values(by='_score', ascending=False)
@@ -168,9 +173,3 @@ def perform_hgnc_query(ids, from_id, to_id):
         # then any missing query HGNC on a case by case basis
         
         raise(NotImplementedError, "Only symbol updating supported")
-
-
-if False:
-    genes = ['CO041_HUMAN', 'Mastermind like 1', 'Cyclin dependent kinase 6', 'AMY1_HUMAN', 'RPL9P9', 'Protein farnesyltransferase alpha subunit', 'Deoxyribonuclease III', 'WDYHV1', 'Cadherin 23', 'PARTICIPANT', 'Suppressor of Ty 4 homolog 1', 'Cystathionine beta synthase', 'PRKC, apoptosis, WT1, regulator', 'GLCM_HUMAN', 'ERF1', 'C11orf1', 'Pyruvate dehydrogenase, beta polypeptide', 'ST5_HUMAN', 'Myeloid cell leukemia 1', 'Interleukin 5 receptor, alpha', 'Interferon induced protein with tetratricopeptide repeats 2', 'Ubiquitin conjugating enzyme E2N', 'C43BP_HUMAN', 'Neurexin 1', 'Keratin 14', 'TERF1 interacting nuclear factor 2']
-    a,b = search_gene_names(genes)
-    print(len(b))

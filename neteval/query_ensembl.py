@@ -44,28 +44,6 @@ def get_latest_ensembl_id(ids):
     missing = [node for node in ids if node not in results_df['from'].values]
     return results_df, missing
 
-
-def get_latest_ensembl_id_old(ids):
-    server = "https://rest.ensembl.org"
-    ext = "/archive/id"
-    headers={ "Content-Type" : "application/json", "Accept" : "application/json"}
-    #r = requests.post(server+ext, headers=headers, data='{ "id" : ["ENSG00000157764", "ENSG00000248378"] }')
-    r = requests.post(server+ext, headers=headers, data='{ "id" :' + json.dumps(list(ids)) +'}')
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
-    decoded = r.json()
-    # if node is missing nothing is returned
-    # When an entry is withdrawn it will get current=False/None. Can keep 
-    decoded_df = pd.DataFrame.from_dict(decoded)
-    decoded_df["to"] = decoded_df.apply(parse_archive_results, axis=1)
-    #print(decoded_df)
-    results_df = decoded_df.loc[:, ("id", "to")]
-    results_df.columns = ["from", "to"]
-    missing = [node for node in ids if node not in results_df['from'].values]
-    return results_df, missing
-
-
 def parse_archive_results(entry):
     if entry.is_current == 1:
         return entry.id
@@ -76,6 +54,7 @@ def parse_archive_results(entry):
 
 
 def ensembl_to_other():
+    raise NotImplementedError
     ensemble_dbs = {'Symbol': "HGNC", 'Entrez': "EntrezGene"}
     server = "https://rest.ensembl.org"
     ext = "/xrefs/id/ENST00000288602?all_levels=0;external_db=HGNC"
@@ -87,22 +66,7 @@ def ensembl_to_other():
     print(repr(decoded))
 
 def ensembl_to_uniprot():
-    pass
+    raise NotImplementedError
 
 def ensembl_to_entrez():
-    pass
-
-if __name__=='__main__':
-    ids = [ 'ENSG00000167183.2',
-    'ENSG00000280236.2',
-    'ENSG00000236582.1',
-    'ENSG00000231504.1',
-    'ENSG00000101188.4',
-    'ENSG00000244429.1',
-    'ENSG00000185319.5',
-    'ENSG00000263745.6',
-    'ENSG00000267662.1',
-    'ENSG00000276940.1',
-    'ENSG00000250903.8',]
-    results = get_latest_ensembl_id(ids)
-    print(results)
+    raise NotImplementedError

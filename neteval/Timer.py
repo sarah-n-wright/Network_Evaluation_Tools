@@ -1,6 +1,9 @@
 from datetime import datetime
 
 class Timer:
+    """ This class is a simple timer that allows for the tracking of time elapsed between starting and ending tasks.
+    It is useful for tracking time spent in different parts of a program or for timing different processes.
+    """
     def __init__(self):
         self.start_times = {}
         self.finish_times = {}

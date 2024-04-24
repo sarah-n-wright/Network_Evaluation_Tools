@@ -5,13 +5,7 @@ import neteval.query_hgnc as hgnc
 import neteval.query_ensembl as ensg
 from neteval.Timer import Timer
 import mygene
-import csv
 import re
-from itertools import combinations
-import os
-
-from datetime import datetime
-
 
 def update_nodes(nodes, id_type, keep="present", timer=None):
     """ Takes a set of node identifiers and updates them to the latest version of the same identifier type.
@@ -41,6 +35,8 @@ def update_nodes(nodes, id_type, keep="present", timer=None):
     elif id_type == "Symbol":
         exclude_prefix_suffix = ["CHEBI:", "_HUMAN"]
         query_nodes = [node for node in list(nodes) if re.search("|".join(exclude_prefix_suffix), node) is None]
+        if len(query_nodes) == 0:
+            print(nodes, exclude_prefix_suffix)
         results, failed = hgnc.perform_hgnc_query(query_nodes, "Symbol", "Symbol")
         results = pd.DataFrame.from_dict(results, orient="index", columns = ["to"])
         results["from"] = results.index.values
@@ -87,8 +83,6 @@ def convert_node_ids(nodes, initial_id, target_id, timer=None):
         dict: mapping between input nodes and new identifier
         set: nodes that were not able to be mapped to new identifiers.
     """
-    # TODO can any of these be looped together?
-    # TODO for multiple Ids will need to split and do each separately. 
     mygene_fields = {"Symbol": "symbol", "Entrez": 'entrezgene', "Uniprot": "uniprot", "Ensembl": "ensembl.gene",
                     "Refseq":"refseq", "EnsemblProtein":"ensembl.protein"}
     if timer is None:
@@ -212,5 +206,3 @@ def get_mygene(gene_list, target_id, retries=10):
     results.columns = ["from", "to"]
     
     return results, failed
-
-    
