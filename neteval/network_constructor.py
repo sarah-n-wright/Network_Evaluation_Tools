@@ -97,13 +97,13 @@ if __name__=="__main__":
         n_dict = defaultdict(int)
         e_dict = defaultdict(int)
         data_dict = defaultdict(list)
-        n_dict, e_dict, data_dict = get_unique_nodes_edges({net:node_f[net] for net in nets[:2]}, {net:edge_f[net] for net in nets[:2]}, node_pref=args.nodepref)
+        n_dict, e_dict, data_dict = get_unique_nodes_edges({net:node_f[net] for net in nets[:(args.n[0]-1)]}, {net:edge_f[net] for net in nets[:(args.n[0]-1)]}, node_pref=args.nodepref)
         assert len(args.n) == 1, "Only one minimum number of databases can be specified for ordered method."
-        for i in range(args.n[0], len(node_f)+1):
+        for i in range(args.n[0]-1, len(node_f)):
             n_dict, e_dict, data_dict = parse_file_network(node_f[nets[i]], edge_f[nets[i]], n_dict, e_dict, data_dict, nets[i], args.nodepref)
             #top_nets = nets[:i]
             #print(i, top_nets)
             #n_dict, e_dict, data_dict = get_unique_nodes_edges({net:node_f[net] for net in top_nets}, {net:edge_f[net] for net in top_nets}, node_pref=args.nodepref)
-            create_network_subset(e_dict, data_dict, args.o, min_dbs=args.n[0], node_pref=args.nodepref, name=args.name+str(i)+'_')
+            create_network_subset(e_dict, data_dict, args.o, min_dbs=args.n[0], node_pref=args.nodepref, name=args.name+str(i+1)+'_')
     
     
