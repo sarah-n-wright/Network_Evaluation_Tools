@@ -4,8 +4,6 @@ import requests
 import shutil
 import argparse
 
-## TODO for some reason this is not workigng. Might have to separate this kind of stuff out from the main package. 
-
 def download_file(url, out_dir):
     """
     Download a file from a URL and save it to the specified location.
@@ -32,6 +30,17 @@ def download_file(url, out_dir):
 
 
 def clean_gwas_catalog_data(datafile, outfile, pval_th=5e-8, include_intergenic=False):
+    """Clean the GWAS Catalog data and write to a new file.
+    
+    Args:
+        datafile (str): file path for GWAS Catalog data
+        outfile (str): output file for cleaned data
+        pval_th (float): p-value threshold for filtering
+        include_intergenic (bool): whether to include intergenic associations
+        
+    Returns:
+        None
+    """
     cols= ['DATE', 'PUBMEDID', 'DISEASE/TRAIT', 'MAPPED_GENE', 'SNP_GENE_IDS', 'P-VALUE', 'MAPPED_TRAIT', 'MAPPED_TRAIT_URI', 'INTERGENIC']
     if include_intergenic:
         cols = cols + ['UPSTREAM_GENE_ID', 'DOWNSTREAM_GENE_ID', 'UPSTREAM_GENE_DISTANCE', 'DOWNSTREAM_GENE_DISTANCE']
@@ -54,6 +63,20 @@ def clean_gwas_catalog_data(datafile, outfile, pval_th=5e-8, include_intergenic=
 
 
 def create_gwas_gene_sets(datafile, outfile, min_genes= 5, max_genes=500, include_intergenic=False, split_date=None):
+    """Create gene sets from GWAS Catalog data.
+    
+    Args:
+        datafile (str): file path for cleaned GWAS Catalog data
+        outfile (str): output file for gene sets
+        min_genes (int): minimum number of genes per gene set
+        max_genes (int): maximum number of genes per gene set
+        include_intergenic (bool): whether to include intergenic associations
+        split_date (str): date to split the data for time restricted gene sets
+        
+    Returns:
+        None
+    
+    """
     data = pd.read_csv(datafile, sep="\t")
     if split_date is not None:
         data['DATE'] = pd.to_datetime(data['DATE'])
@@ -78,6 +101,17 @@ def create_gwas_gene_sets(datafile, outfile, min_genes= 5, max_genes=500, includ
         write_gene_sets(gwas_sets, outfile)
     
 def process_gwas_genes(data, trait, intergenic=False):
+    """Get the genes associated with a trait from the GWAS Catalog data
+    
+    Args:
+        data (pd.DataFrame): GWAS Catalog data
+        trait (str): trait code
+        intergenic (bool): whether to include intergenic associations
+        
+    Returns:
+        set: set of genes associated with the trait
+    
+    """
     coding_data = data[((data['TRAIT_CODE']==trait) & (data['INTERGENIC']==0))]
     if len(coding_data) > 0:
         coding_genes = coding_data['SNP_GENE_IDS'].apply(lambda x: clean_gwas_gene_id(x))
@@ -93,8 +127,17 @@ def process_gwas_genes(data, trait, intergenic=False):
         
         
 def process_gwas_intergenic(data, trait):
+    """Extract genes associated with a trait from intergenic associations
+    
+    Args:
+        data (pd.DataFrame): GWAS Catalog data
+        trait (str): trait code
+        
+    Returns:
+        set: set of genes associated with the trait
+    
+    """
     trait_data = data[((data['MAPPED_TRAIT']==trait) & (data['INTERGENIC']==1))]
-    #TODO are there entries with only downstream or upstream only??
     trait_data.dropna(subset=["UPSTREAM_GENE_ID","UPSTREAM_GENE_DISTANCE",'DOWNSTREAM_GENE_DISTANCE','DOWNSTREAM_GENE_ID'])
     if len(trait_data) > 0:
         genes = trait_data.apply(lambda x: clean_gwas_gene_id(x["UPSTREAM_GENE_ID"]) if 
@@ -107,7 +150,6 @@ def process_gwas_intergenic(data, trait):
     
 
 def clean_gwas_gene_id(geneid):
-    #TODO do I want to keep multiples?
     return geneid.split(', ')
 
 
@@ -133,8 +175,7 @@ if __name__=='__main__':
         update_gwas = True
     outdir = args.o
     if update_gwas:
-        url = 'https://www.ebi.ac.uk/gwas/api/search/downloads/alternative'  # replace with your file URL  # replace with your desired file path
-        gwas_file = download_file(url, outdir)
+        url = 'https://www.ebi.ac.uk/gwas/api/search/downloads/alternative'  
     else:
         gwas_file = args.G
     clean_gwas_catalog_data(gwas_file, gwas_file + '.cleaned', pval_th=args.p, include_intergenic=False)

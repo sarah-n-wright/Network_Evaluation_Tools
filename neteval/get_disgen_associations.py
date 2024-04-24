@@ -5,6 +5,17 @@ import argparse
 from datetime import datetime
 
 def query_disgenet_disease(email, password, source, disease_code):
+    """Query disgenet for a genes associated with a specific disease code and database source
+    
+    Args:
+        email (str): email for disgenet
+        password (str): password for disgenet
+        source (str): database source to query
+        disease_code (str): disease code to query
+        
+    Returns:
+        pd.DataFrame: dataframe of gene-disease associations
+    """
     query = '/gda/disease/'+disease_code
     result = query_disgenet(email, password, source=source, query=query)
     if result is not None:
@@ -14,6 +25,18 @@ def query_disgenet_disease(email, password, source, disease_code):
         print("No results for disease:", disease_code)
         
 def get_latest_disgenet_disease_list(email, password, source, min_genes=5, outfile=None):
+    """Get the latest DisGeNET disease list for a specific source
+    
+    Args:
+        email (str): email for disgenet
+        password (str): password for disgenet
+        source (str): database source to query
+        min_genes (int): minimum number of genes per gene set
+        outfile (str): output file
+    
+    Returns:
+        pd.DataFrame: dataframe of diseases
+    """
     assert source in ['CURATED', 'INFERRED', 'ANIMAL_MODELS', 'ALL', 'BEFREE', 'CGI', 'CLINGEN', 'CLINVAR', 'CTD_human', 
                     'CTD_mouse', 'CTD_rat', 'GENOMICS_ENGLAND', 'GWASCAT', 'GWASDB', 'HPO', 'LHGDN', 'MGD', 'ORPHANET', 
                     'PSYGENET', 'RGD', 'UNIPROT']
@@ -25,6 +48,17 @@ def get_latest_disgenet_disease_list(email, password, source, min_genes=5, outfi
     return result
 
 def query_disgenet(email, password, query, source=None):
+    """ Wrapper function for API query with DisGeNET
+    
+    Args:
+        email (str): email for disgenet.org
+        password (str): password for disgenet.org
+        query (str): query string for API
+        source (str): source to restrict query to specific database
+        
+    Returns:
+        pd.DataFrame: dataframe of results
+    """
     # credit disgenet website
     auth_params = {"email":email,"password":password}
     api_host = "https://www.disgenet.org/api"
@@ -62,6 +96,22 @@ def query_disgenet(email, password, query, source=None):
 
 
 def get_disgenet_associations(diseasefile, email, password, outfile, source, types=["disease"], min_genes=20, max_genes=300):
+    """Given a list of disgenet diseases, download the gene associations
+    
+    Args:
+        diseasefile (str): file path for list of diseases
+        email (str): email for disgenet.org
+        password (str): password for disgenet.org
+        outfile (str): output file for associations
+        source (str): database source to query
+        types (list): list of disease types to query
+        min_genes (int): minimum number of genes per gene set
+        max_genes (int): maximum number of genes per gene set
+        
+    Returns:
+        None
+    
+    """
     # first get a list of diseases that have between 20 and 300 genes
     disease_stats = pd.read_csv(diseasefile, sep="\t")
     # filter by disease type
@@ -80,8 +130,20 @@ def get_disgenet_associations(diseasefile, email, password, outfile, source, typ
     gda_df.to_csv(outfile, sep="\t")
     
 
-## what format are these files??    
+
 def create_disgenet_genesets(datafile, outfile, sep="\t", id_type="geneid", min_genes=20):
+    """Create gene set file from DisGeNET data
+    
+    Args:
+        datafile (str): file path for DisGeNET association data
+        outfile (str): output file for gene sets
+        sep (str): separator for data file
+        id_type (str): column name for gene ids
+        min_genes (int): minimum number of genes per gene set
+        
+    Returns:
+        None
+    """
     data = pd.read_csv(datafile, sep=sep, index_col=0)
     disease_counts = data.diseaseId.value_counts()
     keep_ids = list(disease_counts[disease_counts>=min_genes].index)

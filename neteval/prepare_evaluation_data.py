@@ -1,12 +1,8 @@
 import neteval.data_import_export_tools as dit
 from neteval.gene_mapper import update_nodes, convert_node_ids
 import pandas as pd
-import csv
-from tqdm import tqdm
-import requests
-from getpass import getpass
 import argparse
-import re
+import os
 
 
 def check_min_genes_per_network(gene_set, network_file_list, datadir, min_genes=20):
@@ -177,88 +173,7 @@ if __name__=='__main__':
             genesets[set_id] = {int(node) for node in list(genesets[set_id])}
     if args.F:
         print(args.n)
-        datadir='/cellar/users/snwright/Data'
+        # get file path of current file
+        os.path.dirname(os.path.abspath(__file__)) + '/../Data/'
         genesets = filter_gene_sets(genesets, args.d, network_file_list=args.n, min_genes=args.m, max_genes=args.M)
     write_gene_sets(genesets, args.o)
-        
-# def parse_geneset_arguments(args):
-#     if args.s == "disgen":
-#         disgen_args = args.A.split(";")
-#         disgen_args = {arg.split("=")[0]:arg.split("=")[1] for arg in disgen_args}
-#         disgen_args['min'] = int(disgen_args['min'])
-#         disgen_args['max'] = int(disgen_args['max'])
-#         disgen_args['types'] = disgen_args['types'].split(",")
-#         args.A = disgen_args
-#     if args.s != "disgen":
-#         raise NotImplementedError("Only disgenet sets are currently supported")
-#     args.m = int(args.m)
-#     return args
-
-# if __name__=="__main__":
-#     parser = argparse.ArgumentParser(description='Process Evaluation Data')
-#     parser.add_argument('-e', metavar='email', required=False, default=None)
-#     parser.add_argument('-p', metavar="password", required=False, default=None)
-#     parser.add_argument('-s', metavar="set_type", required=True)
-#     parser.add_argument('-A', metavar='disgen_args', required=False, default="source=BEFREE;min=10;max=500;types=disease;file=/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv")
-#     parser.add_argument('-o', metavar='outpath', required=True)
-#     parser.add_argument('-n', metavar='network_list', required=False, default=None)
-#     parser.add_argument('-d', metavar='network_dir', required=False, default=None)
-#     parser.add_argument('-m', metavar='net_min', required=False, default=20)
-#     parser.add_argument('-u', metavar='update', default=False)
-#     parser.add_argument('-S', metavar='set_file', required=False, default=None)
-
-#     args = parser.parse_args()
-#     args = parse_geneset_arguments(args)   
-    
-#     # TODO this file needs a lot of cleanup and testing, particularly to add capability for other genesets
-    
-#     # Update the genesets
-#     if args.u:
-#         if args.set_type == "disgen":
-#             get_disgenet_sets(args.disgen_args['file'], args.email, args.password, 
-#                     outfile=args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', source=args.disgen_args['source'],
-#                     types=args.disgen_args['types'], min_genes=args.disgen_args['min'] , max_genes=args.disgen_args['max'])
-    
-#         # Process the genesets
-#             process_disgenet_data(args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_gda.tsv', 
-#                                 args.outpath + 'Disgenet_' + args.disgen_args['source'] + '_genesets.tsv', id_type='gene_symbol',
-#                                 min_genes=args.disgen_args['min'] )
-            
-#     if args.n is not None:
-#         gene_sets = dit.load_node_sets(args.S, id_type="Entrez")
-#         keep_gene_sets = filter_gene_sets(gene_sets, network_file_list= args.n, datadir= args.d, min_genes= args.m)
-#         write_gene_sets(keep_gene_sets, args.o + 'Disgenet_' + args.A['source'] + '_filtered_genesets.tsv')
-    
-    #password = getpass("User Password:")
-    #process_disgenet_data("/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/updated_gda_2023_BEFREE.tsv",
-    #                        outfile='/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/DisGeNET_genesets_BEFREE_2023.txt')
-    #process_disgenet_data("/cellar/users/snwright/Data/Transfer/Disgenet_GWASDB_gda.tsv",
-    #                        outfile='/cellar/users/snwright/Data/Transfer/Disgenet_GWASDB_genesets.tsv', id_type="gene_symbol")
-    #get_disgenet_sets('/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/HPO_diseases.tsv', "snwright@ucsd.edu", "Ballon44!", 
-    #                outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv', source="HPO",
-    #                types=["disease", "phenotype"], min_genes=10, max_genes=300)
-    #process_disgenet_data("/cellar/users/snwright/Data/Transfer/Disgenet_HPO_gda.tsv",
-    #                        outfile='/cellar/users/snwright/Data/Transfer/Disgenet_HPO_genesets.tsv', id_type="gene_symbol", min_genes=10)
-    #get_intersecting_genes('Git/Network_Evaluation_Tools/Data/v1_net_prefixes.txt', 
-                            #datadir='/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/')
-    # process_gwas_catalog_data('/cellar/users/snwright/Data/Network_Analysis/Reference_Data/gwas_cat_Jan13_2023.txt', "", pval_th=5e-8, include_intergenic=False, min_genes=20, max_genes=300)
-    
-    # datadir='/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/'
-    # gitdir='/cellar/users/snwright/Git/Network_Evaluation_Tools/'
-    # genesets = dit.load_node_sets(gitdir+ 'Data/DisGeNET_genesets_BEFREE_2023.txt')
-    # filtered_genesets = filter_gene_sets(genesets, gitdir+'Data/v1_net_prefixes.txt', min_genes=20,datadir=datadir)
-    # write_gene_sets(filtered_genesets, gitdir+'Data/DisGeNET_genesets_BEFREE_2023_v1_filtered_genesets_20.txt')
-    
-    # genesets = dit.load_node_sets(gitdir+ 'Data/DisGeNET_genesets_BEFREE_2023.txt')
-    # filtered_genesets = filter_gene_sets(genesets, gitdir+'Data/v2_net_prefixes.txt', min_genes=20,datadir=datadir)
-    # write_gene_sets(filtered_genesets, gitdir+'Data/DisGeNET_genesets_BEFREE_2023_v2_filtered_genesets_20.txt')
-    
-    # genesets = dit.load_node_sets(gitdir+ 'Data/DisGeNET_genesets_ALL_2023.txt')
-    # filtered_genesets = filter_gene_sets(genesets, gitdir+'Data/v1_net_prefixes.txt', min_genes=20,datadir=datadir)
-    # write_gene_sets(filtered_genesets, gitdir+'Data/DisGeNET_genesets_ALL_2023_v1_filtered_genesets_20.txt')
-    
-    # genesets = dit.load_node_sets(gitdir+ 'Data/DisGeNET_genesets_ALL_2023.txt')
-    # filtered_genesets = filter_gene_sets(genesets, gitdir+'Data/v2_net_prefixes.txt', min_genes=20,datadir=datadir)
-    # write_gene_sets(filtered_genesets, gitdir+'Data/DisGeNET_genesets_ALL_2023_v2_filtered_genesets_20.txt')
-    # new_genesets = convert_genesets(genesets, initial_id='Symbol', target_id='Entrez')
-    # write_gene_sets(new_genesets, 'Git/Network_Evaluation_Tools/Data/Oncogeneic_Components_genesets_entrez.txt')
