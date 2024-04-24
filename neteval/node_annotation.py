@@ -1,16 +1,28 @@
-import networkx as nx
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import os
-import obonet as obo
 from collections import defaultdict
 import requests
 from requests.adapters import HTTPAdapter, Retry
 import re
 from datetime import datetime
 from neteval import gene_mapper
+import os
+
+CWD = os.path.dirname(os.path.abspath(__file__))
+
+def parse_chrm(chr_str):
+    chr_map = {'mitochondria':'MT', 'reserved':'other', "unplaced":'other', 'not on reference assembly':'other'}
+    if chr_str in chr_map:
+        return chr_map[chr_str]
+    try:
+        match = re.search(r'^(Y|X|\d+(?:\.\d+)?)', chr_str)
+        if match:
+            return match.group()
+        else:
+            print(chr_str)
+            return 'other'
+    except TypeError:
+        return 'other'
 
 
 def get_node_database_counts(file_list, id_type="Entrez"):
@@ -26,7 +38,8 @@ def get_node_database_counts(file_list, id_type="Entrez"):
 
 
 def load_hgnc():
-    hgnc = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Reference_Data/HGNC_download_Dec20_2023.txt", sep="\t")
+    
+    hgnc = pd.read_csv(os.join(CWD, "/../Data/HGNC_download_Dec20_2023.txt.gz"), sep="\t")
     hgnc = hgnc.dropna(subset=['NCBI Gene ID(supplied by NCBI)'])
     hgnc['NCBI Gene ID(supplied by NCBI)'] = hgnc['NCBI Gene ID(supplied by NCBI)'].astype(int)
     hgnc.rename(columns={'NCBI Gene ID(supplied by NCBI)':"GeneID"}, inplace=True)
@@ -38,7 +51,7 @@ def load_hgnc():
 
 
 def load_ensembl():
-    ensem = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Reference_Data/Ensembl_export_Dec20_2023.txt", sep="\t")
+    ensem = pd.read_csv(os.join(CWD, "/../Data/Ensembl_export_Dec20_2023.txt.gz"), sep="\t")
     #ensem.drop(columns=["GO domain"], inplace=True)
     ensem.rename(columns={'NCBI gene (formerly Entrezgene) ID':"GeneID"}, inplace=True)
     ensem.drop_duplicates(inplace=True)
@@ -57,7 +70,7 @@ def load_ensembl():
 
 
 def load_citations():
-    cite = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Reference_Data/gene_citation_counts_Dec20_2023.txt", sep="\t", header=None)
+    cite = pd.read_csv(os.join(CWD, "/../Data/gene_citation_counts_Dec20_2023.txt"), sep="\t", header=None)
     cite.columns = ["GeneID", "CitationCount"]
     cite.set_index("GeneID", inplace=True)
     cite.index.name=None
@@ -65,7 +78,7 @@ def load_citations():
 
 
 def load_uniprot():
-    uni = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Reference_Data/uniprot_data_id_length_mass_2023-12-20.tsv", sep="\t", 
+    uni = pd.read_csv(os.join(CWD, "/../Data/uniprot_data_id_length_mass_2023-12-20.tsv"), sep="\t", 
                     names=["GeneID", "id","aa_length", "mass"], header=0)
     uni.set_index("GeneID", inplace=True)
     uni.index.name=None
@@ -154,8 +167,6 @@ def get_batch(batch_url, re_next_link, session, verbose=False):
         batch_url = get_next_link(response.headers, re_next_link)
         
 
-
-#TODO make sure that the entrez ids get saved and loaded properly. 
 class ExpressionData:
     def __init__(self, filepath, debug=None, force_remapping=False, datatype='mrna', min_obs=0):
         if debug is not None:
@@ -345,10 +356,3 @@ class ExpressionData:
         else:
             return tissue_df.loc[:, ("Entrez", tissue)].set_index("Entrez", drop=True)
 
-
-
-if __name__ == '__main__':
-    #fields = ['id', 'sequence', 'xref_geneid', 'xref_ensembl']
-    fields = ['id', 'length', 'mass']
-    outdir = '/cellar/users/snwright/Data/Network_Analysis/Reference_Data/'
-    get_uniprot_annotation_data(fields, outdir, index_on=2)

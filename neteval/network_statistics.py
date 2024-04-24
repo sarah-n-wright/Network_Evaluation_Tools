@@ -1,17 +1,8 @@
-import re
 import pandas as pd
 import numpy as np
-from neteval import gene_mapper
-import requests, sys
-import json
 from collections import defaultdict
-from tqdm import tqdm
 import subprocess
-import seaborn as sns
 import matplotlib.pyplot as plt
-import networkx as nx
-import multiprocessing as mp
-from itertools import combinations
 
 
 def load_network_names(filepath):
@@ -22,7 +13,6 @@ def load_network_names(filepath):
     return network_dict
 
 
-#TODO Network topologies
 class NetworkStats:
     def __init__(self, prefix_file, datadir, exclude_net=[], node_counts=None, edge_counts=None, debug=False):
         self.datadir = datadir
@@ -129,18 +119,3 @@ class NetworkStats:
         ax.tick_params(axis='y', colors=colors[0])
         ax2.tick_params(axis='y', colors=colors[1]) 
         plt.show()
-
-
-def parse_chrm(chr_str):
-    chr_map = {'mitochondria':'MT', 'reserved':'other', "unplaced":'other', 'not on reference assembly':'other'}
-    if chr_str in chr_map:
-        return chr_map[chr_str]
-    try:
-        match = re.search(r'^(Y|X|\d+(?:\.\d+)?)', chr_str)
-        if match:
-            return match.group()
-        else:
-            print(chr_str)
-            return 'other'
-    except TypeError:
-        return 'other'
