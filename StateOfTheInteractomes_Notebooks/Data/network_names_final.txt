@@ -1,0 +1,50 @@
+apid.1:APID
+bind.v8:BIND
+biogrid.4.4.227:BioGRID
+bioplex.v3.293T:BioPlex 293T
+bioplex.v3.HCT116:BioPlex HCT116
+comppi_interactions:ComPPI
+consensus_db.v35:ConsensusPathDB
+dip.PC:DIP
+funcoup:FunCoup
+genemania.2021_90:GeneMANIA
+giant_90:GIANT
+havugimana:Havugimana
+hein:Hein
+hi.union:HuRI
+hint.updated.combined:HINT
+hippie.2.3:HIPPIE
+hprd:HPRD
+humannet.v3.xc:HumanNet-XC
+humannet.v3.fn:HumanNet-FN
+humap_90:huMAP
+iid:IID
+inbio:InBio
+innatedb_all:InnateDB All
+innatedb_curated:InnateDB Curated
+intact.245:IntAct
+irefindex.v20:iRefIndex
+matrixdb:MatrixDB
+mentha.23.11.6:Mentha
+mint:MINT
+multinet:MultiNet
+pathway_commons.12:PathwayCommons
+phosphosite:Phosphosite
+pid2:PID2
+pips:PIPs
+preppi:PrePPI
+proper_all:PROPER
+proteomehd:ProteomeHD
+ptmcode2:PTMCode2
+reactome.v86:Reactome
+reactomeFI.21:ReactomeFI
+reactomeFI.22:ReactomeFI(2022)
+signalink:SignaLink
+signor:SIGNOR
+spike:Spike
+string.v12:STRING
+tflink:TFLink
+wan:Wan
+youn:Youn
+humannet.v3.cc:HumanNet-CC
+string.v12.notext:STRING(CC-free)

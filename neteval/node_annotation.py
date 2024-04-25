@@ -37,9 +37,9 @@ def get_node_database_counts(file_list, id_type="Entrez"):
     return node_dict
 
 
-def load_hgnc():
+def load_hgnc(datadir):
     
-    hgnc = pd.read_csv(os.join(CWD, "/../Data/HGNC_download_Dec20_2023.txt.gz"), sep="\t")
+    hgnc = pd.read_csv(os.path.join(datadir, "HGNC_download_Dec20_2023.txt"), sep="\t")
     hgnc = hgnc.dropna(subset=['NCBI Gene ID(supplied by NCBI)'])
     hgnc['NCBI Gene ID(supplied by NCBI)'] = hgnc['NCBI Gene ID(supplied by NCBI)'].astype(int)
     hgnc.rename(columns={'NCBI Gene ID(supplied by NCBI)':"GeneID"}, inplace=True)
@@ -50,8 +50,8 @@ def load_hgnc():
     return hgnc
 
 
-def load_ensembl():
-    ensem = pd.read_csv(os.join(CWD, "/../Data/Ensembl_export_Dec20_2023.txt.gz"), sep="\t")
+def load_ensembl(datadir):
+    ensem = pd.read_csv(os.path.join(datadir, "Ensembl_export_Dec20_2023.txt.gz"), sep="\t")
     #ensem.drop(columns=["GO domain"], inplace=True)
     ensem.rename(columns={'NCBI gene (formerly Entrezgene) ID':"GeneID"}, inplace=True)
     ensem.drop_duplicates(inplace=True)
@@ -69,27 +69,27 @@ def load_ensembl():
     return out_df
 
 
-def load_citations():
-    cite = pd.read_csv(os.join(CWD, "/../Data/gene_citation_counts_Dec20_2023.txt"), sep="\t", header=None)
+def load_citations(datadir):
+    cite = pd.read_csv(os.path.join(datadir, "gene_citation_counts_Dec20_2023.txt"), sep="\t", header=None)
     cite.columns = ["GeneID", "CitationCount"]
     cite.set_index("GeneID", inplace=True)
     cite.index.name=None
     return cite
 
 
-def load_uniprot():
-    uni = pd.read_csv(os.join(CWD, "/../Data/uniprot_data_id_length_mass_2023-12-20.tsv"), sep="\t", 
+def load_uniprot(datadir):
+    uni = pd.read_csv(os.path.join(datadir, "uniprot_data_id_length_mass_2023-12-20.tsv"), sep="\t", 
                     names=["GeneID", "id","aa_length", "mass"], header=0)
     uni.set_index("GeneID", inplace=True)
     uni.index.name=None
     return uni
 
 
-def get_annot_df():
-    hgnc = load_hgnc()
-    ensem = load_ensembl()
-    cite = load_citations()
-    uni = load_uniprot()
+def get_annot_df(datadir):
+    hgnc = load_hgnc(datadir)
+    ensem = load_ensembl(datadir)
+    cite = load_citations(datadir)
+    uni = load_uniprot(datadir)
     return pd.concat([hgnc, ensem, cite, uni], axis=1)
 
 
@@ -356,3 +356,5 @@ class ExpressionData:
         else:
             return tissue_df.loc[:, ("Entrez", tissue)].set_index("Entrez", drop=True)
 
+if __name__=='__main__':
+    x = load_hgnc()

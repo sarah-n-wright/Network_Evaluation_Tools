@@ -1,0 +1,47 @@
+,Gene Count,Interaction Count,Name,pref,Type
+apid.1,16949,258373,APID,apid.1,Composite
+bind.v8,6109,16727,BIND,bind.v8,Curated
+biogrid.4.4.227,19919,823165,BioGRID,biogrid.4.4.227,Curated
+bioplex.v3.293T,13924,117931,BioPlex 293T,bioplex.v3.293T,Experimental
+bioplex.v3.HCT116,10093,70802,BioPlex HCT116,bioplex.v3.HCT116,Experimental
+comppi_interactions,17256,363733,ComPPI,comppi_interactions,Composite
+consensus_db.v35,17829,5201665,ConsensusPathDB,consensus_db.v35,Composite
+dip.PC,3202,11519,DIP,dip.PC,Curated
+funcoup,17918,5018736,FunCoup,funcoup,Composite
+genemania.2021_90,19068,1164495,GeneMANIA,genemania.2021_90,Composite
+giant_90,17095,3540303,GIANT,giant_90,Composite
+havugimana,2994,13965,Havugimana,havugimana,Experimental
+hein,5781,28601,Hein,hein,Experimental
+hi.union,9001,62721,HuRI,hi.union,Experimental
+hint.updated.combined,16183,241637,HINT,hint.updated.combined,Curated
+hippie.2.3,19527,805623,HIPPIE,hippie.2.3,Composite
+hprd,9419,36829,HPRD,hprd,Curated
+humannet.v3.xc,18591,1125493,HumanNet-XC,humannet.v3.xc,Composite
+humannet.v3.fn,18457,977494,HumanNet-FN,humannet.v3.fn,Composite
+humap_90,13896,1737629,huMAP,humap_90,Composite
+iid,18718,1191445,IID,iid,Composite
+inbio,17407,609242,InBio,inbio,Composite
+innatedb_all,15420,164597,InnateDB All,innatedb_all,Composite
+intact.245,17194,322949,IntAct,intact.245,Composite
+irefindex.v20,17671,627566,iRefIndex,irefindex.v20,Composite
+matrixdb,11578,75803,MatrixDB,matrixdb,Composite
+mentha.23.11.6,17014,329006,Mentha,mentha.23.11.6,Composite
+mint,9260,36674,MINT,mint,Curated
+multinet,13969,108528,MultiNet,multinet,Composite
+pathway_commons.12,19035,1038311,PathwayCommons,pathway_commons.12,Composite
+phosphosite,2985,7346,Phosphosite,phosphosite,Curated
+pid2,2543,31882,PID2,pid2,Composite
+pips,5326,36844,PIPs,pips,Composite
+preppi,7662,9973,PrePPI,preppi,Composite
+proper_all,8516,209830,PROPER,proper_all,Experimental
+proteomehd,1027,10745,ProteomeHD,proteomehd,Experimental
+ptmcode2,5535,17542,PTMCode2,ptmcode2,Composite
+reactome.v86,4693,19697,Reactome,reactome.v86,Curated
+reactomeFI.22,13855,274572,ReactomeFI(2022),reactomeFI.22,Composite
+signalink,17759,397346,SignaLink,signalink,Composite
+signor,5076,12040,SIGNOR,signor,Curated
+spike,9660,45371,Spike,spike,Composite
+string.v12,18960,6583401,STRING,string.v12,Composite
+tflink,18589,6295349,TFLink,tflink,Composite
+wan,3427,16461,Wan,wan,Experimental
+youn,5057,147166,Youn,youn,Experimental
