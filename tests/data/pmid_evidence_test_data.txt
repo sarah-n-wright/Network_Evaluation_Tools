@@ -1,0 +1,29 @@
+Subtype	Type	PMID
+Affinity Capture-Western	physical	15808511
+Affinity Capture-Western	physical	15808511
+Affinity Capture-Western	physical	15808511
+Affinity Capture-Western	physical	15808511
+Reconstituted Complex	physical	15808511
+Affinity Capture-Western	physical	15808511
+Affinity Capture-Western	physical	15808511
+Co-localization	physical	15494311
+Co-localization	physical	15494311
+Biochemical Activity	physical	15494311
+Reconstituted Complex	physical	15616580
+Reconstituted Complex	physical	15616580
+Reconstituted Complex	physical	15616580
+Biochemical Activity	physical	15616580
+Biochemical Activity	physical	15616580
+Co-localization	physical	15829968
+Co-localization	physical	15829968
+Co-localization	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Affinity Capture-Western	physical	15829968
+Co-localization	physical	15829968
+Co-localization	physical	15546613

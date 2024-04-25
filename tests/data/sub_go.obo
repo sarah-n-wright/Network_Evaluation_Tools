@@ -1,0 +1,1234 @@
+format-version: 1.2
+data-version: releases/2023-04-01
+subsetdef: chebi_ph7_3 "Rhea list of ChEBI terms representing the major species at pH 7.3."
+subsetdef: gocheck_do_not_annotate "Term not to be used for direct annotation"
+subsetdef: gocheck_do_not_manually_annotate "Term not to be used for direct manual annotation"
+subsetdef: goslim_agr "AGR slim"
+subsetdef: goslim_aspergillus "Aspergillus GO slim"
+subsetdef: goslim_candida "Candida GO slim"
+subsetdef: goslim_chembl "ChEMBL protein targets summary"
+subsetdef: goslim_drosophila "Drosophila GO slim"
+subsetdef: goslim_flybase_ribbon "FlyBase Drosophila GO ribbon slim"
+subsetdef: goslim_generic "Generic GO slim"
+subsetdef: goslim_metagenomics "Metagenomics GO slim"
+subsetdef: goslim_mouse "Mouse GO slim"
+subsetdef: goslim_pir "PIR GO slim"
+subsetdef: goslim_plant "Plant GO slim"
+subsetdef: goslim_pombe "Fission yeast GO slim"
+subsetdef: goslim_synapse "synapse GO slim"
+subsetdef: goslim_yeast "Yeast GO slim"
+subsetdef: prokaryote_subset "GO subset for prokaryotes"
+synonymtypedef: syngo_official_label "label approved by the SynGO project"
+synonymtypedef: systematic_synonym "Systematic synonym" EXACT
+default-namespace: gene_ontology
+ontology: go
+property_value: http://purl.org/dc/elements/1.1/description "The Gene Ontology (GO) provides a framework and set of concepts for describing the functions of gene products from all organisms." xsd:string
+property_value: http://purl.org/dc/elements/1.1/title "Gene Ontology" xsd:string
+property_value: http://purl.org/dc/terms/license http://creativecommons.org/licenses/by/4.0/
+property_value: owl:versionInfo "2023-04-01" xsd:string
+
+[Term]
+id: GO:0140368
+name: decoy receptor complex
+namespace: cellular_component
+def: "A receptor complex that recognizes, binds and sequesters a specific receptor ligand to prevent it from binding to its regular receptor. May be soluble or membrane bound." [GOC:bhm, PMID:30621730, PMID:9168977]
+synonym: "osteoclastogenesis inhibitory factor" NARROW []
+synonym: "osteoprotegerin complex" NARROW []
+is_a: GO:0043235
+created_by: pg
+creation_date: 2019-09-13T16:39:24Z
+
+[Term]
+id: GO:0034687
+name: integrin alphaL-beta2 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaL subunit and one beta2 subunit." [PMID:12297042]
+synonym: "alphaL-beta2 integrin complex" EXACT []
+synonym: "Itgal-Itgb2 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0005893
+name: interleukin-2 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-2; comprises alpha, beta, and gamma subunits." [GOC:mah, PMID:3116143, PMID:8266078]
+synonym: "IL-2 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0034665
+name: integrin alpha1-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha1 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha1-beta1 integrin complex" EXACT []
+synonym: "ITGA1-ITGB1 complex" NARROW []
+synonym: "VLA-1 complex" EXACT []
+is_a: GO:0008305
+
+[Term]
+id: GO:0070442
+name: integrin alphaIIb-beta3 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaIIb subunit and one beta3 subunit." [PMID:12297042]
+synonym: "alphaIIb-beta3 integrin complex" EXACT []
+synonym: "ITGA2B-ITGB3 complex" NARROW [CORUM:2381]
+is_a: GO:0008305
+
+[Term]
+id: GO:0038039
+name: G protein-coupled receptor heterodimeric complex
+namespace: cellular_component
+def: "A protein complex that contains two G protein-coupled receptors (GPCRs) of different subtypes. Formation of a GPCR heterodimer may alter the functional property of the GPCR." [GOC:al, GOC:bf, PMID:16109836, PMID:20150590]
+synonym: "G-protein coupled receptor heterodimer" EXACT [GOC:bf]
+synonym: "G-protein coupled receptor heterodimeric complex" EXACT []
+synonym: "GPCR heterodimer" EXACT [PMID:20150590]
+is_a: GO:0038037
+created_by: bf
+creation_date: 2011-11-02T04:44:20Z
+
+[Term]
+id: GO:0005894
+name: interleukin-3 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-3; comprises an alpha and a beta subunit. The alpha chain is specific to the interleukin-3 receptor, whereas the beta chain is shared with the receptors for granulocyte-macrophage colony-stimulating factor and interleukin-5." [PMID:11839579]
+synonym: "IL-3 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0038142
+name: EGFR:ERBB2 complex
+namespace: cellular_component
+def: "A heterodimeric complex between the tyrosine kinase receptor ERBB2 and a ligand-activated epidermal growth factor receptor (EGFR/ERBB1). ERBB2, which does not bind any known ligand, is activated through formation of a heterodimer with another ligand-activated ERBB family member such as EGFR." [GOC:signaling, PMID:16460914, PMID:1973074, Reactome:R-HSA-1227939, Reactome:R-HSA-1963573, Reactome:R-HSA-1963589]
+synonym: "EGF:EGFR:ERBB2 complex" NARROW [Reactome:R-HSA-1963573]
+synonym: "EGFR:ERBB2 heterodimer" RELATED [Reactome:R-HSA-1963573]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T02:10:38Z
+
+[Term]
+id: GO:0038144
+name: ERBB4:ERBB2 complex
+namespace: cellular_component
+def: "A heterodimeric complex between the tyrosine kinase receptor ERBB2 and a ligand-activated receptor ERBB4. ERBB2, which does not bind any known ligand, is activated through formation of a heterodimer with another ligand-activated ERBB family member such as ERBB4." [GOC:signaling, PMID:16460914, PMID:16978839, Reactome:R-HSA-1250224, Reactome:R-HSA-1963573, Reactome:R-HSA-1963589]
+synonym: "ERBB4:ERBB2 heterodimer" NARROW [Reactome:R-HSA-1250224]
+synonym: "NRGs/EGFLs:ERBB4:ERBB2" NARROW [Reactome:R-HSA-1250224]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T02:24:01Z
+
+[Term]
+id: GO:0042106
+name: gamma-delta T cell receptor complex
+namespace: cellular_component
+def: "A T cell receptor complex in which the TCR heterodimer comprises gamma and delta chains, associated with the CD3 complex; recognizes antigen directly, without a requirement for processing and presentation by an MHC protein." [GOC:mah, ISBN:0781735149]
+synonym: "gamma-delta T lymphocyte receptor complex" EXACT []
+synonym: "gamma-delta T-cell receptor complex" EXACT []
+synonym: "gamma-delta T-lymphocyte receptor complex" EXACT []
+synonym: "gamma-delta TCR complex" EXACT []
+is_a: GO:0042101
+
+[Term]
+id: GO:1905540
+name: interleukin-7 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-7 (IL-7) and that consists of, at a minimum, an interleukin, an alpha and a gamma chain as well as optional additional kinase subunits. The alpha chain binds IL-7 with high affinity and subsequently binds the cytokine receptor common gamma chain that forms part of multiple interleukin receptors." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:19141282]
+comment: An example of this is IL7R in human (P16871) in PMID:19141282 (inferred from direct assay).
+synonym: "IL-7 receptor complex" EXACT []
+synonym: "IL-7-receptor complex" EXACT []
+synonym: "IL7 receptor complex" EXACT []
+synonym: "IL7-receptor complex" EXACT []
+is_a: GO:0043235
+created_by: bhm
+creation_date: 2016-10-10T07:44:05Z
+
+[Term]
+id: GO:0045323
+name: interleukin-1 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-1; comprises an alpha and a beta subunit." [GOC:mah, InterPro:IPR004075]
+synonym: "IL-1 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0032991
+name: protein-containing complex
+namespace: cellular_component
+def: "A stable assembly of two or more macromolecules, i.e. proteins, nucleic acids, carbohydrates or lipids, in which at least one component is a protein and the constituent parts function together." [GOC:dos, GOC:mah]
+alt_id: GO:0043234
+comment: A protein complex in this context is meant as a stable set of interacting proteins which can be co-purified by an acceptable method, and where the complex has been shown to exist as an isolated, functional unit in vivo. Acceptable experimental methods include stringent protein purification followed by detection of protein interaction. The following methods should be considered non-acceptable: simple immunoprecipitation, pull-down experiments from cell extracts without further purification, colocalization and 2-hybrid screening. Interactions that should not be captured as protein complexes include: 1) enzyme/substrate, receptor/ligand or any similar transient interactions, unless these are a critical part of the complex assembly or are required e.g. for the receptor to be functional; 2) proteins associated in a pull-down/co-immunoprecipitation assay with no functional link or any evidence that this is a defined biological entity rather than a loose-affinity complex; 3) any complex where the only evidence is based on genetic interaction data; 4) partial complexes, where some subunits (e.g. transmembrane ones) cannot be expressed as recombinant proteins and are excluded from experiments (in this case, independent evidence is necessary to find out the composition of the full complex, if known). Interactions that may be captured as protein complexes include: 1) enzyme/substrate or receptor/ligand if the complex can only assemble and become functional in the presence of both classes of subunits; 2) complexes where one of the members has not been shown to be physically linked to the other(s), but is a homologue of, and has the same functionality as, a protein that has been experimentally demonstrated to form a complex with the other member(s); 3) complexes whose existence is accepted based on localization and pharmacological studies, but for which experimental evidence is not yet available for the complex as a whole.
+subset: goslim_agr
+subset: goslim_chembl
+subset: goslim_flybase_ribbon
+subset: goslim_mouse
+subset: goslim_pir
+synonym: "macromolecular complex" EXACT []
+synonym: "macromolecule complex" EXACT []
+synonym: "protein complex" NARROW []
+synonym: "protein containing complex" EXACT []
+synonym: "protein-protein complex" NARROW []
+is_a: GO:0005575
+
+[Term]
+id: GO:0005897
+name: interleukin-9 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-9; comprises an alpha and a beta subunit. The alpha chain is specific to the interleukin-9 receptor, whereas the beta chain is shared with the receptors for several other interleukins." [GOC:mah, PMID:10642536]
+synonym: "IL-9 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0070195
+name: growth hormone receptor complex
+namespace: cellular_component
+def: "A receptor complex that consists of two identical subunits and binds growth hormone." [GOC:BHF, GOC:mah, GOC:vk, PMID:11445442]
+is_a: GO:0043235
+
+[Term]
+id: GO:0034689
+name: integrin alphaX-beta2 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaX subunit and one beta2 subunit." [PMID:12297042]
+synonym: "alphaX-beta2 integrin complex" EXACT []
+synonym: "Itgax-Itgb2 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0098665
+name: serotonin receptor complex
+namespace: cellular_component
+def: "A protein complex that is capable of serotonin receptor activity." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:16116092]
+synonym: "5-HT receptor complex" EXACT []
+synonym: "5-hydroxytryptamine receptor complex" EXACT []
+synonym: "5HT receptor complex" EXACT []
+is_a: GO:0043235
+created_by: dos
+creation_date: 2016-12-21T12:24:56Z
+
+[Term]
+id: GO:0150056
+name: amylin receptor complex 1
+namespace: cellular_component
+def: "A G protein-coupled receptor complex that serves as a receptor for amylin polypeptide (AMY) and consists of a calcitonin receptor (CTR/CALCR) and a receptor activity-modifying protein (RAMP) 1. Amylin receptor complex 1 (AMY1) also serves as a receptor for the calcitonin related peptide (CGRP) and adrenomedullin (AM/ADM)." [GOC:aruk, GOC:bc, PMID:22500019]
+synonym: "AMY1 complex" EXACT []
+is_a: GO:1903440
+created_by: bc
+creation_date: 2018-06-21T10:47:10Z
+
+[Term]
+id: GO:0043235
+name: receptor complex
+namespace: cellular_component
+def: "Any protein complex that undergoes combination with a hormone, neurotransmitter, drug or intracellular messenger to initiate a change in cell function." [GOC:go_curators]
+subset: goslim_pir
+is_a: GO:0032991
+
+[Term]
+id: GO:0043384
+name: pre-T cell receptor complex
+namespace: cellular_component
+def: "A receptor complex found on immature T cells consisting of a T cell receptor beta chain and the pre-TCR-alpha chain, along with additional signaling components including CD3 family members and additional signaling proteins." [ISBN:0781735149, PMID:12220932]
+synonym: "pre-T lymphocyte receptor complex" EXACT []
+synonym: "pre-T-cell receptor complex" EXACT []
+synonym: "pre-T-lymphocyte receptor complex" EXACT []
+synonym: "pre-TCR complex" EXACT []
+is_a: GO:0098802
+
+[Term]
+id: GO:0070724
+name: BMP receptor complex
+namespace: cellular_component
+def: "A protein complex that acts as a receptor for bone morphogenetic proteins (BMPs); a homo- or heterodimer of type I and/or type II BMP receptor subunits." [GOC:mah, GOC:mh, PMID:19377468]
+synonym: "bone morphogenetic protein receptor complex" EXACT [GOC:mah]
+is_a: GO:0098802
+created_by: mah
+creation_date: 2009-06-15T02:34:27Z
+
+[Term]
+id: GO:0071744
+name: IgE B cell receptor complex
+namespace: cellular_component
+def: "An IgE immunoglobulin complex that is present in the plasma membrane of B cells and is composed of two identical immunoglobulin heavy chains of the IgE isotype and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781765196]
+comment: Note that an IgE immunoglobulin complex has the function of antigen binding if a suitable antigen is available.
+synonym: "membrane-bound IgE" EXACT [GOC:add]
+synonym: "surface IgE" EXACT [GOC:add]
+is_a: GO:0019815
+is_a: GO:0071742
+created_by: mah
+creation_date: 2010-03-24T01:44:53Z
+
+[Term]
+id: GO:0035354
+name: Toll-like receptor 1-Toll-like receptor 2 protein complex
+namespace: cellular_component
+def: "A heterodimeric protein complex containing Toll-like receptor 1 (TLR1) and Toll-like receptor 2 (TLR2)." [GOC:add, GOC:signaling, PMID:17889651, PMID:21481769]
+alt_id: GO:0038125
+synonym: "TLR1-TLR2 protein complex" EXACT []
+synonym: "TLR1:TLR2 complex" EXACT []
+synonym: "TLR2:TLR1 heterodimer" EXACT [GOC:bf]
+synonym: "toll-like receptor TLR1:TLR2 heterodimeric complex" EXACT [GOC:bf]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2010-03-04T04:35:44Z
+
+[Term]
+id: GO:0034685
+name: integrin alphav-beta6 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphav subunit and one beta6 subunit." [PMID:12297042]
+synonym: "alphav-beta6 integrin complex" EXACT []
+synonym: "ITGAV-ITGB6 complex" NARROW [CORUM:2354]
+is_a: GO:0008305
+
+[Term]
+id: GO:0034669
+name: integrin alpha4-beta7 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha4 subunit and one beta7 subunit." [PMID:12297042]
+synonym: "alpha4-beta7 integrin complex" EXACT []
+synonym: "ITGA4-ITGB7 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0150058
+name: amylin receptor complex 3
+namespace: cellular_component
+def: "A G protein-coupled receptor complex that serves as a receptor for amylin polypeptide (AMY) and consists of a calcitonin receptor (CTR/CALCR) and a receptor activity-modifying protein (RAMP) 3. Amylin receptor complex 3 (AMY3) also serves as a receptor for the amyloid-beta complex. Ligand binding to AMY3 results in increased cytosolic calcium ion levels and in activation on multiple intracellular signalling pathways." [GOC:aruk, GOC:bc, PMID:22500019]
+synonym: "AMY3 complex" EXACT []
+is_a: GO:1903440
+created_by: bc
+creation_date: 2018-06-21T10:54:00Z
+
+[Term]
+id: GO:1990620
+name: ANPR-A receptor complex
+namespace: cellular_component
+def: "A receptor complex composed of two ANPR-A molecules and expressed in the heart atrium in mammals; it plays a major role in the regulation of blood pressure and salt-fluid volume homeostasis. Binding of the ligand AMP in response to atrial distension (high blood volume) leads to guanylate cyclase activity of the ANPR-A receptor complex, thereby elevating intracellular cGMP levels. The end result is a reduction in blood volume and, therefore, a reduction in cardiac output and systemic blood pressure." [GOC:ame, PMID:15117952]
+comment: An example of this is Npr1 in rat (UniProt symbol P18910) in PMID:15117952 (inferred from direct assay).
+synonym: "NPR1 receptor complex" RELATED []
+is_a: GO:0043235
+created_by: ame
+creation_date: 2015-01-28T16:03:22Z
+
+[Term]
+id: GO:0016516
+name: interleukin-4 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-4 (IL-4) and consists of an alpha chain that binds IL-4 with high affinity and a gamma common chain that also forms part of the interleukin-2 receptor." [PMID:10358772]
+synonym: "IL-4 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0005896
+name: interleukin-6 receptor complex
+namespace: cellular_component
+def: "A hexameric protein complex consisting of two molecules each of interleukin-6, interleukin-6 receptor alpha chain, and gp-130." [PMID:8083235]
+synonym: "IL-6 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0045092
+name: interleukin-18 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-18; comprises an alpha and a beta subunit." [GOC:mah, PMID:12759435]
+synonym: "IL-18 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0034751
+name: aryl hydrocarbon receptor complex
+namespace: cellular_component
+def: "A protein complex that acts as an aryl hydrocarbon (Ah) receptor. Cytosolic and nuclear Ah receptor complexes have different subunit composition, but both contain the ligand-binding subunit AhR." [GOC:mah, PMID:7598497]
+synonym: "AhR complex" EXACT []
+synonym: "AHRC" EXACT []
+is_a: GO:0043235
+is_a: GO:0140535
+
+[Term]
+id: GO:0034684
+name: integrin alphav-beta5 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphav subunit and one beta5 subunit." [PMID:12297042]
+synonym: "alphav-beta5 integrin complex" EXACT []
+synonym: "ITGAV-ITGB5 complex" NARROW [CORUM:2350]
+is_a: GO:0008305
+
+[Term]
+id: GO:0035692
+name: macrophage migration inhibitory factor receptor complex
+namespace: cellular_component
+def: "A protein complex that binds macrophage migration inhibitory factor. Comprises CD74 and CD44 cell surface proteins." [GOC:BHF, PMID:12782713, PMID:17045821]
+is_a: GO:0043235
+created_by: bf
+creation_date: 2011-02-25T11:33:15Z
+
+[Term]
+id: GO:0097648
+name: G protein-coupled receptor complex
+namespace: cellular_component
+def: "A protein complex that contains G protein-coupled receptors." [GOC:bhm]
+synonym: "G-protein coupled receptor complex" EXACT []
+is_a: GO:0098802
+created_by: pr
+creation_date: 2014-09-10T09:14:30Z
+
+[Term]
+id: GO:0034667
+name: integrin alpha3-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha3 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha3-beta1 integrin complex" EXACT []
+synonym: "ITGA3-ITGB1 complex" NARROW [CORUM:2406]
+synonym: "VLA-3 complex" EXACT [PMID:3546305]
+is_a: GO:0008305
+
+[Term]
+id: GO:1904602
+name: serotonin-activated cation-selective channel complex
+namespace: cellular_component
+def: "A protein complex which is capable of serotonin-activated cation-selective channel activity. Mainly found in pre- and postsynaptic membranes of the brain and gastrointestinal tract. Depending on its location it transports Ca2+, Mg2+, Na+ or K+. It is always a pentamer, containing at least the 5HT3A subunit forming 5HT3A homopentamers or 5HT3A/B heteropentamers. In human, 5HT3A/C, A/D and A/E heteropentamers also exist." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:16116092]
+comment: An example of this is HTR3A in human (P46098) in PMID:16116092 (inferred from direct assay).
+synonym: "5-HT-3 receptor complex" EXACT []
+synonym: "5-HT3 receptor complex" EXACT []
+synonym: "5-hydroxytryptamine receptor 3 complex" EXACT []
+synonym: "5HT3 receptor complex" EXACT []
+synonym: "serotonin receptor complex" BROAD []
+is_a: GO:0034703
+is_a: GO:0098665
+is_a: GO:0098878
+property_value: term_tracker_item https://github.com/geneontology/go-ontology/issues/12942 xsd:anyURI
+created_by: bhm
+creation_date: 2015-08-26T13:19:49Z
+
+[Term]
+id: GO:0034666
+name: integrin alpha2-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha2 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "ITGA2-ITGB1 complex" NARROW [CORUM:2432]
+synonym: "VLA-2 complex" EXACT [PMID:3546305]
+is_a: GO:0008305
+
+[Term]
+id: GO:0038140
+name: ERBB4-ERBB3 complex
+namespace: cellular_component
+def: "A heterodimeric complex between the tyrosine kinase receptors ERBB4 (also called HER4) and ERBB3 (also called HER3). ERBB3 has impaired kinase activity so relies on the kinase activity of its heterodimer partner for activation and signal transmission." [GOC:signaling, PMID:16460914, Reactome:R-HSA-1977955]
+synonym: "ERBB3-ERBB4 complex" EXACT [GOC:bf]
+synonym: "ERBB4:ERBB3 heterodimer" EXACT [Reactome:117805.1]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T02:04:16Z
+
+[Term]
+id: GO:1990270
+name: platelet-derived growth factor receptor-ligand complex
+namespace: cellular_component
+def: "A tetrameric protein complex consisting of two platelet-derived growth factor (PDGF) receptor subunits and two PDGF ligand subunits. Binding of the PDGF ligand dimer to the PDGF receptor in the plasma membrane induces receptor dimerisation and activation. PDGFs are involved in a wide variety of signalling processes and are found in all vertebrates. At least two different receptor chains (A and B) and four types of ligand chains (A, B, C, and D) are known forming a wide variety of combinations of receptor-ligand complexes." [GOC:bhm, PMID:11331882]
+comment: An example of this is PDGFA-PGFRA in human (UniProt symbols P04085, P16234) in PMID:7679113 (inferred from direct assay).
+synonym: "PDGF complex" BROAD []
+synonym: "PDGF receptor-ligand complex" EXACT []
+synonym: "PDGF-AA-receptor alpha complex" NARROW []
+synonym: "PDGF-AB-receptor alpha complex" NARROW []
+synonym: "PDGF-AB-receptor beta complex" NARROW []
+synonym: "PDGF-BB-receptor alpha complex" NARROW []
+synonym: "PDGF-BB-receptor alpha-beta complex" NARROW []
+synonym: "PDGF-BB-receptor beta complex" NARROW []
+synonym: "PDGF-CC-receptor alpha complex" NARROW []
+synonym: "PDGF-CC-receptor alpha-beta complex" NARROW []
+synonym: "PDGF-CC-receptor beta complex" NARROW []
+synonym: "PDGF-DD-receptor alpha-beta complex" NARROW []
+synonym: "PDGF-DD-receptor beta complex" NARROW []
+synonym: "receptor-ligand complex" BROAD []
+is_a: GO:0098797
+relationship: has_part GO:0043235
+relationship: has_part GO:1990265
+created_by: bhm
+creation_date: 2014-01-14T11:12:22Z
+
+[Term]
+id: GO:0046696
+name: lipopolysaccharide receptor complex
+namespace: cellular_component
+def: "A multiprotein complex that consists of at least three proteins, CD14, TLR4, and MD-2, each of which is glycosylated and which functions as a lipopolysaccharide (LPS) receptor that primes the innate immune response against bacterial pathogens." [PMID:11706042, PMID:9665271]
+comment: Note that this term should not be used to refer to CD14 alone, but the multiprotein receptor complex that it is part of.
+synonym: "LPS receptor complex" EXACT []
+is_a: GO:0043235
+is_a: GO:0098796
+
+[Term]
+id: GO:0034680
+name: integrin alpha10-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha10 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha10-beta1 integrin complex" EXACT []
+synonym: "ITGA10-ITGB1 complex" NARROW [CORUM:3057]
+is_a: GO:0008305
+
+[Term]
+id: GO:0048179
+name: activin receptor complex
+namespace: cellular_component
+def: "A protein complex that acts as an activin receptor. Heterodimeric activin receptors, comprising one Type I activin receptor and one Type II receptor polypeptide, and heterotrimeric receptors have been observed." [PMID:8307945, PMID:8622651]
+is_a: GO:0098802
+is_a: GO:1902554
+
+[Term]
+id: GO:0005900
+name: oncostatin-M receptor complex
+namespace: cellular_component
+def: "A heterodimeric receptor for the cytokine oncostatin-M (OSM). In humans the receptor complex is made up of the gene products gp130 and OSMR-beta." [GOC:jl, PMID:8999038]
+is_a: GO:0098802
+
+[Term]
+id: GO:1990406
+name: CGRP receptor complex
+namespace: cellular_component
+def: "A transmembrane, G protein-coupled signalling receptor complex recognized by calcitonin gene-related peptides (CGRP)." [GOC:bhm, PMID:20826335]
+comment: An example of this is CALCRL in human (Q16602) in PMID:20826335 (inferred from direct assay).
+synonym: "calcitonin gene-related polypeptide receptor complex" EXACT []
+synonym: "Calcitonin-gene-related peptide receptor complex" EXACT []
+synonym: "CGRP-R complex" EXACT []
+is_a: GO:1903439
+created_by: bhm
+creation_date: 2014-07-01T14:57:43Z
+
+[Term]
+id: GO:1903440
+name: amylin receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of amylin receptor activity." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:10871296, PMID:12037140, PMID:18687416]
+is_a: GO:1903439
+created_by: pr
+creation_date: 2014-09-16T13:25:20Z
+
+[Term]
+id: GO:0034676
+name: integrin alpha6-beta4 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha6 subunit and one beta4 subunit." [PMID:12297042]
+synonym: "alpha6-beta4 integrin complex" EXACT []
+synonym: "ITGA6-ITGB4 complex" NARROW [CORUM:2323]
+is_a: GO:0008305
+
+[Term]
+id: GO:0005895
+name: interleukin-5 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-3; comprises an alpha and a beta subunit. The alpha chain is specific to the interleukin-5 receptor, whereas the beta chain is shared with the receptors for granulocyte-macrophage colony-stimulating factor and interleukin-3." [GOC:mah, PMID:11312115, PMID:11839579]
+synonym: "IL-5 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0070021
+name: transforming growth factor beta ligand-receptor complex
+namespace: cellular_component
+def: "A protein complex that is formed by the association of a TGF-beta dimeric ligand with 2 molecules of each receptor molecule, TGF-beta type I receptor and TGF-beta type II receptor. The receptor molecules may form homo- or heterodimers but only once bound by the ligand." [Reactome:R-HSA-170840]
+synonym: "TGF-beta 1:type II receptor:type I receptor complex" NARROW [Reactome:R-HSA-170840]
+synonym: "TGF-beta ligand-receptor complex" EXACT []
+synonym: "TGF-beta receptor II-TGF-beta receptor I-TGF-beta1 complex" NARROW []
+synonym: "TGF-beta1 ligand-receptor complex" NARROW []
+synonym: "TGF-beta1-beta2 ligand-receptor complex" NARROW []
+synonym: "TGF-beta1-type II receptor-type I receptor complex" NARROW []
+synonym: "TGF-beta2 ligand-receptor complex" NARROW []
+synonym: "TGFb ligand-receptor complex" EXACT []
+synonym: "TGFbeta ligand-receptor complex" EXACT []
+synonym: "TGFbeta1 ligand-receptor complex" NARROW []
+synonym: "TGFbeta1-beta2 ligand-receptor complex" NARROW []
+synonym: "TGFbeta2 ligand-receptor complex" NARROW []
+synonym: "transforming growth factor beta1-type II receptor-type I receptor complex" NARROW []
+is_a: GO:0098802
+is_a: GO:1902554
+
+[Term]
+id: GO:0005575
+name: cellular_component
+namespace: cellular_component
+def: "A location, relative to cellular compartments and structures, occupied by a macromolecular machine when it carries out a molecular function. There are two ways in which the gene ontology describes locations of gene products: (1) relative to cellular structures (e.g., cytoplasmic side of plasma membrane) or compartments (e.g., mitochondrion), and (2) the stable macromolecular complexes of which they are parts (e.g., the ribosome)." [GOC:pdt, NIF_Subcellular:sao1337158144]
+alt_id: GO:0008372
+comment: Note that, in addition to forming the root of the cellular component ontology, this term is recommended for use for the annotation of gene products whose cellular component is unknown. When this term is used for annotation, it indicates that no information was available about the cellular component of the gene product annotated as of the date the annotation was made; the evidence code 'no data' (ND), is used to indicate this.
+subset: goslim_candida
+subset: goslim_chembl
+subset: goslim_metagenomics
+subset: goslim_pir
+subset: goslim_plant
+subset: goslim_yeast
+synonym: "cell or subcellular entity" EXACT []
+synonym: "cellular component" EXACT []
+synonym: "subcellular entity" RELATED [NIF_Subcellular:nlx_subcell_100315]
+xref: NIF_Subcellular:sao1337158144
+
+[Term]
+id: GO:0034688
+name: integrin alphaM-beta2 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaM subunit and one beta2 subunit." [PMID:12297042]
+synonym: "alphaM-beta2 integrin complex" EXACT []
+synonym: "Itgam-Itgb2 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:1905543
+name: interleukin-15 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-15 (IL-15) and that consists of, at a minimum, an interleukin, an alpha, beta and gamma chain as well as optional additional kinase subunits. The alpha chain is unique to binds IL-15 while it shares the beta chain with the IL-2 receptor and the cytokine receptor common gamma chain with multiple interleukin receptors." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:23104097]
+comment: An example of this is IL15RA in human (Q13261) in PMID:23104097 (inferred from physical interaction).
+synonym: "IL-15 receptor complex" EXACT []
+synonym: "IL-15-receptor complex" EXACT []
+synonym: "IL15 receptor complex" EXACT []
+synonym: "IL15-receptor complex" EXACT []
+synonym: "interleukin-15-receptor complex" EXACT []
+is_a: GO:0043235
+created_by: bhm
+creation_date: 2016-10-10T13:38:12Z
+
+[Term]
+id: GO:1903767
+name: sweet taste receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of sweet taste receptor activity." [GO_REF:0000088, GOC:BHF, GOC:rl, GOC:TermGenie, PMID:16720576]
+is_a: GO:1903768
+created_by: rl
+creation_date: 2014-12-22T16:49:24Z
+
+[Term]
+id: GO:0098878
+name: neurotransmitter receptor complex
+namespace: cellular_component
+def: "Any protein complex that is capable of functioning as a neurotransmitter receptor." [GOC:dos]
+is_a: GO:0098802
+
+[Term]
+id: GO:1990712
+name: HFE-transferrin receptor complex
+namespace: cellular_component
+def: "A protein complex containing at least HFE and a transferrin receptor (either TFR1/TFRC or TFR2), proposed to play a role in the sensing of transferrin-bound Fe (Fe2-Tf) on the plasma membrane to regulate hepcidin transcription." [GOC:BHF, GOC:kom, PMID:25147378]
+is_a: GO:0098802
+created_by: pr
+creation_date: 2015-03-26T13:03:27Z
+
+[Term]
+id: GO:1903768
+name: taste receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of taste receptor activity." [GO_REF:0000088, GOC:BHF, GOC:rl, GOC:TermGenie, PMID:16720576]
+is_a: GO:0043235
+created_by: rl
+creation_date: 2014-12-22T16:53:45Z
+
+[Term]
+id: GO:0035631
+name: CD40 receptor complex
+namespace: cellular_component
+def: "A protein complex that contains at least CD40 (a cell surface receptor of the tumour necrosis factor receptor (TNFR) superfamily), and other signaling molecules." [GOC:BHF, PMID:20614026, PMID:9221764]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2010-12-21T10:35:05Z
+
+[Term]
+id: GO:0017146
+name: NMDA selective glutamate receptor complex
+namespace: cellular_component
+def: "An assembly of four or five subunits which form a structure with an extracellular N-terminus and a large loop that together form the ligand binding domain. The C-terminus is intracellular. The ionotropic glutamate receptor complex itself acts as a ligand gated ion channel; on binding glutamate, charged ions pass through a channel in the center of the receptor complex. NMDA receptors are composed of assemblies of NR1 subunits (Figure 3) and NR2 subunits, which can be one of four separate gene products (NR2A-D). Expression of both subunits are required to form functional channels. The glutamate binding domain is formed at the junction of NR1 and NR2 subunits. NMDA receptors are permeable to calcium ions as well as being permeable to other ions. Thus NMDA receptor activation leads to a calcium influx into the post-synaptic cells, a signal thought to be crucial for the induction of NMDA-receptor dependent LTP and LTD." [http://www.bris.ac.uk/Depts/Synaptic/info/glutamate.html]
+synonym: "N-methyl-D-aspartate selective glutamate receptor complex" EXACT []
+synonym: "NMDA-selective glutamate receptor" EXACT []
+is_a: GO:0008328
+
+[Term]
+id: GO:0032983
+name: kainate selective glutamate receptor complex
+namespace: cellular_component
+def: "An assembly of four or five subunits which form a structure with an extracellular N-terminus and a large loop that together form the ligand binding domain. The C-terminus is intracellular. The ionotropic glutamate receptor complex itself acts as a ligand gated ion channel; on binding glutamate, charged ions pass through a channel in the center of the receptor complex. Kainate receptors are multimeric assemblies of GluK1-3 (also called GluR5-7), GluK4 (KA1) and GluK5 (KA2) subunits." [GOC:bf, http://www.bris.ac.uk/Depts/Synaptic/info/glutamate.html, PMID:18655795]
+is_a: GO:0008328
+is_a: GO:0034705
+is_a: GO:0034706
+
+[Term]
+id: GO:0036398
+name: TCR signalosome
+namespace: cellular_component
+def: "A multi-protein complex containing at least the T-cell receptor complex and the LAT (linker for activation of T cells) scaffold protein. Also contains a variety of signaling proteins including co-receptors, kinases, phosphatases and adaptors such as CD8. Connects events on the plasma membrane to distal signaling cascades to ultimately modulate T cell biology." [GOC:krc, PMID:17534068, PMID:20107804, PMID:22426112]
+synonym: "LAT signalosome" EXACT [GOC:krc, PMID:17534068]
+synonym: "linker for activation of T cells signalosome" EXACT [PMID:17534068]
+is_a: GO:0032991
+relationship: has_part GO:0042101
+created_by: bf
+creation_date: 2013-07-18T13:52:24Z
+
+[Term]
+id: GO:0030876
+name: interleukin-20 receptor complex
+namespace: cellular_component
+def: "A protein complex composed of an alpha and a beta receptor subunit and an interleukin ligand. In human, Interleukin-19, -20 and -24 bind IL20RA/IL20RB receptor subunits and Interleukin-20 and -24 bind IL22RA1/IL20RB receptor subunits." [PMID:12351624]
+synonym: "IL-20 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:1902711
+name: GABA-A receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of GABA-A receptor activity. In human, it is usually composed of either two alpha, two beta and one gamma chain of the GABA-A receptor subunits or 5 chains of the GABA-A receptor subunits rho1-3 (formally known as GABA-C receptor)." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:18790874]
+comment: An example of this is GBRA1 in human (UniProt symbol P14867) in PMID:18790874.
+is_a: GO:1902710
+created_by: bhm
+creation_date: 2014-02-21T09:19:58Z
+
+[Term]
+id: GO:0038139
+name: ERBB4-EGFR complex
+namespace: cellular_component
+def: "A heterodimeric complex between the tyrosine kinase receptors ERBB4 (also called HER4) and epidermal growth factor receptor (EGFR/ERBB1)." [GOC:signaling, PMID:16460914, Reactome:R-HSA-1977956]
+synonym: "EGFR-ERBB4 complex" EXACT [GOC:bf]
+synonym: "ERBB4:EGFR heterodimer" EXACT [Reactome:R-HSA-1977956]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T01:59:41Z
+
+[Term]
+id: GO:0030526
+name: granulocyte macrophage colony-stimulating factor receptor complex
+namespace: cellular_component
+def: "The heterodimeric receptor for granulocyte macrophage colony-stimulating factor." [GOC:mah]
+synonym: "GM-CSF receptor complex" EXACT [GOC:vk]
+synonym: "granulocyte macrophage colony stimulating factor receptor complex" EXACT []
+is_a: GO:0098802
+
+[Term]
+id: GO:0034679
+name: integrin alpha9-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha9 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha9-beta1 integrin complex" EXACT []
+synonym: "ITGA9-ITGB1 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0034675
+name: integrin alpha6-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha6 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha6-beta1 integrin complex" EXACT []
+synonym: "ITGA6-ITGB1 complex" NARROW [CORUM:2413]
+synonym: "VLA-6 complex" EXACT [PMID:2649503]
+is_a: GO:0008305
+
+[Term]
+id: GO:0034691
+name: integrin alphaE-beta7 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaE subunit and one beta7 subunit." [PMID:12297042]
+synonym: "Itgae-Itgb7 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0038104
+name: nodal receptor complex
+namespace: cellular_component
+def: "A protein complex containing at least a type II activin receptor, a type I activin receptor, and a coreceptor (EGF-CFC protein) such as Cripto or Cryptic. Nodal receptor complexes are capable of binding a nodal protein and transducing the signal into the cell." [GOC:bf, GOC:signaling, PMID:11024047, PMID:15062104]
+comment: Nodal signals through activin receptors but (unlike activin) also requires EGF-CFC coreceptors (such as Cripto or Cryptic in mammals) to signal. This term is intended for receptor/co-receptor components and not a nodal-receptor complex.
+synonym: "ActRIIB.ALK4.EGF-CFC complex" NARROW [GOC:bf]
+is_a: GO:0043235
+created_by: bf
+creation_date: 2012-02-17T11:12:21Z
+
+[Term]
+id: GO:0038141
+name: ERBB4-ERBB4 complex
+namespace: cellular_component
+def: "A homodimeric complex containing two monomers of the tyrosine kinase receptor ERBB4 (also called HER4)." [GOC:signaling, PMID:16460914, Reactome:R-HSA-1250221]
+synonym: "ERBB4 homodimer" EXACT [Reactome:R-HSA-1977955]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T02:06:20Z
+
+[Term]
+id: GO:0034686
+name: integrin alphav-beta8 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphav subunit and one beta8 subunit." [PMID:12297042]
+synonym: "alphav-beta8 integrin complex" EXACT []
+synonym: "ITGAV-ITGB8 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0005892
+name: acetylcholine-gated channel complex
+namespace: cellular_component
+def: "A homo- or hetero-pentameric protein complex that forms a transmembrane channel through which ions may pass in response to acetylcholine binding." [GOC:bf, GOC:mah, PMID:12381728, PMID:15579462]
+synonym: "nicotinic acetylcholine receptor" BROAD []
+synonym: "nicotinic acetylcholine-gated receptor-channel complex" EXACT [GOC:bf]
+is_a: GO:0034702
+is_a: GO:0098802
+
+[Term]
+id: GO:0034683
+name: integrin alphav-beta3 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphav subunit and one beta3 subunit." [PMID:12297042]
+synonym: "alphav-beta3 integrin complex" EXACT []
+synonym: "ITGAV-ITGB3 complex" NARROW [CORUM:2816]
+is_a: GO:0008305
+
+[Term]
+id: GO:0034668
+name: integrin alpha4-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha4 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha4-beta1 integrin complex" EXACT []
+synonym: "ITGA4-ITGB1 complex" NARROW []
+synonym: "VLA-4 complex" EXACT []
+is_a: GO:0008305
+
+[Term]
+id: GO:0098802
+name: plasma membrane signaling receptor complex
+namespace: cellular_component
+def: "Any protein complex that is part of the plasma membrane and which functions as a signaling receptor." [GOC:dos]
+comment: Note that this term is in the subset of terms that should not be used for direct gene product annotation. Instead, select a child term or, if no appropriate child term exists, please request a new term. Direct annotations to this term may be amended during annotation QC.
+subset: gocheck_do_not_manually_annotate
+is_a: GO:0043235
+is_a: GO:0098797
+
+[Term]
+id: GO:0034678
+name: integrin alpha8-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha8 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha8-beta1 integrin complex" EXACT []
+synonym: "ITGA8-ITGB1 complex" NARROW [CORUM:2439]
+is_a: GO:0008305
+
+[Term]
+id: GO:1902710
+name: GABA receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of GABA receptor activity. Upon binding of gamma-aminobutyric acid (GABA) it transmits the signal from one side of the membrane to the other to initiate a change in cell activity. Major inhibitory receptor in vertebrate brain. Also found in other vertebrate tissues, invertebrates and possibly in plants. Effective benzodiazepine receptor." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:18790874]
+synonym: "gamma-aminobutyric acid receptor complex" EXACT []
+is_a: GO:0043235
+created_by: bhm
+creation_date: 2014-02-20T16:07:48Z
+
+[Term]
+id: GO:0034753
+name: nuclear aryl hydrocarbon receptor complex
+namespace: cellular_component
+def: "An aryl hydrocarbon receptor (AhR) complex found in the nucleus; ; consists of ligand-bound AhR and the aryl hydrocarbon receptor nuclear translocator (ARNT)." [PMID:7598497]
+synonym: "6S-nuclear aryl hydrocarbon (Ah) receptor ligand-activated complex" RELATED []
+synonym: "nuclear AhR complex" EXACT []
+synonym: "nuclear AHRC" EXACT []
+is_a: GO:0034751
+is_a: GO:0140513
+intersection_of: GO:0034751
+intersection_of: part_of GO:0005634
+
+[Term]
+id: GO:0042105
+name: alpha-beta T cell receptor complex
+namespace: cellular_component
+def: "A T cell receptor complex in which the TCR heterodimer comprises alpha and beta chains, associated with the CD3 complex; recognizes a complex consisting of an antigen-derived peptide bound to a class I or class II MHC protein." [GOC:mah, ISBN:0781735149]
+synonym: "alpha-beta T lymphocyte receptor complex" EXACT []
+synonym: "alpha-beta T-cell receptor complex" EXACT []
+synonym: "alpha-beta T-lymphocyte receptor complex" EXACT []
+synonym: "alpha-beta TCR complex" EXACT []
+is_a: GO:0042101
+
+[Term]
+id: GO:0071737
+name: IgG B cell receptor complex
+namespace: cellular_component
+def: "An IgG immunoglobulin complex that is present in the plasma membrane of B cells and is composed of two identical immunoglobulin heavy chains of an IgG isotype and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781765196]
+comment: Note that an IgG immunoglobulin complex has the function of antigen binding if a suitable antigen is available. Also, IgG isotypes vary by species.
+synonym: "membrane-bound IgG" NARROW [GOC:add]
+synonym: "membrane-bound IgG1" NARROW [GOC:add]
+synonym: "membrane-bound IgG2" NARROW [GOC:add]
+synonym: "membrane-bound IgG2a" NARROW [GOC:add]
+synonym: "membrane-bound IgG2b" NARROW [GOC:add]
+synonym: "membrane-bound IgG2c" NARROW [GOC:add]
+synonym: "membrane-bound IgG3" NARROW [GOC:add]
+synonym: "membrane-bound IgG4" NARROW [GOC:add]
+synonym: "surface IgG" NARROW [GOC:add]
+synonym: "surface IgG1" NARROW [GOC:add]
+synonym: "surface IgG2" NARROW [GOC:add]
+synonym: "surface IgG2a" NARROW [GOC:add]
+synonym: "surface IgG2b" NARROW [GOC:add]
+synonym: "surface IgG2c" NARROW [GOC:add]
+synonym: "surface IgG3" NARROW [GOC:add]
+synonym: "surface IgG4" NARROW [GOC:add]
+is_a: GO:0019815
+is_a: GO:0071735
+created_by: mah
+creation_date: 2010-03-24T01:44:53Z
+
+[Term]
+id: GO:0034690
+name: integrin alphaD-beta2 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphaD subunit and one beta2 subunit." [PMID:12297042]
+synonym: "alphaD-beta2 integrin complex" EXACT []
+synonym: "Itgad-Itgb2 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0002947
+name: tumor necrosis factor receptor superfamily complex
+namespace: cellular_component
+def: "A receptor complex that contains one or more members of the tumor necrosis factor (TNF) receptor superfamily." [GOC:krc]
+synonym: "TNF receptor superfamily complex" RELATED []
+is_a: GO:0043235
+created_by: hjd
+creation_date: 2012-12-20T13:26:39Z
+
+[Term]
+id: GO:0019815
+name: B cell receptor complex
+namespace: cellular_component
+def: "An immunoglobulin complex that is present in the plasma membrane of B cells and that in its canonical form is composed of two identical immunoglobulin heavy chains and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781735149]
+alt_id: GO:0042570
+comment: Note that an immunoglobulin complex has the function of antigen binding if a suitable antigen is available.
+synonym: "antibody" RELATED [GOC:mah]
+synonym: "B cell receptor accessory molecule complex" RELATED []
+synonym: "B lymphocyte receptor complex" EXACT []
+synonym: "B-cell receptor complex" EXACT []
+synonym: "B-lymphocyte receptor complex" EXACT []
+synonym: "BCR complex" EXACT []
+synonym: "immunoglobulin complex, membrane bound" EXACT []
+is_a: GO:0019814
+is_a: GO:0098802
+
+[Term]
+id: GO:0034681
+name: integrin alpha11-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha11 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha11-beta1 integrin complex" EXACT []
+synonym: "ITGA11-ITGB1 complex" NARROW [CORUM:3058]
+is_a: GO:0008305
+
+[Term]
+id: GO:1990779
+name: glycoprotein Ib-IX-V complex
+namespace: cellular_component
+def: "A transmembrane signalling receptor complex found exclusively on platelets. Involved in haemostasis and thrombosis where it aids blood coagulation." [GOC:bhm, PMID:1730602, PMID:23336709, PMID:25297919]
+comment: An example of this is GB1BA in human (P07359) in PMID:1730602 (inferred from direct assay).
+synonym: "CD42" EXACT []
+synonym: "GPIb-IX-V complex" EXACT []
+synonym: "GPIb-V-IX complex" EXACT []
+is_a: GO:0090665
+is_a: GO:0098802
+created_by: bhm
+creation_date: 2015-06-23T11:22:12Z
+
+[Term]
+id: GO:0098666
+name: G protein-coupled serotonin receptor complex
+namespace: cellular_component
+def: "A protein complex that is capable of G protein-coupled serotonin receptor activity." [GO_REF:0000088, GOC:bhm, GOC:TermGenie]
+synonym: "G-protein coupled serotonin receptor complex" EXACT []
+is_a: GO:0098665
+property_value: term_tracker_item https://github.com/geneontology/go-ontology/issues/12942 xsd:anyURI
+created_by: dos
+creation_date: 2016-12-21T12:28:12Z
+
+[Term]
+id: GO:0038143
+name: ERBB3:ERBB2 complex
+namespace: cellular_component
+def: "A heterodimeric complex between the tyrosine kinase receptor ERBB2 and a ligand-activated receptor ERBB3. ERBB2, which does not bind any known ligand, is activated through formation of a heterodimer with another ligand-activated ERBB family member such as ERBB3." [GOC:signaling, PMID:16460914, PMID:8665853, Reactome:R-HSA-1247502, Reactome:R-HSA-1963573, Reactome:R-HSA-1963589]
+synonym: "EGFR:ERBB2 heterodimer" NARROW [Reactome:R-HSA-1963573]
+synonym: "NRG1/2:ERBB3:ERBB2" NARROW [Reactome:R-HSA-1247502]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2012-03-30T02:16:56Z
+
+[Term]
+id: GO:1905571
+name: interleukin-10 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-10 (IL-10) and that consists of, at a minimum, a dimeric interleukin, an alpha and a beta chain as well as optional additional kinase subunits. The alpha chain binds IL-10 with high affinity and subsequently binds the common beta receptor chain that forms part of multiple interleukin receptors." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:16982608]
+comment: An example of this is IL10RA in human (UniProt symbol Q13651) in PMID:16982608 (inferred from physical interaction).
+synonym: "IL-10 receptor complex" EXACT []
+synonym: "IL-10-receptor complex" EXACT []
+synonym: "IL10 receptor complex" EXACT []
+synonym: "interleukin-10-receptor complex" EXACT []
+is_a: GO:0043235
+created_by: bhm
+creation_date: 2016-10-19T09:45:22Z
+
+[Term]
+id: GO:0008305
+name: integrin complex
+namespace: cellular_component
+def: "A protein complex that is composed of one alpha subunit and one beta subunit, both of which are members of the integrin superfamily of cell adhesion receptors; the complex spans the plasma membrane and binds to extracellular matrix ligands, cell-surface ligands, and soluble ligands." [PMID:17543136]
+synonym: "laminin receptor protein" RELATED []
+is_a: GO:0098636
+is_a: GO:0098802
+
+[Term]
+id: GO:0035355
+name: Toll-like receptor 2-Toll-like receptor 6 protein complex
+namespace: cellular_component
+def: "A heterodimeric protein complex containing Toll-like receptor 2 (TLR2) and Toll-like receptor 6 (TLR6)." [GOC:add, GOC:signaling, PMID:19931471, PMID:21481769]
+alt_id: GO:0038126
+synonym: "TLR2-TLR6 protein complex" EXACT []
+synonym: "TLR2:TLR6 heterodimer" EXACT [GOC:bf]
+synonym: "TLR6:TLR2 complex" EXACT []
+synonym: "toll-like receptor TLR6:TLR2 heterodimeric complex" EXACT [GOC:bf]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2010-03-04T04:37:00Z
+
+[Term]
+id: GO:0070110
+name: ciliary neurotrophic factor receptor complex
+namespace: cellular_component
+def: "A protein complex that acts as a receptor for the cytokine ciliary neurotrophic factor (CNTF). In humans the receptor complex is a hexamer composed of two molecules each of CNTF and CNTFR and one molecule each of gp130 and LIFR." [GOC:BHF, GOC:mah, GOC:rl, PMID:12707266]
+is_a: GO:0098802
+
+[Term]
+id: GO:0071755
+name: IgM B cell receptor complex
+namespace: cellular_component
+def: "An IgM immunoglobulin complex that is present in the plasma membrane of B cells and is composed of two identical immunoglobulin heavy chains of the IgM isotype and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781765196, PMID:20176268]
+comment: Note that an IgM immunoglobulin complex has the function of antigen binding if a suitable antigen is available.
+synonym: "membrane-bound IgM" NARROW [GOC:add]
+synonym: "surface IgM" NARROW [GOC:add]
+is_a: GO:0019815
+is_a: GO:0071753
+created_by: mah
+creation_date: 2010-03-24T01:44:53Z
+
+[Term]
+id: GO:0034674
+name: integrin alpha5-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha5 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha5-beta1 integrin complex" EXACT []
+synonym: "ITGA5-ITGB1 complex" NARROW []
+synonym: "VLA-5 complex" EXACT []
+is_a: GO:0008305
+
+[Term]
+id: GO:0038197
+name: type I interferon receptor complex
+namespace: cellular_component
+def: "A heterodimeric protein complex that binds a type I interferon and transmits the signal across the membrane into the cell. Consists of an alpha subunit (IFNAR1) and a beta subunit (IFNAR2)." [GOC:cjm, GOC:signaling, PMID:17502368]
+synonym: "interferon-alpha/beta receptor complex" NARROW [GOC:bf]
+is_a: GO:0098802
+created_by: bf
+creation_date: 2013-11-27T14:53:50Z
+
+[Term]
+id: GO:0032281
+name: AMPA glutamate receptor complex
+namespace: cellular_component
+def: "An assembly of four or five subunits which form a structure with an extracellular N-terminus and a large loop that together form the ligand binding domain. The C-terminus is intracellular. The ionotropic glutamate receptor complex itself acts as a ligand gated ion channel; on binding glutamate, charged ions pass through a channel in the center of the receptor complex. The AMPA receptors mediate fast synaptic transmission in the CNS and are composed of subunits GluR1-4, products from separate genes. These subunits have an extracellular N-terminus and an intracellular C-terminus." [GOC:ef]
+synonym: "alpha-amino-3-hydroxy-5-methyl-4-isoxazolepropionic acid selective glutamate receptor complex" EXACT []
+synonym: "AMPA receptor" RELATED []
+synonym: "AMPA-selective glutamate receptor complex" EXACT []
+is_a: GO:0008328
+
+[Term]
+id: GO:0034752
+name: cytosolic aryl hydrocarbon receptor complex
+namespace: cellular_component
+def: "An aryl hydrocarbon receptor complex found in the cytosol, in which the ligand-binding subunit AhR is not bound to ligand; consists of AhR, two molecules of HSP90, the protein kinase c-Src, and the immunophilin XAP2/AIP." [PMID:7598497, PMID:8937476, PMID:9447995]
+synonym: "9S-cytosolic aryl hydrocarbon (Ah) receptor non-ligand activated complex" RELATED []
+synonym: "cytosolic AhR complex" EXACT []
+synonym: "cytosolic AHRC" EXACT []
+is_a: GO:0034751
+relationship: part_of GO:0005829
+
+[Term]
+id: GO:0002116
+name: semaphorin receptor complex
+namespace: cellular_component
+def: "A stable binary complex of a neurophilin and a plexin, together forming a functional semaphorin receptor." [GOC:hjd, PMID:10934324, PMID:12367632, PMID:12613544]
+synonym: "plexin-neurophilin complex" EXACT []
+is_a: GO:0043235
+
+[Term]
+id: GO:1903439
+name: calcitonin family receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of calcitonin family receptor activity. Calcitonin family receptors may form dimers, trimers or tetramers; adrenomedullin and amylin receptors have only been observed as dimers so far." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:10871296, PMID:12037140, PMID:18687416]
+is_a: GO:0097648
+created_by: pr
+creation_date: 2014-09-16T13:25:11Z
+
+[Term]
+id: GO:0034677
+name: integrin alpha7-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alpha7 subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alpha7-beta1 integrin complex" EXACT []
+synonym: "ITGA7-ITGB1 complex" NARROW []
+is_a: GO:0008305
+
+[Term]
+id: GO:0042101
+name: T cell receptor complex
+namespace: cellular_component
+def: "A protein complex that contains a disulfide-linked heterodimer of T cell receptor (TCR) chains, which are members of the immunoglobulin superfamily, and mediates antigen recognition, ultimately resulting in T cell activation. The TCR heterodimer is associated with the CD3 complex, which consists of the nonpolymorphic polypeptides gamma, delta, epsilon, zeta, and, in some cases, eta (an RNA splice variant of zeta) or Fc epsilon chains." [GOC:mah, ISBN:0781735149]
+synonym: "T lymphocyte receptor complex" EXACT []
+synonym: "T-cell receptor complex" EXACT []
+synonym: "T-lymphocyte receptor complex" EXACT []
+synonym: "TCR" RELATED []
+synonym: "TCR complex" EXACT [GOC:bf]
+xref: Wikipedia:T_cell_receptor
+is_a: GO:0098802
+
+[Term]
+id: GO:0005898
+name: interleukin-13 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-13; consists of two chains, interleukin-13 receptor alpha1 chain and interleukin-4 receptor alpha chain." [PMID:8552669, PMID:9013879]
+synonym: "IL-13 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0032002
+name: interleukin-28 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-28 and interleukin-29. It is composed of an alpha and a beta receptor subunit (in human IFNLR1/IL28Ralpha & IL10RB) and either Interleukin-28 (IFNL2 or IFNL3) or Interleukin-29 (IFNL1)." [GOC:rph]
+synonym: "IL-28 receptor complex" EXACT [GOC:add]
+is_a: GO:0098802
+
+[Term]
+id: GO:0038037
+name: G protein-coupled receptor dimeric complex
+namespace: cellular_component
+def: "A protein complex that contains two G protein-coupled receptors." [GOC:al, GOC:bf, PMID:10713101]
+synonym: "G-protein coupled receptor dimer" EXACT [GOC:bf]
+synonym: "G-protein coupled receptor dimeric complex" EXACT []
+synonym: "GPCR dimer" EXACT [GOC:bf]
+is_a: GO:0097648
+created_by: bf
+creation_date: 2011-11-02T04:42:44Z
+
+[Term]
+id: GO:0038038
+name: G protein-coupled receptor homodimeric complex
+namespace: cellular_component
+def: "A protein complex that contains two G protein-coupled receptors (GPCRs) of the same subtype. Formation of a GPCR homodimer may be important for the transport of newly formed receptors to the cell surface, and the function of the receptor." [GOC:al, GOC:bf, PMID:10713101, PMID:16670762]
+synonym: "G-protein coupled receptor homodimer" EXACT [GOC:bf]
+synonym: "G-protein coupled receptor homodimeric complex" EXACT []
+synonym: "GPCR homodimer" EXACT [GOC:bf]
+is_a: GO:0038037
+created_by: bf
+creation_date: 2011-11-02T04:43:53Z
+
+[Term]
+id: GO:0008328
+name: ionotropic glutamate receptor complex
+namespace: cellular_component
+def: "A multimeric assembly of four or five subunits which form a structure with an extracellular N-terminus and a large loop that together form the ligand binding domain. The C-terminus is intracellular. The ionotropic glutamate receptor complex itself acts as a ligand-gated ion channel; on binding glutamate, charged ions pass through a channel in the center of the receptor complex." [http://www.bris.ac.uk/Depts/Synaptic/info/glutamate.html]
+is_a: GO:0034702
+is_a: GO:0098878
+
+[Term]
+id: GO:1902712
+name: G protein-coupled GABA receptor complex
+namespace: cellular_component
+def: "A protein complex which is capable of G protein-coupled GABA receptor activity. In human, it is usually a heterodimer composed of GABA-B receptor subunits 1 and 2." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:18790874]
+comment: An example of this is GABR1 in human (UniProt symbol Q9UBS5) in PMID:18790874.
+synonym: "G-protein coupled GABA receptor complex" EXACT []
+is_a: GO:0038037
+is_a: GO:1902710
+created_by: bhm
+creation_date: 2014-02-21T09:47:03Z
+
+[Term]
+id: GO:0072536
+name: interleukin-23 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-23 and that consists of, at a minimum, a dimeric interleukin and its two receptor subunits as well as optional additional kinase subunits." [GOC:BHF, GOC:mah, PMID:12023369]
+synonym: "IL-23 receptor complex" EXACT [GOC:mah]
+is_a: GO:0098802
+created_by: mah
+creation_date: 2011-01-14T02:51:14Z
+
+[Term]
+id: GO:0071747
+name: IgA B cell receptor complex
+namespace: cellular_component
+def: "An IgA immunoglobulin complex that is present in the plasma membrane of B cells and is composed of two identical immunoglobulin heavy chains of an IgA isotype and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781765196, PMID:16362985]
+comment: Note that an IgA immunoglobulin complex has the function of antigen binding if a suitable antigen is available.
+synonym: "membrane-bound IgA" NARROW [GOC:add]
+synonym: "membrane-bound IgA1" NARROW [GOC:add]
+synonym: "membrane-bound IgA2" NARROW [GOC:add]
+synonym: "surface IgA" NARROW [GOC:add]
+synonym: "surface IgA1" NARROW [GOC:add]
+synonym: "surface IgA2" NARROW [GOC:add]
+is_a: GO:0019815
+is_a: GO:0071745
+created_by: mah
+creation_date: 2010-03-24T01:44:53Z
+
+[Term]
+id: GO:1903143
+name: adrenomedullin receptor complex
+namespace: cellular_component
+def: "A transmembrane, G protein-coupled signalling receptor complex which is capable of adrenomedullin receptor activity." [GO_REF:0000088, GOC:bhm, GOC:TermGenie, PMID:22102369]
+comment: An example of this is RAMP2 in human (O60895) in PMID:22102369 (inferred from direct assay).
+synonym: "adrenomedullin receptor AM1 complex" NARROW []
+synonym: "adrenomedullin receptor AM2 complex" NARROW []
+is_a: GO:0038037
+is_a: GO:1903439
+created_by: bhm
+creation_date: 2014-07-02T08:56:47Z
+
+[Term]
+id: GO:0042022
+name: interleukin-12 receptor complex
+namespace: cellular_component
+def: "A protein complex that binds interleukin-12 and that consists of, at a minimum, a dimeric interleukin and its two receptor subunits as well as optional additional kinase subunits." [GOC:ebc, GOC:mah, PMID:10971505]
+synonym: "IL-12 receptor complex" EXACT [GOC:add]
+synonym: "IL12RB1-IL12RB2 complex" NARROW [CORUM:2026]
+is_a: GO:0098802
+
+[Term]
+id: GO:0005899
+name: insulin receptor complex
+namespace: cellular_component
+def: "A disulfide-bonded, heterotetrameric receptor complex. The alpha chains are entirely extracellular, while each beta chain has one transmembrane domain. The ligand binds to the alpha subunit extracellular domain and the kinase is associated with the beta subunit intracellular domain." [ISBN:0198506732]
+is_a: GO:0098802
+is_a: GO:1902911
+
+[Term]
+id: GO:0150057
+name: amylin receptor complex 2
+namespace: cellular_component
+def: "A G protein-coupled receptor complex that serves as a receptor for amylin polypeptide (AMY) and consists of a calcitonin receptor (CTR/CALCR) and a receptor activity-modifying protein (RAMP) 2. Amylin receptor complex 2 (AMY2) also serves as a receptor for adrenomedullin (AM/ADM)." [GOC:aruk, GOC:bc, PMID:22500019]
+synonym: "AMY2 complex" EXACT []
+is_a: GO:1903440
+created_by: bc
+creation_date: 2018-06-21T10:51:35Z
+
+[Term]
+id: GO:0034682
+name: integrin alphav-beta1 complex
+namespace: cellular_component
+def: "An integrin complex that comprises one alphav subunit and one beta1 subunit." [PMID:12297042]
+synonym: "alphav-beta1 integrin complex" EXACT []
+synonym: "ITGAV-ITGB1 complex" NARROW [CORUM:2436]
+is_a: GO:0008305
+
+[Term]
+id: GO:0071740
+name: IgD B cell receptor complex
+namespace: cellular_component
+def: "An IgD immunoglobulin complex that is present in the plasma membrane of B cells and is composed of two identical immunoglobulin heavy chains of the IgD isotype and two identical immunoglobulin light chains and a signaling subunit, a heterodimer of the Ig-alpha and Ig-beta proteins." [GOC:add, ISBN:0781765196, PMID:11282392]
+comment: Note that an IgD immunoglobulin complex has the function of antigen binding if a suitable antigen is available.
+synonym: "membrane-bound IgD" EXACT [GOC:add]
+synonym: "surface IgD" EXACT [GOC:add]
+is_a: GO:0019815
+is_a: GO:0071738
+created_by: mah
+creation_date: 2010-03-24T01:44:53Z
+
+[Term]
+id: GO:0030988
+name: high molecular weight kininogen receptor complex
+namespace: cellular_component
+def: "A protein complex that acts as a receptor for high molecular weight kininogens. In humans, this receptor includes the CK1 and uPAR proteins." [GOC:mah, PMID:11290596]
+is_a: GO:0098802
+
