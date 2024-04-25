@@ -1,9 +1,0 @@
-biogrid.4.4.217.recomp
-biogrid.4.4.217.cofrac
-biogrid.4.4.217.proxms
-biogrid.4.4.217.genetic
-biogrid.4.4.217.physical
-biogrid.4.4.217.ACrna
-biogrid.4.4.217.ACwestern
-biogrid.4.4.217.2H
-biogrid.4.4.217.apms

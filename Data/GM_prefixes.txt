@@ -1,9 +1,0 @@
-GM_colocal
-GM_coexp_97
-GM_coexp_90
-GM_genetic
-GM_domain
-GM_pathway
-GM_physical
-GM_predicted
-GM_genetic_90

@@ -1,9 +1,0 @@
-bind.v8
-biogrid.4.4.217
-dip.PC
-hint.updated.combined
-hprd
-reactome.v83
-signalink
-signor
-pips
