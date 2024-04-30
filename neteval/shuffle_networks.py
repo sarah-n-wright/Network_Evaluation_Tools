@@ -1,6 +1,6 @@
 import argparse
 import networkx as nx
-from neteval.processing_functions import Timer
+from neteval.Timer import Timer
 import os, sys
 import warnings
 import neteval.data_import_export_tools as dit
