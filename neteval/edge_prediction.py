@@ -271,12 +271,12 @@ class EdgePredictionResults:
                 net_data.loc[folds[i]].to_csv(self.edgefile+".fold"+str(i+1)+"_test", sep='\t', index=False)
                 test_files.append(self.edgefile+".fold"+str(i+1)+"_test")
                 net_data.drop(index=folds[i]).to_csv(self.edgefile+".fold"+str(i+1), sep='\t', index=False)
-                prediction_files.append(self.resultdir + "L3_predictions_" + self.net_name + "fold"+str(i+1) + ".dat")
+                prediction_files.append(self.resultdir + "L3_predictions_" + self.net_name + ".fold"+str(i+1) + ".dat")
                 input_files.append(self.edgefile+".fold"+str(i+1))
             if verbose:    
                 print("Running prediction on", mp.cpu_count(), "cores.")
             with mp.Pool(3) as pool:
-                pool.map(process_prediction_job, [(self.edgefile+".fold"+str(i+1), self.net_name + "fold"+str(i+1), self.resultdir, self.execdir) for i in range(nfolds)])
+                pool.map(process_prediction_job, [(self.edgefile+".fold"+str(i+1), self.net_name + ".fold"+str(i+1), self.resultdir, self.execdir) for i in range(nfolds)])
 
         return prediction_files, test_files, input_files
     
@@ -541,7 +541,7 @@ if __name__ == "__main__":
         pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv(args.outdir +args.networkprefix + "_L3_filepaths.tsv", sep="\t", index=False)
     if args.runwhat in ['Evaluation']:
         print('Creating EdgePredictionResults object')
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method)
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         print('Calculating statistics')
         results_df = epr.evalutate_all_metrics(k=500)
         print('Writing statistics')
