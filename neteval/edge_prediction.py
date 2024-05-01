@@ -541,7 +541,7 @@ if __name__ == "__main__":
         pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv(args.outdir +args.networkprefix + "_L3_filepaths.tsv", sep="\t", index=False)
     if args.runwhat in ['Evaluation']:
         print('Creating EdgePredictionResults object')
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method)
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         print('Calculating statistics')
         results_df = epr.evalutate_all_metrics(k=500)
         print('Writing statistics')
