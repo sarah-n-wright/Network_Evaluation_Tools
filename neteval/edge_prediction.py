@@ -532,10 +532,10 @@ if __name__ == "__main__":
     if args.runwhat in ["Folds"]:
         create_network_folds(args.datadir+ args.networkprefix+"_net.txt", nfolds=10, lcc=True)
     if args.runwhat in ["PredictFolds"]:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3')
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
         epr.run_single_prediction()
     if args.runwhat in ["Prediction", "Both"]:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3')
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
         predicted_files, test_files, input_files = epr.run_10_fold_cv("L3", nfolds=10)
     # save the prediciton and test file paths
         pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv(args.outdir +args.networkprefix + "_L3_filepaths.tsv", sep="\t", index=False)
@@ -550,7 +550,7 @@ if __name__ == "__main__":
         elif args.pred_method=='MPS':
             results_df.to_csv(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_results.tsv", sep='\t', index=False)
     if args.runwhat in ['GoldStandard']:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method)
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         for bench in args.benchmarks:
             print('Evaluating', bench)
             results_df = epr.evaluate_gold_standard(bench, k=500)
@@ -559,7 +559,7 @@ if __name__ == "__main__":
             elif args.pred_method == 'MPS':
                 results_df.to_csv(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_"+bench+"_results.tsv", sep='\t', index=False)
     if args.runwhat in ['Coverage']:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method)
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         coverage_file = os.path.join(DIRPATH, '../Data/mapped_edge_counts.pkl')
         results_df, unverified_edges = epr.evaluate_network_coverage(coverage_file, k=100)
         if args.pred_method == 'L3':
@@ -573,7 +573,7 @@ if __name__ == "__main__":
                 edge_strings = ['\t'.join([str(edge[0]), str(edge[1])]) for edge in unverified_edges]
                 f.write('\n'.join(edge_strings) + '\n')
     if args.runwhat in ["Both"]:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3')
+        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
         if args.runwhat == "Evaluation":
             files_df = pd.read_csv(args.outdir+args.networkprefix + "_L3_filepaths.tsv", sep="\t")
             predicted_files = list(files_df['prediction_files'].values)
