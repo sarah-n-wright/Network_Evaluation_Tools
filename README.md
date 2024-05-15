@@ -130,8 +130,10 @@ eval_results.rank_all(na_option='center') # requires >1 network evaluated
 ## Version and Dependencies
 neteval requires python 3.10+, and:
   - Argparse >= 1.4.0
+  - Httplib2 >= 0.20.2
   - Mygene >= 3.2.2
   - NetworkX >= 2.6.3, may not be compatible with 3+
+  - Ndex2 >= 3.5.0
   - Numpy >= 1.21.4
   - Matplotlib >= 3.5.0
   - Pandas >= 1.3.4
