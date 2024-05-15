@@ -7,35 +7,35 @@
 #SBATCH --time=3-00:00:00    # Maximum execution time
 
 cwd=$(echo $PWD)
-# Load any required modules or software here
-network_full_path=${cwd}/../Data/example_outputs/dip_net.txt
-net_name=dip
+net_prefix=$1
+network_full_path=${cwd}/../Data/example_outputs/${net_prefix}_net.txt
+net_name=$net_prefix
 shuffs=50
 samples=50
 alpha=0.64
 sampp=0.5
 
 job_id=$SLURM_JOB_ID
-set_files=(combined_genesets.genesets disgen_befree_Dec22_final5.txt gwas_catalog_Dec22_final.txt gwas_cat_2023_07_27.genesets)
-set_names=(disgen gwas)
-min_genes_list=(20 20)
+set_files=(experimental.genesets disgen.genesets gwas.genestes gwas_20230727.genesets)
+set_names=(exp_genesets disgen gwas gwas_230727)
+min_genes_list=(10 20 20 10)
 
 datadir=$cwd/../Data/
 gitdir=$cwd/../
 
-for i in {1..2}; do
+for i in {0..3}; do
 	set_file=${set_files[$i]}
 	set_name=${set_names[$i]}
 	min_genes=${min_genes_list[$i]}
 	node_sets_file=$gitdir/Data/$set_file
-	actual_AURPRCs_save_path=$datadir/example_outputs/$net_name.$set_name.auprcs.csv
+	actual_AURPRCs_save_path=$datadir/example_outputs/AUPRCs/$net_name.$set_name.auprcs.csv
 	echo '>>>'$i $set_file $set_name
 
 	srun -l python $gitdir/neteval/run_network_evaluation.py \
 		--cores 2 -i $shuffs -n $samples -a $alpha -p $sampp --min_genes $min_genes \
-		--null_network_outdir $datadir/Evaluation/Null_Networks/ \
-		--null_AUPRCs_save_path $datadir/Evaluation/AUPRCs/Null_AUPRCs/$net_name.$set_name.null_auprcs.csv \
-		--performance_save_path $datadir/Evaluation/Performance/$net_name.$set_name.performance.csv \
-		--performance_gain_save_path $datadir/Evaluation/Performance_Gain/$net_name.$set_name.performance_gain.csv \
+		--null_network_outdir $datadir/example_outputs/Null_Networks/ \
+		--null_AUPRCs_save_path $datadir/example_outputs/AUPRCs/Null_AUPRCs/$net_name.$set_name.null_auprcs.csv \
+		--performance_save_path $datadir/example_outputs/Performance/$net_name.$set_name.performance.csv \
+		--performance_gain_save_path $datadir/example_outputs/Performance_Gain/$net_name.$set_name.performance_gain.csv \
 		$network_full_path $node_sets_file $actual_AURPRCs_save_path
 done

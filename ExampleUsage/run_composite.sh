@@ -14,13 +14,13 @@ pref_file=$1
 name=$2
 # method of composite construction ('global' or 'ranked')
 method=$3
-netdir=/path/to/network/directory/
-outdir=/directory/path/to/write/composites/
+netdir=${cwd}/../Data/example_outputs/
+outdir=${cwd}/../Data/example_outputs/
 
 if [ $method == 'global' ]; then
 srun -l python $cwd/../neteval/network_constructor.py -d $netdir \
 	-o $outdir -m parsimonious \
-	-n 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 --name $name --nodepref Entrez_ \
+	-n 1 2 3 --name $name --nodepref Entrez_ \
 	$pref_file
 fi
 if [ $method == 'ranked' ]; then
