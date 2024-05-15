@@ -19,7 +19,12 @@ fi
 
 ./L3.out ${name}_temp_input_file.txt
 
-mv ${name}_temp_input_file.txt $file
+# if a temp file is created, move it to the original file
+if [ -f ${name}_temp_input_file.txt.txt ]; then
+    mv ${name}_temp_input_file.txt $file
+fi
 
-mv L3_predictions_${name}_temp_input_file.txt.dat $outpath/L3_predictions_${name}.dat
+if [ -f L3_predictions_${name}_temp_input_file.txt.dat ]; then
+    mv L3_predictions_${name}_temp_input_file.txt.dat $outpath/L3_predictions_${name}.dat
+fi
 
