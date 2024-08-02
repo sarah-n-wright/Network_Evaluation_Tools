@@ -3,6 +3,7 @@ from neteval.gene_mapper import update_nodes, convert_node_ids
 import pandas as pd
 import argparse
 import os
+from neteval.network_statistics import NetworkStats
 
 
 def check_min_genes_per_network(gene_set, network_file_list, datadir, min_genes=20):
@@ -113,6 +114,33 @@ def filter_gene_sets_by_network(genesets, network_file_list, datadir, min_genes=
     print(len(keep_gene_sets), "/", len(genesets), "retained after filtering.")
     return keep_gene_sets
 
+def strict_filter_gene_sets(genesets, datadir, network_file_list, min_genes=1, max_genes=20000):
+    """ Filter gene sets to those with a subset of at least <min_genes> in every network specified by network_file_list.
+    Args:
+        genesets (dict): dictionary of gene sets
+        datadir (str): path to directory containing network files
+        network_file_list (str): path to file containing list of network prefixes
+        min_genes (int): minimum number of genes required in each network
+        max_genes (int): maximum number of genes allowed in each network
+        
+    Returns:
+        dict: dictionary of gene sets, subset to only the shared genes, that have at least min_genes in each network specified by network_file_list
+        dict: dictionary of gene sets, full size, that have at least min_genes in each network specified by network_file_list
+    
+    """
+    stats = NetworkStats(prefix_file=network_file_list, datadir=datadir)
+    # get the list of genes present in all networks
+    all_present = {node for node in stats.nodes if stats.node_counts[node] == len(stats.prefixes)}
+    print(f'{len(all_present)} genes present in all networks ({100*len(all_present)/len(stats.nodes)}%)', len(all_present), "/", len(stats.nodes))
+    # fitler based on the maximum number of genes
+    genesets = {set_id:genesets[set_id] for set_id in genesets if len(genesets[set_id]) < max_genes}
+    # identify the genesets with sufficient coverage of all networks
+    keep_gene_sets = {set_id:genesets[set_id] for set_id in genesets if len(genesets[set_id].intersection(all_present)) >= min_genes}
+    # subset the genesets to only the genes present in all networks
+    reduced_keep_gene_sets = {set_id:genesets[set_id].intersection(all_present) for set_id in keep_gene_sets}
+    return reduced_keep_gene_sets, keep_gene_sets
+    
+    
 
 def convert_genesets(genesets, initial_id, target_id):
     """ Convert gene sets from one id type to another.
@@ -156,11 +184,12 @@ if __name__=='__main__':
     parser.add_argument('-i', metavar='id_type', required=True, type=str)
     parser.add_argument('-n', metavar='network_list', required=False, default='', type=str)
     parser.add_argument('-o', metavar='output', required=True, type=str)
-    parser.add_argument('-C', action='store_true')
-    parser.add_argument('-F', action='store_true')
+    parser.add_argument('-C', action='store_true', help='Perform conversion of gene ids')
+    parser.add_argument('-F', action='store_true', help='Perform filtering of gene sets')
     parser.add_argument('-d', metavar='datadir', required=False, default='', type=str)
     parser.add_argument('-m', metavar='min_genes', required=False, default=10, type=int)
     parser.add_argument('-M', metavar='max_genes', required=False, default=500, type=int)
+    parser.add_argument('--strict', action='store_true', help='Require that the same set of <min_genes> genes be present in all networks')
     
     args = parser.parse_args()
     assert (args.C or args.F), "Must specify at least one of -C or -F"
@@ -175,5 +204,9 @@ if __name__=='__main__':
         print(args.n)
         # get file path of current file
         os.path.dirname(os.path.abspath(__file__)) + '/../Data/'
-        genesets = filter_gene_sets(genesets, args.d, network_file_list=args.n, min_genes=args.m, max_genes=args.M)
+        if args.strict:
+            reduced_genesets, genesets = strict_filter_gene_sets(genesets, args.d, network_file_list=args.n, min_genes=args.m, max_genes=args.M)
+            write_gene_sets(reduced_genesets, args.o+'.reduced')
+        else:
+            genesets = filter_gene_sets(genesets, args.d, network_file_list=args.n, min_genes=args.m, max_genes=args.M)
     write_gene_sets(genesets, args.o)

@@ -155,16 +155,30 @@ def search_gene_names(ids, approved_df=pd.DataFrame()):
         missing = ids
     return name_map, missing
 
+
 def perform_hgnc_query(ids, from_id, to_id):
     if (from_id == "Symbol") and (to_id == "Symbol"):
         print("Initial Ids", len(ids))
         approved_map, missing, approved_df = search_approved_symbols(ids)
-        print("Check names", len(missing))
-        name_map, missing = search_gene_names(missing, approved_df)        
-        print("Previous Ids", len(missing))
-        previous_map, missing = query_previous_symbols(missing, approved_df)
-        print("Alias Ids", len(missing))
-        alias_map, missing = query_alias_symbols(missing, approved_df)
+        if len(missing) > 0:
+            print("Check names", len(missing))
+            name_map, missing = search_gene_names(missing, approved_df)
+            if len(missing) > 0:        
+                print("Previous Ids", len(missing))
+                previous_map, missing = query_previous_symbols(missing, approved_df)
+            
+                if len(missing) > 0:
+                    print("Alias Ids", len(missing))
+                    alias_map, missing = query_alias_symbols(missing, approved_df)
+                else:
+                    alias_map = {}
+            else:
+                previous_map = {}
+                alias_map = {}
+        else:
+            name_map = {}
+            previous_map = {}
+            alias_map = {}
         id_map = {**approved_map, **alias_map, **previous_map, **name_map}
         return id_map, missing
     else:

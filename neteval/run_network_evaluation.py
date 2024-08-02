@@ -11,24 +11,26 @@ import os
 import pandas as pd
 import numpy as np
 
-# Checking valid alpha and p values (Range is 0.0-1.0 exclusive)
-# Value can also be None.
+
 def restricted_float(x):
+    """Check that numerical value is a float in the range (0.0, 1.0) exclusive. Value can also be None"""
     if x is not None:
         x = float(x)
         if x <= 0.0 or x >= 1.0:
             raise argparse.ArgumentTypeError("%r not in range (0.0, 1.0) exclusive"%(x,))
     return x
 
-# Checking valid integer values (for all values that must be >0)
+
 def positive_int(x):
+    """Check that numerical value is a positive integer. Value must be >0."""
     x = int(x)
     if x <= 0:
         raise argparse.ArgumentTypeError("%s must be a positive integer" % x)
     return x
 
-# Valid file path check (Does not check file formatting, but checks if given path exists and is readable)
+
 def valid_infile(in_file):
+    """Check that input file path exists and is readable"""
     if not os.path.isfile(in_file):
         raise argparse.ArgumentTypeError("{0} is not a valid input file path".format(in_file))	
     if os.access(in_file, os.R_OK):
@@ -36,9 +38,10 @@ def valid_infile(in_file):
     else:
         raise argparse.ArgumentTypeError("{0} is not a readable input file".format(in_file))
 
-# Valid output directory path check (Checks if the output directory path can be found and written to by removing given filename from full path)
-# Note: This uses '/' character for splitting pathnames on Linux and Mac OSX. The character may need to be changed to '\' for Windows executions
+
 def valid_outfile(out_file):
+    """Check that output file path is writable. Note: This uses '/' character for splitting pathnames on Linux and Mac OSX. 
+    The character may need to be changed to '\' for Windows executions"""
     outdir = '/'.join(out_file.split('/')[:-1])
     if not os.path.isdir(outdir):
         try: 
@@ -93,8 +96,6 @@ if __name__ == "__main__":
         help='CSV file path of where to save network evaluation results as gain in AUPRC over median null AUPRCs.')
     
     args = parser.parse_args()
-    # If null networks need to be constructed
-
 
     ####################################
     ##### Network Evaluation Setup #####
@@ -116,15 +117,7 @@ if __name__ == "__main__":
     else:
         _, mean_coverage = nef.calculate_p(network, genesets, id_type="Entrez")
         genesets_p = {geneset:args.sample_p for geneset in genesets}
-    # if args.sample_p is None:
-    # 	genesets_p = nef.calculate_p(network, genesets)
-    # else:
-    # 	genesets_p = {geneset:args.sample_p for geneset in genesets}
-    # if args.verbose:
-    # 	print('Gene set sub-sample rates set')
-
     # Calculate network kernel (also determine propagation constant if not set)
-    #TODO allow for specifying alpha with an input	
     if args.alpha is None:
         alpha = prop.calculate_alpha(np.log10(len(network.edges)), mean_coverage, np.mean(list(genesets_p.values())))
     else:
@@ -138,7 +131,6 @@ if __name__ == "__main__":
         background_nodes = list(background_node_set.intersection(set(kernel.index)))
     else:
         background_nodes = list(kernel.index)
-
 
     ############################################
     ##### Network Performance Calculations #####
@@ -154,8 +146,6 @@ if __name__ == "__main__":
 
     # Save the actual network's AUPRC values
     actual_AUPRC_values.to_csv(args.actual_AUPRCs_save_path)
-    actual_FDR_values.to_csv(args.actual_AUPRCs_save_path + '_FDR')
-
 
     #################################################
     ##### Null Network Performance Calculations #####
@@ -181,9 +171,6 @@ if __name__ == "__main__":
             # Save null network if null network output directory is given
                 if args.null_network_outdir is not None:
                     shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
-                    #shuffNet_edges = shuffNet.edges()
-                    #gct.write_edgelist(shuffNet_edges, args.null_network_outdir+'shuffNet_'+repr(i+1)+'.txt',
-                    #	delimiter='\t', binary=True)
                     if args.verbose:
                         print('Shuffled Network', i+1, 'written to file')
             # Construct null network kernel
@@ -208,7 +195,6 @@ if __name__ == "__main__":
         # Save null network AUPRCs if save path is given
         if args.null_AUPRCs_save_path is not None:
             null_AUPRCs_table.to_csv(args.null_AUPRCs_save_path)
-            null_FDRs_table.to_csv(args.null_AUPRCs_save_path + "_FDR")
         # Calculate performance score for each gene set's AUPRC if performance score save path is given
         if args.performance_save_path is not None:
             network_performance = nef.calculate_network_performance_score(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			

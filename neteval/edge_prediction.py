@@ -20,6 +20,13 @@ from collections import defaultdict
 DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 def create_network_folds(edgefile, nfolds=10, lcc=True):
+    """Split a network into nfolds for cross-validation. Folds are based on the network edges. 
+    
+    Args:
+        edgefile (str): Path to the edge file representing the network
+        nfolds (int): Number of folds to create
+        lcc (bool): Whether to use only the largest connected component
+    """
     if lcc:
         G = load_edgelist_to_networkx(edgefile, id_type="Entrez", testmode=False, timer=None, delimiter="\t", node_cols=[0,1],
                                 keep_attributes=False, verbose=False)
@@ -36,26 +43,42 @@ def create_network_folds(edgefile, nfolds=10, lcc=True):
         net_df.drop(index=folds[i]).to_csv(edgefile+".fold"+str(i+1), sep='\t', index=False, header=False)
 
 
-
 def l3_edge_prediction(filepath, name, outpath, execdir):
-    """_summary_
-
+    """Run the L3 edge prediction algorithm on a network.
+    
     Args:
-        filepath (_type_): Current path to edge file
-        name (_type_): name to append to output files
-        outpath (_type_): Location to save the outputs
-        execdir (_type_): Location of the L3.out executable
+        filepath (str): Path to the edge file representing the network
+        name (str): Name of the network
+        outpath (str): Path to the directory where the output file should be saved
+        execdir (str): Path to the L3.out executable
     """
     subprocess.call([DIRPATH+"/L3_prediction.sh", filepath, name, outpath, execdir])
     
 
 def process_prediction_job(args):
+    """Process arguments to run the L3 edge prediction algorithm on a network fold.
+    
+    Args:
+        args (tuple): Tuple of arguments to be passed to the L3 edge prediction function
+        
+    Returns:
+        None
+    """
     edgefile, net_name, outpath, execdir = args
     l3_edge_prediction(edgefile, net_name, outpath, execdir)
     #os.remove(edgefile)
 
 
 def get_node_count(edgefile=None, nodelist=None):
+    """Get the number of nodes in a network from saved nodelist file. 
+    
+    Argss:
+        edgefile (str): Path to the edge file representing the network. Optional
+        nodelist (str): Path to the nodelist file. Optional
+    
+    Returns:
+        int: Number of nodes in the network
+    """
     if edgefile is not None:
         command = ['wc', '-l', edgefile.split("_net.txt")[0]+ ".nodelist"]
     elif nodelist is not None:
@@ -67,6 +90,14 @@ def get_node_count(edgefile=None, nodelist=None):
     return output - 1
 
 def get_edge_count(edgefile):
+    """Get the number of edges in a network from the edge file.
+    
+    Args:
+        edgefile (str): Path to the edge file representing the network
+        
+    Returns:
+        int: Number of edges in the network
+    """
     command = ['wc', '-l', edgefile]
     result = subprocess.run(command, capture_output=True, text=True)
     output = int(result.stdout.strip().split()[0])
@@ -74,19 +105,32 @@ def get_edge_count(edgefile):
     
 
 class RankMPS:
-    def __init__(self, filename, name_feature_1,
-                name_feature_2):
+    """Class to rank edges based on MPS predictions."""
+    def __init__(self, filename, name_feature_1, name_feature_2):
+        """Initialize the RankMPS object.
+        
+        Args:
+            filename (str): Path to the MPS prediction file
+            name_feature_1 (str): Name of the first feature in the prediction file to rank based on
+            name_feature_2 (str): Name of the second feature in the prediction file to rank based on
+            
+        Returns:
+            RankMPS object
+        """
         self.name_feature_1 = name_feature_1
         self.name_feature_2 = name_feature_2
         self.filename=filename
         self.ranked_items = []
         
     def get_top_k_predictions(self, k=500):
+        """Get the top k predictions from the MPS prediction file. Wrapper for rank_n"""
         top_items = self.rank_n(k)
         pred_df = pd.DataFrame(top_items, columns=['Entrez_A', 'Entrez_B', self.name_feature_1, self.name_feature_2])
         return pred_df
 
     def rank_n(self, predict_n, exclude=None):
+        """Rank the top n predictions from the MPS prediction file. Rather than attempt to sort the entire file,
+        we use a heap to keep track of the top n predictions."""
         with open(self.filename, 'r', buffering=1) as input_file:
             csv_reader = csv.reader(input_file, delimiter='\t', quotechar='"', quoting=csv.QUOTE_NONE)
             header = next(csv_reader)
@@ -97,8 +141,7 @@ class RankMPS:
                     index_feature_1 = index
                 if field_name == self.name_feature_2:
                     index_feature_2 = index
-            #
-            # replace with exceptions...
+    
             if index_feature_1 < 0 or index_feature_2 < 0:
                 return None
 
@@ -111,8 +154,8 @@ class RankMPS:
             return [item for score, item in top_items]
         
     def process_record(self, record, index_feature_1, index_feature_2, k, exclude=[]):
+        """Process a record from the MPS prediction file, and add it to the heap if it is in the top k predictions."""
         if record[0] == "0":
-            # print("the couple already edged in the training graph!!!")
             return 
     #
         u = record[1]
@@ -120,7 +163,6 @@ class RankMPS:
 
         value_feature_1 = float(record[index_feature_1])
         value_feature_2 = float(record[index_feature_2])
-        #print(value_feature_1, value_feature_2)
 
         item = (u, v, value_feature_1, value_feature_2)
         score = (value_feature_1, value_feature_2)
@@ -135,9 +177,22 @@ class RankMPS:
                 _ = heappop(self.ranked_items)
 
 
-
 class EdgePredictionResults:
+    """Class to handle edge prediction results and calculate interaction prediction metrics. Method can also perform L3 predictions."""
     def __init__(self, edgefile, net_name, pred_method, resultdir, suffix='', execdir=None):
+        """Initialize the EdgePredictionResults object.
+        
+        Args:
+            edgefile (str): Path to the edge file representing the network
+            net_name (str): Name of the network
+            pred_method (str): Method used to predict edges
+            resultdir (str): Directory where the results are saved
+            suffix (str): Suffix to add to the network name
+            execdir (str): Path to the executable for the prediction method. Required for L3 predictions.
+        
+        Returns:
+            EdgePredictionResults object
+        """
         self.edgefile = edgefile
         self.net_name = net_name
         self.suffix=suffix
@@ -150,6 +205,7 @@ class EdgePredictionResults:
         self.node_count = get_node_count(edgefile=edgefile)
     
     def run_single_prediction(self):
+        """Perform edge prediction on a single network using L3"""
         if self.pred_method == 'L3':
             l3_edge_prediction(self.edgefile, self.net_name +self.suffix, self.resultdir, self.execdir)
             prediction_file = self.resultdir + "L3_predictions_" + self.net_name +self.suffix + ".dat"
@@ -158,12 +214,14 @@ class EdgePredictionResults:
         return prediction_file
     
     def load_prediction_network_lcc(self):
+        """Load the largest connected component of the network."""
         G = load_edgelist_to_networkx(self.edgefile, id_type="Entrez", testmode=False, timer=None, delimiter="\t", node_cols=[0,1],
                                 keep_attributes=False, verbose=False)
         lcc = max(nx.connected_components(G), key=len)
         return G.subgraph(lcc)
     
     def filter_test_edges(self, test_edges, G, verbose=True):
+        """Filter test edges to remove those that are not possible or already in the network."""
         n1 = len(test_edges)
         test_edges = test_edges.loc[test_edges.Entrez_A.isin(G.nodes) & test_edges.Entrez_B.isin(G.nodes)]
         n2 = len(test_edges)
@@ -172,6 +230,7 @@ class EdgePredictionResults:
         return test_edges
 
     def filter_gold_standard_test_edges(self, test_edges, G, verbose=True):
+        """Filter test edges to remove those that are not possible or already in the network."""
         n1 = len(test_edges)
         # check which edges are possible
         test_edges = test_edges.loc[test_edges.Entrez_A.isin(G.nodes) & test_edges.Entrez_B.isin(G.nodes)]
@@ -187,11 +246,8 @@ class EdgePredictionResults:
         possible= n2
         return test_edges, present, possible
     
-    def calculate_baseline_AUPRC(self, G, test_edges):
-        baseline = len(test_edges) / ((len(G.nodes) * (len(G.nodes) - 1) / 2) - len(G.edges))
-        return baseline
-    
     def get_top_k_predictions(self, k=500):
+        """Extract teh top k predictions from the prediction file."""
         if self.pred_method == 'L3':
             pred_df = pd.read_csv(self.resultdir+'L3_predictions_'+self.net_name+self.suffix+'.dat', sep='\t', header=None, names=['Entrez_A', 'Entrez_B', 'Score'], nrows=k)
         if self.pred_method == 'MPS':
@@ -207,6 +263,15 @@ class EdgePredictionResults:
         return pred_df
     
     def calculate_k_values(self, G, test_edges, k):
+        """Calculate the network dependent k values for P@test, and P@1%.
+        P@k is the user defined k value. P@1% is the number of predictions that would be made if 1% of the network was predicted.
+        P@test is the number of test edges.
+        
+        Args:
+            G (nx.Graph): Network to be evaluated
+            test_edges (pd.DataFrame): Test edges to be evaluated
+            k (int): Number of predictions to evaluate
+        """
         pk = k
         ptest = len(test_edges)
         p1percent=int(len(G.edges)*0.01)
@@ -214,7 +279,16 @@ class EdgePredictionResults:
         return {f'p@{k}':pk, 'p@test':ptest, 'p@1%':p1percent}
     
     def calculate_stats_at_k(self, G, test_edges, k):
-
+        """Calculate the AUPRC, AUROC, and P@k for the network.
+        
+        Args: 
+            G (nx.Graph): Network to be evaluated
+            test_edges (pd.DataFrame): Test edges to be evaluated
+            k (int): Number of predictions to evaluate
+            
+        Returns:
+            dict: Dictionary of evaluation metrics
+        """
         pred_df = self.get_top_k_predictions(k)
         if self.pred_method=='MPS':
             pred_df['Score'] = [i for i in range(len(pred_df), 0, -1)]
@@ -229,6 +303,7 @@ class EdgePredictionResults:
         return results
         
     def evalutate_all_metrics(self, k):
+        """Evaluate all interaction prediction metrics for a network, based on held out self edges"""
         test_edges = load_edge_list(self.edgefile+"_test", edge_tuples=False)
         G = self.load_prediction_network_lcc()
         test_edges = self.filter_test_edges(test_edges, G, verbose=True)
@@ -242,6 +317,7 @@ class EdgePredictionResults:
         return results_df
     
     def evaluate_gold_standard(self, benchmark, k):
+        """Evaluate all interaction prediction metrics for a network, based on gold standard interaction sets from CORUM and PANTHER"""
         bench_dict = {'corum':os.path.join(DIRPATH, "../Data/corum.pc_net.txt"),
             'panther': os.path.join(DIRPATH, "../Data/panther.pc_net.txt")}
         test_edges = load_edge_list(bench_dict[benchmark], edge_tuples=False)
@@ -260,6 +336,7 @@ class EdgePredictionResults:
 
 
     def run_10_fold_cv(self, pred_method, nfolds=10, verbose=True):
+        """Perform interaction prediction for a network using L3 across nfolds"""
         shuffled_idx = random.sample([i for i in range(self.edge_count)], self.edge_count)
         folds = [shuffled_idx[i::nfolds] for i in range(nfolds)]
         net_data = load_edge_list(self.edgefile)
@@ -282,24 +359,13 @@ class EdgePredictionResults:
     
 
     def evaluate_10_fold_cv_performance(self, prediction_files, test_files, metrics = ["AUROC", "AUPRC", "P@500", "NDCG"], verbose=True):
+        """Calculate performance metrics for a 10-fold cross validation of held out self edge predictions"""
         assert len(prediction_files) == len(test_files), "There must be the same number of performance files as test files."
-        #results = {"fold": [i for i in range(len(prediction_files))], **{metric:[] for metric in metrics}}
-        #metric_funcs = {"AUROC":self.calculate_AUROC, "AUPRC":self.calculate_AUPRC, "P@500":self.calculate_P500, "NDCG":self.calculate_NDCG}
-        # TODO technically this should be checking nodes as well, because sampling could remove nodes from the network
+
         nfolds = len(prediction_files)
         results = []
         for i in range(nfolds):
             results.append(process_evaluation_job((i, load_edge_list(test_files[i], edge_tuples=True), load_prediction_file(prediction_files[i]), metrics)))
-        #with mp.Pool(mp.cpu_count()) as pool:
-        #    results = pool.map(process_evaluation_job, [(i, load_edge_list(test_files[i], edge_tuples=True), load_prediction_file(prediction_files[i]), metrics) for i in range(len(prediction_files))])
-        
-        # for i in range(len(prediction_files)):
-        #     predicted_edges = self.load_prediction_file(prediction_files[i])
-        #     test_edges = self.load_test_file(test_files[i])
-        #     for metric in metrics:
-        #         results[metric].append(metric_funcs[metric](test_edges, predicted_edges))
-        #     if verbose:
-        #         print("Evaluation for fold", i+1, "complete.")
         results_df = pd.DataFrame(results)
         results_df['network'] = self.net_name
         results_df['baselineAUPRC'] = self.calculate_baseline_AUPRC(folds = nfolds)
@@ -307,20 +373,21 @@ class EdgePredictionResults:
     
 
     def evaluate_gold_standard_performance(self, input_edge_files, prediction_files, standard_file, metrics = ["AUROC", "AUPRC", "P@500", "NDCG"], verbose=True):
+        """Calculate performance metrics recovery of gold standard interactions"""
         assert len(input_edge_files) == len(prediction_files), "There must be the same number of prediction files as input edge files."
         raw_test_edge_df = load_edge_list(standard_file, edge_tuples=False)
         all_results = []
         for i in range(len(input_edge_files)):
             test_edges = filter_test_edges(raw_test_edge_df, input_edge_files[i])
             result = process_evaluation_job((i, test_edges, load_prediction_file(prediction_files[i]), metrics))
-            result['baselineAUPRC'] = self.calculate_baseline_AUPRC(test_edges=test_edges)
+            result['baselineAUPRC'] = self.calculate_baseline_AUPRC(test_edges=test_edges, folds=len(input_edge_files))
             all_results.append(result)
         results_df = pd.DataFrame(all_results)
         results_df['network'] = self.net_name
         return results_df
-            
-
+    
     def calculate_baseline_AUPRC(self, test_edges=None, folds=10):
+        """Calculate a baseline AUPRC for the network based on the number of test edges (positives) relative to the number of possible edges."""
         if test_edges is None:
             positives = int(self.edge_count / folds)
         else:
@@ -328,9 +395,19 @@ class EdgePredictionResults:
         # all possible predicted edges is equal to the pairwise combinations of nodes minus the number of edges in the network (without the held out set)
         all_possible = (self.node_count * (self.node_count - 1) / 2) - (self.edge_count - positives)
         return positives/all_possible
-    
+            
     def get_top_k_predictions_not_in_test(self, test_edges, k=100):
+        """Identify the top k predictions that are not in the test set.
+        
+        Args: 
+            test_edges (set): Set of test edges
+            k (int): Number of predictions desired
+            
+        Returns:
+            list: List of top k predictions not in the test set
+        """
         if self.pred_method == 'L3':
+            # edges are already ranked, just need to check for those not in the test set
             top_k_edges_not_in_test = []
             with open(self.resultdir+'L3_predictions_'+self.net_name+self.suffix+'.dat', 'r') as f:
                 for line in f:
@@ -340,6 +417,7 @@ class EdgePredictionResults:
                     if len(top_k_edges_not_in_test) > k:
                         break
         elif self.pred_method == 'MPS':
+            # edges first need to be ranked, then check for those not in the test set
             files = os.listdir(self.resultdir+self.net_name+'/Topological/')
             pred_files = [f for f in files if self.suffix+'.csv' in f]
             if len(pred_files) > 1:
@@ -351,15 +429,36 @@ class EdgePredictionResults:
         return top_k_edges_not_in_test
     
     def get_k_random_edges_not_in_G(self, G, test_edges,  k=100):
+        """Generate k random edges that are not in the network.
+        
+        Args:
+            G (nx.Graph): Network to be evaluated
+            test_edges (set): Set of test edges
+            k (int): Number of predictions desired
+            
+        Returns:
+            list: List of k random edges not in the network
+        """
         random_edge_set = []
         while len(random_edge_set) < k:
             edge = (random.choice(list(G.nodes)), random.choice(list(G.nodes)))
+            # check that it is not a self edge and that it is not in the network.
             if edge[0] != edge[1] and not G.has_edge(*edge):
+                # also check that it is not in the test set
                 if edge not in test_edges and edge[::-1] not in test_edges:
                     random_edge_set.append(edge)
         return random_edge_set
     
     def load_edge_network_coverage(self, coverage_file):
+        """Load edge network coverage (number of times an edge appears in a set of networks) from a pickled file.
+        
+        Args:
+            coverage_file (str): Path to the coverage file
+        
+        Returns:
+            defaultdict: Dictionary of edge counts
+        """
+        assert os.path.exists(coverage_file), "Coverage file does not exist."
         if '.pkl' in coverage_file:
             with open(coverage_file, 'rb') as f:
                 edge_counts = pickle.load(f)
@@ -367,11 +466,32 @@ class EdgePredictionResults:
         else:
             raise NotImplementedError("Only pickled edge counts are currently implemented.")
 
-    def evaluate_random_network_coverage(self, random_edges, coverage_dict,  k=100):
-        random_coverage = [max(coverage_dict[edge], coverage_dict[edge[::-1]]) for edge in random_edges]
-        return random_coverage
+    def evaluate_network_coverage_for_edge_set(self, edges, coverage_dict):
+        """Calculate the network coverage of a set of edges using a coverage dictionary.
+        
+        Args:
+            edges (list): List of edges to evaluate
+            coverage_dict (defaultdict): Dictionary of edge counts/edge network coverage
+            
+        Returns:
+            list: List of coverage values for the set of edges (number of networks each edge appears in)
+        """
+        coverage = [max(coverage_dict[edge], coverage_dict[edge[::-1]]) for edge in edges]
+        return coverage
     
     def evaluate_network_coverage(self, coverage_file, k=100, permutations=100):
+        """Assess the network coverage of predicted edges. First identifies predicted edges not present in the network, then calculate the network coverage of these edges.
+        Also calculates the network coverage of k random edges not in the network.
+        
+        Args:
+            coverage_file (str): Path to the coverage file
+            k (int): Number of predictions to evaluate
+            permutations (int): Number of random edge sets to evaluate
+            
+        Returns:
+            pd.DataFrame: Dataframe of network coverage results
+            list: List of unverified edges, defined as predicted edges with network coverage less than 2
+        """
         # get top predictions not in the network
         G = self.load_prediction_network_lcc()
         test_edges = load_edge_list(self.edgefile+"_test", edge_tuples=True)
@@ -381,7 +501,7 @@ class EdgePredictionResults:
         random_medians = []
         for _ in range(permutations):
             random_edges = self.get_k_random_edges_not_in_G(G, test_edges, k)
-            random_coverage = [max(edge_coverage[edge], edge_coverage[edge[::-1]]) for edge in random_edges]
+            random_coverage = self.evaluate_network_coverage_for_edge_set(random_edges)
             random_means.append(np.mean(random_coverage))
             random_medians.append(np.median(random_coverage))
         top_k_coverage = {edge:max(edge_coverage[edge], edge_coverage[edge[::-1]]) for edge in top_k_edges_not_in_G}
@@ -389,9 +509,9 @@ class EdgePredictionResults:
         top_k_median = np.median([x for x in top_k_coverage.values()])
         unverified_edges = [edge for edge in top_k_edges_not_in_G if top_k_coverage[edge] < 2]
         df = pd.DataFrame({'random_means':random_means, 'random_medians':random_medians, 'top_k_mean':top_k_mean, 'top_k_median':top_k_median, 'k':k,
-                           '0-1':len([x for x in top_k_coverage.values() if x <= 1]), '2-5': len([x for x in top_k_coverage.values() if 2 <= x <= 5]), 
-                           '6-10': len([x for x in top_k_coverage.values() if 6 <= x <= 10]), '11-20': len([x for x in top_k_coverage.values() if 11 <= x <= 20]),
-                           '21+': len([x for x in top_k_coverage.values() if x > 20])})
+                            '0-1':len([x for x in top_k_coverage.values() if x <= 1]), '2-5': len([x for x in top_k_coverage.values() if 2 <= x <= 5]), 
+                            '6-10': len([x for x in top_k_coverage.values() if 6 <= x <= 10]), '11-20': len([x for x in top_k_coverage.values() if 11 <= x <= 20]),
+                            '21+': len([x for x in top_k_coverage.values() if x > 20])})
         return df, unverified_edges
 
 def load_prediction_file(filepath, edge_tuples=False):
