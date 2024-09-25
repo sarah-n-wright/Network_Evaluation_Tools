@@ -1,46 +1,45 @@
-﻿Name,Curated,Experimental,Composite,Incorporates Orthology,In Original Study,Main Prefix(es),Predicted Interactions,Scored network,Type - CoCitation,Type - CoExpression,Type - Complex,Type - Domain/Structure,Type - Genetic,Type - Metabolic,Type - Pathway,Type - Physical,Type - Regulation,Type - Signaling,Type - Genome,Type - Disease,Type - Functional,Type - Localization
-APID,0,0,1,x,0,apid.1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0
-BIND,1,0,0,x,1,bind.v8,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0
-BioGRID,1,0,0,x,1,biogrid.4.4.227,0,1,0,0,0,0,1,0,0,1,1,0,0,0,0,1
-BioPlex,0,1,0,0,1,"bioplex.v3.293T, bioplex.v3.HCT116",0,Yes but not used,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-ComPPI,0,0,1,x,0,comppi_interactions,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1
-ConsensusPathDB,0,0,1,x,1,consensus_db.v35,0,1,0,0,1,0,0,1,1,1,1,1,0,0,0,0
-DIP,1,0,0,x,1,dip.PC,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0
-FunCoup,0,0,1,1,0,funcoup,1,1,0,1,0,1,0,0,0,1,1,0,0,0,0,1
-GeneMANIA,0,0,1,1,1,genemania.2021_90,0,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1
-GIANT,0,0,1,0,1,giant_90,1,1,0,1,0,0,1,0,0,1,1,0,0,0,0,0
-Havugimana,0,1,0,0,0,havugimana,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-"Hein, 2015",0,1,0,1,0,hein,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-HINT,1,0,0,x,1,hint.updated.combined,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-HIPPIE,0,0,1,1,0,hippie.2.3,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-HPRD,1,0,0,0,1,hprd,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0
-HumanNet,0,0,1,0,1,"humannet.v3.fn, humannet.v3.xc",0,1,1,1,0,1,1,1,1,1,0,0,1,0,0,0
-huMAP,0,0,1,1,0,humap_90,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0
-HuRI,0,1,0,0,1,hi.union,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-IID,0,0,1,1,0,iid,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-InBio,0,0,1,1,1,inbio,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-InnateDB,0,0,1,x,0,"innatedb_all, innatedb_curated",0,Yes but not used,0,0,0,0,1,0,0,1,1,0,0,0,0,1
-IntAct,0,0,1,x,1,intact.245,0,Yes but not used,0,0,0,0,0,0,0,1,1,0,0,0,0,0
-iRefIndex,0,0,1,x,1,irefindex.v20,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0
-MatrixDB,0,0,1,x,0,matrixdb,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-Mentha,0,0,1,x,1,mentha.23.11.6,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-MINT,1,0,0,x,0,mint,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-MultiNet,0,0,1,0,1,multinet,0,0,0,0,0,0,1,1,0,1,1,1,0,0,0,0
-PathwayCommons,0,0,1,0,1,pathway_commons.12,0,0,0,0,1,0,1,1,1,1,1,1,0,0,0,0
-Phosphosite,1,0,0,x,0,phosphosite,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0
-PID,0,0,1,1,1,pid2,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0
-PIPs,0,0,1,1,0,pips,1,1,0,1,0,1,0,0,0,0,0,0,1,0,0,1
-PrePPI,0,0,1,1,0,preppi,1,1,0,1,0,1,0,0,0,1,0,0,1,0,1,0
-PROPER,0,1,0,0,0,proper_all,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0
-ProteomeHD,0,1,0,0,0,proteomehd,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-PTMCode2,0,0,1,x,0,ptmcode2,1,0,0,0,0,1,0,0,0,1,1,0,1,0,0,0
-Reactome,1,0,0,x,1,reactome.v86,0,Yes but not used,0,0,1,0,0,1,1,1,1,1,0,0,0,0
-ReactomeFI,1,0,0,1,1,reactomeFI.21,0,1,1,1,1,1,0,1,1,1,1,1,0,0,1,0
-ReactomeFI (2022),0,0,1,1,1,reactomeFI.22,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-SignaLink,0,0,1,x,0,signalink,0,Yes but not used,0,0,0,0,0,0,1,1,1,1,0,0,0,0
-SIGNOR,1,0,0,x,0,signor,0,1,0,0,0,0,0,1,0,1,1,1,0,0,0,0
-Spike,0,0,1,0,0,spike,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0
-STRING,0,0,1,1,1,string.v12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0
-TFLink,0,0,1,x,0,tflink,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
-Wan,0,1,0,1,0,wan,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0
-"Youn, 2018",0,1,0,0,0,youn,0,Yes but not used,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+,Name,Curated,Experimental,Composite,Incorporates Orthology,In Original Study,Main Prefix(es),Predicted Interactions,Scored network,CoCitation,CoExpression,Complex,Domain/Structure,Genetic,Metabolic,Pathway,Physical,Regulation,Signaling,Genome,Disease,Functional,Localization,xOrthology
+0,APID,0,0,1,1,0,apid.1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,x
+1,BIND,1,0,0,1,1,bind.v8,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,x
+2,BioGRID,1,0,0,1,1,biogrid.4.4.227,0,1,0,0,0,0,1,0,0,1,1,0,0,0,0,1,x
+3,BioPlex,0,1,0,0,1,"bioplex.v3.293T, bioplex.v3.HCT116",0,Yes but not used,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+4,ComPPI,0,0,1,1,0,comppi_interactions,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,x
+5,ConsensusPathDB,0,0,1,1,1,consensus_db.v35,0,1,0,0,1,0,0,1,1,1,1,1,0,0,0,0,x
+6,DIP,1,0,0,1,1,dip.PC,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,x
+7,FunCoup,0,0,1,1,0,funcoup,1,1,0,1,0,1,0,0,0,1,1,0,0,0,0,1,
+8,GeneMANIA,0,0,1,1,1,genemania.2021_90,0,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1,
+9,GIANT,0,0,1,0,1,giant_90,1,1,0,1,0,0,1,0,0,1,1,0,0,0,0,0,
+10,Havugimana,0,1,0,0,0,havugimana,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+11,"Hein, 2015",0,1,0,1,0,hein,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+12,HINT,1,0,0,1,1,hint.updated.combined,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,x
+13,HIPPIE,0,0,1,1,0,hippie.2.3,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+14,HPRD,1,0,0,0,1,hprd,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,
+15,HumanNet,0,0,1,0,1,"humannet.v3.fn, humannet.v3.xc",0,1,1,1,0,1,1,1,1,1,0,0,1,0,0,0,
+16,huMAP,0,0,1,1,0,humap_90,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,
+17,HuRI,0,1,0,0,1,hi.union,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+18,IID,0,0,1,1,0,iid,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+19,InBio,0,0,1,1,1,inbio,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+20,InnateDB,0,0,1,1,0,"innatedb_all, innatedb_curated",0,Yes but not used,0,0,0,0,1,0,0,1,1,0,0,0,0,1,x
+21,IntAct,0,0,1,1,1,intact.245,0,Yes but not used,0,0,0,0,0,0,0,1,1,0,0,0,0,0,x
+22,iRefIndex,0,0,1,1,1,irefindex.v20,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,x
+23,MatrixDB,0,0,1,1,0,matrixdb,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,x
+24,Mentha,0,0,1,1,1,mentha.23.11.6,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,x
+25,MINT,1,0,0,1,0,mint,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,x
+26,MultiNet,0,0,1,0,1,multinet,0,0,0,0,0,0,1,1,0,1,1,1,0,0,0,0,
+27,PathwayCommons,0,0,1,0,1,pathway_commons.12,0,0,0,0,1,0,1,1,1,1,1,1,0,0,0,0,
+28,Phosphosite,1,0,0,1,0,phosphosite,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,x
+29,PID,0,0,1,1,1,pid2,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,
+30,PIPs,0,0,1,1,0,pips,1,1,0,1,0,1,0,0,0,0,0,0,1,0,0,1,
+31,PrePPI,0,0,1,1,0,preppi,1,1,0,1,0,1,0,0,0,1,0,0,1,0,1,0,
+32,PROPER,0,1,0,0,0,proper_all,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,
+33,ProteomeHD,0,1,0,0,0,proteomehd,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+34,PTMCode2,0,0,1,1,0,ptmcode2,1,0,0,0,0,1,0,0,0,1,1,0,1,0,0,0,x
+35,Reactome,1,0,0,1,1,reactome.v86,0,Yes but not used,0,0,1,0,0,1,1,1,1,1,0,0,0,0,x
+37,ReactomeFI (2022),0,0,1,1,1,reactomeFI.22,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+38,SignaLink,0,0,1,1,0,signalink,0,Yes but not used,0,0,0,0,0,0,1,1,1,1,0,0,0,0,x
+39,SIGNOR,1,0,0,1,0,signor,0,1,0,0,0,0,0,1,0,1,1,1,0,0,0,0,x
+40,Spike,0,0,1,0,0,spike,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,
+41,STRING,0,0,1,1,1,string.v12,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,
+42,TFLink,0,0,1,1,0,tflink,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,x
+43,Wan,0,1,0,1,0,wan,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,
+44,"Youn, 2018",0,1,0,0,0,youn,0,Yes but not used,0,0,0,0,0,0,0,1,0,0,0,0,0,1,
