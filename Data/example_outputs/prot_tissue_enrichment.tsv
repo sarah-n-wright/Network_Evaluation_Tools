@@ -1,0 +1,145 @@
+	M	N	n	x	P-value	stat	Network
+adrenal gland	11131	78	0	0	1.0		dip
+appendix	11131	111	0	0	1.0		dip
+bone marrow	11131	176	0	0	1.0		dip
+breast	11131	16	0	0	1.0		dip
+bronchus	11131	116	0	0	1.0		dip
+caudate	11131	137	0	0	1.0		dip
+cerebellum	11131	98	0	0	1.0		dip
+cerebral cortex	11131	151	0	0	1.0		dip
+cervix	11131	55	0	0	1.0		dip
+colon	11131	68	0	0	1.0		dip
+duodenum	11131	101	0	0	1.0		dip
+endometrium 1	11131	65	0	0	1.0		dip
+endometrium 2	11131	55	0	0	1.0		dip
+epididymis	11131	68	0	0	1.0		dip
+esophagus	11131	35	0	0	1.0		dip
+fallopian tube	11131	119	0	0	1.0		dip
+gallbladder	11131	50	0	0	1.0		dip
+heart muscle	11131	107	0	0	1.0		dip
+hippocampus	11131	126	0	0	1.0		dip
+kidney	11131	132	0	0	1.0		dip
+liver	11131	98	0	0	1.0		dip
+lung	11131	83	0	0	1.0		dip
+lymph node	11131	130	0	0	1.0		dip
+nasopharynx	11131	90	0	0	1.0		dip
+oral mucosa	11131	33	0	0	1.0		dip
+ovary	11131	36	0	0	1.0		dip
+pancreas	11131	64	0	0	1.0		dip
+parathyroid gland	11131	14	0	0	1.0		dip
+placenta	11131	100	0	0	1.0		dip
+prostate	11131	28	0	0	1.0		dip
+rectum	11131	45	0	0	1.0		dip
+salivary gland	11131	50	0	0	1.0		dip
+seminal vesicle	11131	21	0	0	1.0		dip
+skeletal muscle	11131	131	0	0	1.0		dip
+skin 1	11131	41	0	0	1.0		dip
+skin 2	11131	44	0	0	1.0		dip
+small intestine	11131	106	0	0	1.0		dip
+smooth muscle	11131	42	0	0	1.0		dip
+soft tissue 1	11131	12	0	0	1.0		dip
+soft tissue 2	11131	25	0	0	1.0		dip
+spleen	11131	140	0	0	1.0		dip
+stomach 1	11131	78	0	0	1.0		dip
+stomach 2	11131	69	0	0	1.0		dip
+testis	11131	487	0	0	1.0		dip
+thyroid gland	11131	26	0	0	1.0		dip
+tonsil	11131	149	0	0	1.0		dip
+urinary bladder	11131	22	0	0	1.0		dip
+vagina	11131	32	0	0	1.0		dip
+adrenal gland	11131	78	0	0	1.0		pid2
+appendix	11131	111	0	0	1.0		pid2
+bone marrow	11131	176	0	0	1.0		pid2
+breast	11131	16	0	0	1.0		pid2
+bronchus	11131	116	0	0	1.0		pid2
+caudate	11131	137	0	0	1.0		pid2
+cerebellum	11131	98	0	0	1.0		pid2
+cerebral cortex	11131	151	0	0	1.0		pid2
+cervix	11131	55	0	0	1.0		pid2
+colon	11131	68	0	0	1.0		pid2
+duodenum	11131	101	0	0	1.0		pid2
+endometrium 1	11131	65	0	0	1.0		pid2
+endometrium 2	11131	55	0	0	1.0		pid2
+epididymis	11131	68	0	0	1.0		pid2
+esophagus	11131	35	0	0	1.0		pid2
+fallopian tube	11131	119	0	0	1.0		pid2
+gallbladder	11131	50	0	0	1.0		pid2
+heart muscle	11131	107	0	0	1.0		pid2
+hippocampus	11131	126	0	0	1.0		pid2
+kidney	11131	132	0	0	1.0		pid2
+liver	11131	98	0	0	1.0		pid2
+lung	11131	83	0	0	1.0		pid2
+lymph node	11131	130	0	0	1.0		pid2
+nasopharynx	11131	90	0	0	1.0		pid2
+oral mucosa	11131	33	0	0	1.0		pid2
+ovary	11131	36	0	0	1.0		pid2
+pancreas	11131	64	0	0	1.0		pid2
+parathyroid gland	11131	14	0	0	1.0		pid2
+placenta	11131	100	0	0	1.0		pid2
+prostate	11131	28	0	0	1.0		pid2
+rectum	11131	45	0	0	1.0		pid2
+salivary gland	11131	50	0	0	1.0		pid2
+seminal vesicle	11131	21	0	0	1.0		pid2
+skeletal muscle	11131	131	0	0	1.0		pid2
+skin 1	11131	41	0	0	1.0		pid2
+skin 2	11131	44	0	0	1.0		pid2
+small intestine	11131	106	0	0	1.0		pid2
+smooth muscle	11131	42	0	0	1.0		pid2
+soft tissue 1	11131	12	0	0	1.0		pid2
+soft tissue 2	11131	25	0	0	1.0		pid2
+spleen	11131	140	0	0	1.0		pid2
+stomach 1	11131	78	0	0	1.0		pid2
+stomach 2	11131	69	0	0	1.0		pid2
+testis	11131	487	0	0	1.0		pid2
+thyroid gland	11131	26	0	0	1.0		pid2
+tonsil	11131	149	0	0	1.0		pid2
+urinary bladder	11131	22	0	0	1.0		pid2
+vagina	11131	32	0	0	1.0		pid2
+adrenal gland	11131	78	0	0	1.0		wan
+appendix	11131	111	0	0	1.0		wan
+bone marrow	11131	176	0	0	1.0		wan
+breast	11131	16	0	0	1.0		wan
+bronchus	11131	116	0	0	1.0		wan
+caudate	11131	137	0	0	1.0		wan
+cerebellum	11131	98	0	0	1.0		wan
+cerebral cortex	11131	151	0	0	1.0		wan
+cervix	11131	55	0	0	1.0		wan
+colon	11131	68	0	0	1.0		wan
+duodenum	11131	101	0	0	1.0		wan
+endometrium 1	11131	65	0	0	1.0		wan
+endometrium 2	11131	55	0	0	1.0		wan
+epididymis	11131	68	0	0	1.0		wan
+esophagus	11131	35	0	0	1.0		wan
+fallopian tube	11131	119	0	0	1.0		wan
+gallbladder	11131	50	0	0	1.0		wan
+heart muscle	11131	107	0	0	1.0		wan
+hippocampus	11131	126	0	0	1.0		wan
+kidney	11131	132	0	0	1.0		wan
+liver	11131	98	0	0	1.0		wan
+lung	11131	83	0	0	1.0		wan
+lymph node	11131	130	0	0	1.0		wan
+nasopharynx	11131	90	0	0	1.0		wan
+oral mucosa	11131	33	0	0	1.0		wan
+ovary	11131	36	0	0	1.0		wan
+pancreas	11131	64	0	0	1.0		wan
+parathyroid gland	11131	14	0	0	1.0		wan
+placenta	11131	100	0	0	1.0		wan
+prostate	11131	28	0	0	1.0		wan
+rectum	11131	45	0	0	1.0		wan
+salivary gland	11131	50	0	0	1.0		wan
+seminal vesicle	11131	21	0	0	1.0		wan
+skeletal muscle	11131	131	0	0	1.0		wan
+skin 1	11131	41	0	0	1.0		wan
+skin 2	11131	44	0	0	1.0		wan
+small intestine	11131	106	0	0	1.0		wan
+smooth muscle	11131	42	0	0	1.0		wan
+soft tissue 1	11131	12	0	0	1.0		wan
+soft tissue 2	11131	25	0	0	1.0		wan
+spleen	11131	140	0	0	1.0		wan
+stomach 1	11131	78	0	0	1.0		wan
+stomach 2	11131	69	0	0	1.0		wan
+testis	11131	487	0	0	1.0		wan
+thyroid gland	11131	26	0	0	1.0		wan
+tonsil	11131	149	0	0	1.0		wan
+urinary bladder	11131	22	0	0	1.0		wan
+vagina	11131	32	0	0	1.0		wan

@@ -1,0 +1,9 @@
+Global_composite_min1
+Global_composite_min2
+Global_composite_min3
+Ranked_1_composite_min1
+Ranked_2_composite_min2
+Ranked_3_composite_min3
+Ranked_2_composite_min1
+Ranked_3_composite_min1
+Ranked_3_composite_min2
