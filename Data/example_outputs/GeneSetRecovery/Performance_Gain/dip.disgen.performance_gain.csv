@@ -1,0 +1,861 @@
+,0
+Abnormality of the skeletal system,0.6064333645896921
+Absence Epilepsy,0.1227706666929924
+Acoustic Neuroma,1.7819008868447312
+Acquired Hypogammaglobulinemia,1.5892189928644207
+Acromegaly,2.412009632741928
+ACTH-Secreting Pituitary Adenoma,0.11878464968907544
+Actinic keratosis,0.21024266895198912
+Acute Chest Syndrome,1.2110831196543486
+Acute Coronary Syndrome,1.2232151974288459
+Acute Erythroblastic Leukemia,0.5751343405674197
+Acute GVH disease,1.1846368229567033
+Acute Megakaryocytic Leukemias,1.2713791422033525
+Acute monoblastic leukemia,0.4288269533761282
+Acute myelomonocytic leukemia,0.368231424901321
+Acute pancreatitis,0.7221288138981962
+Acute respiratory distress,0.7106914660416986
+Acute Undifferentiated Leukemia,0.34523054269467107
+Adenocarcinoma of colon,0.6905170327303292
+Adenocarcinoma Of Esophagus,0.5557086997619675
+Adenocarcinoma of large intestine,1.1031917767478683
+Adenocarcinoma of pancreas,0.4957634708176398
+Adenocarcinoma of prostate,0.5168522443859324
+Adenocarcinoma of rectum,0.1054223804168744
+Adenocarcinoma of small intestine,0.7991708915331108
+"Adenocarcinoma, Clear Cell",0.33391937580593944
+"Adenocarcinoma, Endometrioid",0.5637988538950999
+Adenoid Cystic Carcinoma,0.6757255303814398
+Adenoma of large intestine,0.6145259317512066
+Adenomatous Polyps,0.7321914796488267
+Adenosquamous carcinoma,0.6915375390493262
+Adolescent idiopathic scoliosis,1.192685646652089
+Adrenal Cortical Adenoma,1.2978948713235527
+Adrenal cortical hypofunction,0.10432214058418848
+Adrenal Gland Pheochromocytoma,1.0867485237030639
+Adrenocortical carcinoma,0.6725973792719193
+Adrenoleukodystrophy,0.6727641542576883
+Adult Acute Monocytic Leukemia,0.07723984249357277
+Adult Acute Myeloblastic Leukemia,0.3804355948514475
+Adult Anaplastic Large Cell Lymphoma,1.1947079103363398
+Adult Angiosarcoma,0.621397502243205
+Adult B Acute Lymphoblastic Leukemia,0.35799536755644273
+Adult Burkitt Lymphoma,0.42120064698927717
+Adult Classical Hodgkin Lymphoma,1.2343616306740104
+Adult Ependymoma,0.3507572219532075
+Adult Erythroleukemia,0.6277734745335761
+Adult Fibrosarcoma,0.8420190663268105
+Adult Hepatocellular Carcinoma,0.5155855090230916
+Adult Hodgkin Lymphoma,0.7901119389103285
+Adult Leiomyosarcoma,0.3411740129660684
+Adult Liposarcoma,0.5895132542681464
+Adult Lymphoblastic Lymphoma,0.1565806023491883
+Adult Malignant Peripheral Nerve Sheath Tumor,0.6035264404585919
+Adult Meningioma,0.5223567566674512
+Adult Myelodysplastic Syndrome,0.4562057167170593
+Adult Non-Hodgkin Lymphoma,0.4489556321593012
+Adult Oligodendroglioma,0.2633986091439809
+Adult Pilocytic Astrocytoma,1.5867444078401087
+Adult Soft Tissue Sarcoma,1.0599569334220629
+Adult Synovial Sarcoma,0.6473914792904459
+Adult type dermatomyositis,1.0119854908024573
+Adult-Onset Still Disease,0.9312140635909519
+Advanced breast cancer,0.5096237269537424
+Age-related cataract,0.5948556494036626
+Agenesis,0.5961140798073763
+Agenesis of corpus callosum,0.44113423573979815
+Aggressive Non-Hodgkin Lymphoma,0.6741528476522476
+Agnosia for Pain,0.21736362887609695
+AICARDI-GOUTIERES SYNDROME,1.0025285077201884
+AIDS related complex,0.23594840621058433
+Alcohol or Other Drugs use,0.16315046161921531
+Alcohol Use Disorder,0.3094720980376273
+"Alcoholic Intoxication, Chronic",0.8312142752883863
+Allergic asthma,1.6000817038479092
+Allergic rhinitis (disorder),1.3240799728826826
+Alopecia,0.43060395735464857
+alpha-Thalassemia,0.4567723683558393
+alpha^+^ Thalassemia,0.31174420378728396
+Alveolar rhabdomyosarcoma,1.332515772453455
+Alveolar Soft Part Sarcoma,0.6042152913963534
+"Alzheimer Disease, Early Onset",1.0141465394425424
+"Alzheimer disease, familial, type 3",0.9976380914362513
+"Alzheimer Disease, Late Onset",0.8619807209932686
+Ameloblastoma,1.352931064415052
+Amnesia,0.68160624839518
+AMYOTROPHIC LATERAL SCLEROSIS 1,0.270105610567919
+"Amyotrophic Lateral Sclerosis, Familial",0.5677267008431336
+"Amyotrophic Lateral Sclerosis, Sporadic",0.37791288972505327
+Anaplastic astrocytoma,0.9966210527617847
+Anaplastic thyroid carcinoma,0.5030795437038835
+Anastomosis,0.35755752303645183
+androgen independent prostate cancer,0.8613042603785286
+Androgen-Insensitivity Syndrome,0.905328792939593
+"Anemia, Diamond-Blackfan",0.0895742945558544
+"Anemia, Hemolytic",0.8975944001074245
+"Anemia, severe",0.7824496969402924
+"Anemia, Sickle Cell",0.9045760371223954
+Angelman Syndrome,-0.02166192302477726
+Angioimmunoblastic Lymphadenopathy,0.5332874154114874
+Anhedonia,0.08979527207175947
+Anorexia Nervosa,1.5355340956050585
+Anthrax disease,1.2469427565121551
+Aortic Aneurysm,0.6880302107488699
+Aortic aneurysm without mention of rupture NOS,0.6426894820558124
+Aortic Valve Insufficiency,0.7886343343234196
+Aortic Valve Stenosis,0.765323711866803
+Aplasia Cutis Congenita,0.5447640248804073
+Aplastic Anemia,1.4541059042356241
+"Arthritis, Psoriatic",1.043327889364317
+Arthrogryposis,0.04538460224729392
+Asthenozoospermia,0.010627554675689814
+Ataxia Telangiectasia,0.22095821173850388
+"Ataxia, Spinocerebellar",0.2428325728577828
+Atherosclerotic lesion,0.7924814672732808
+Atherothrombosis,0.7988969853457462
+Atrial Premature Complexes,0.806883758760539
+ATRICHIA WITH PAPULAR LESIONS,1.1389027049498728
+Atypical Teratoid Rhabdoid Tumor,0.17175100602985868
+"AURAL ATRESIA, CONGENITAL",0.5792442318095297
+Autoimmune arthritis,0.6094160633113711
+Autoinflammatory disease,1.163028384494788
+Autosomal dominant retinitis pigmentosa,0.17476043183059434
+Avellino corneal dystrophy,1.1986654418223959
+Axonal neuropathy,1.1348455533158914
+Azoospermia,0.7266728327357623
+"B-CELL MALIGNANCY, LOW-GRADE",0.9635202512790229
+Bacteremia,1.5778995444263342
+Barrett Esophagus,0.783041524472798
+Basal-Like Breast Carcinoma,0.701170271260446
+Beckwith-Wiedemann Syndrome,1.3589637501478364
+Behcet Syndrome,1.7837284396475925
+Benign melanocytic nevus,0.4418738703235438
+Bernard-Soulier Syndrome,0.4903422896984829
+beta Thalassemia,0.7015616049584757
+beta^+^ Thalassemia,0.5910014367522817
+Bicuspid aortic valve,1.6670737573804177
+Bilateral cataracts (disorder),1.045212846381296
+Biliary Atresia,2.465902205453416
+Biliary Tract Cancer,0.47587893976348034
+Blast Phase,0.386890294063292
+Blastic plasmacytoid dendritic cell neoplasm,0.301512245230966
+Blood spots,0.34418937534122507
+Bloom Syndrome,0.7061762746559279
+bone destruction,0.8084288359008946
+Borderline Personality Disorder,0.5428180940849668
+Brain Ischemia,0.5240014195114789
+"Brain Tumor, Primary",0.9363883620259174
+Breast adenocarcinoma,0.5857395213209345
+"Breast Cancer, Familial",1.9880737730382354
+Bronchioloalveolar Adenocarcinoma,0.31430097752633585
+Bronchopulmonary Dysplasia,0.7529218495683458
+Brucellosis,0.6086786294704605
+Brugada Syndrome (disorder),0.5057339416845544
+"Bulbo-Spinal Atrophy, X-Linked",0.5407218990094731
+Bullous pemphigoid,2.3822653860213476
+Cancer cachexia,1.1411947715115067
+Cancer of Nasopharynx,0.3039799516188385
+Cannabis use,0.047424844819778274
+Carcinoma of larynx,0.5070553934756851
+"Carcinoma of urinary bladder, invasive",0.9528756044608453
+"Carcinoma, Endometrioid",0.3628217126979492
+"Carcinoma, Lewis Lung",1.2595118264239777
+"Carcinoma, Papillary",0.9509058266373713
+"Carcinoma, Small Cell",1.2309332522600018
+"Carcinoma, Spindle-Cell",0.4137655432949881
+Carcinosarcoma,0.6905862735157329
+Cardiac Arrest,0.6066703431206721
+Cardiac fibrosis,1.0391298013623669
+Carotid Atherosclerosis,0.8251673808403962
+Carotid Stenosis,1.2111567554088594
+Cataract,0.6539161112130447
+Cavernous Hemangioma of Brain,1.5581825147168007
+Celiac Disease,1.269031543589126
+Central Serous Chorioretinopathy,0.3501294201036285
+Cerebellar atrophy,0.04036050096214078
+Cerebral atrophy,0.586772859521546
+Cerebral Palsy,0.18007894877987426
+Cervical Intraepithelial Neoplasia,0.4208477757562698
+Cervical Squamous Cell Carcinoma,0.7246781464609199
+Chagas Disease,0.5440216945033098
+Charcot-Marie-Tooth Disease,0.15781094166739482
+Chikungunya Fever,0.9482765939928408
+Childhood Acute Monocytic Leukemia,0.07834146954070421
+Childhood Acute Myeloid Leukemia,0.4382567464959629
+Childhood Anaplastic Large Cell Lymphoma,1.1868458152840564
+Childhood Angiosarcoma,0.582342964105223
+Childhood asthma,0.592536288151614
+Childhood B Acute Lymphoblastic Leukemia,0.3721860139371961
+Childhood Burkitt Lymphoma,0.46975614417282835
+Childhood Ependymoma,0.4177326158248878
+Childhood Hepatocellular Carcinoma,0.5153959506773484
+Childhood Hodgkin Lymphoma,0.7054034523884646
+Childhood Kidney Wilms Tumor,0.6828834788736591
+Childhood Leiomyosarcoma,0.39920297157929346
+Childhood Liposarcoma,0.6044924085767845
+Childhood Lymphoblastic Lymphoma,0.15375597420925316
+Childhood Malignant Peripheral Nerve Sheath Tumor,0.6913292705453329
+Childhood Myelodysplastic Syndrome,0.4458037514326815
+Childhood Non-Hodgkin Lymphoma,0.42774900000037697
+Childhood Oligodendroglioma,0.29372548956287137
+Childhood Pilocytic Astrocytoma,1.1651951767575526
+Childhood Soft Tissue Sarcoma,1.0112065815419962
+Childhood Synovial Sarcoma,0.5769045514619974
+Childhood T Acute Lymphoblastic Leukemia,0.6575829522787496
+Cholera,0.5215149749667454
+Cholestasis,0.41216830354867284
+Cholesteatoma,0.6788551864166008
+Chondrosarcoma,0.721933549451646
+Chordoma,0.3201136738202392
+Choriocarcinoma,0.9714073374287355
+Chronic active hepatitis,0.2840672504287799
+Chronic graft-versus-host disease,1.093908980286157
+Chronic heart failure,1.2141476264190274
+Chronic myeloproliferative disorder,0.39545891742953215
+Chronic schizophrenia,0.30534104381704347
+"Cicatrix, Hypertrophic",1.1737537728707266
+Classical Hodgkin's Lymphoma,1.071488901073663
+Clear Cell Sarcoma of Soft Tissue,0.8555778800347587
+Clear-cell metastatic renal cell carcinoma,0.5970870331229261
+Cleft Lip with or without Cleft Palate,0.7776224093353226
+Cleft Palate,0.6973883191024376
+Cleft palate with cleft lip,2.194823683198157
+"Cleft palate, isolated",0.5754143306063038
+Cleft upper lip,0.10365206939059396
+Clostridium; difficile (disorder),0.22349490604346087
+Cockayne Syndrome,1.4509632180321739
+Coffin-Siris syndrome,1.004775895095373
+Combined immunodeficiency,1.1725408079363042
+Common Variable Immunodeficiency,1.636262644616887
+Complete atrioventricular block,1.328543549512899
+Complicated malaria,0.8003288055414253
+Cone-Rod Dystrophy 2,0.2881453359835606
+Congenital atresia of extrahepatic bile duct,2.4012989415003316
+Congenital cataract,0.5663252372657885
+Coronary Stenosis,0.854643714209045
+Craniosynostosis,1.1587965075275855
+Creutzfeldt-Jakob disease,0.15117090711849498
+Cryptorchidism,0.0992568890200527
+Cushing Syndrome,1.6421805947810488
+Cutaneous Mastocytosis,0.35087119065896005
+Cutaneous Melanoma,0.44884667411223395
+Cyst,0.8926794568287246
+"Cystadenocarcinoma, Serous",0.35437540246408306
+Cystic kidney,0.6920958405853898
+Cystitis,0.1818094250301864
+Cytogenetically normal acute myeloid leukemia,0.2683228525773492
+Decompression Sickness,0.23387707249456655
+Deep Vein Thrombosis,1.8242844233405973
+Dejerine-Sottas Disease (disorder),0.6857108424977785
+"Dementia, Vascular",0.9907009053807702
+Dengue Fever,1.0571642243367192
+Dentatorubral-Pallidoluysian Atrophy,0.0953555173979363
+Dermatitis,1.2948396192680625
+Dermatomyositis,1.0531369274843636
+Desmoplastic,0.2960599791622007
+Deuteranomaly,0.14040492866594864
+Diabetic Cardiomyopathies,0.6133886950310327
+Diabetic peripheral neuropathy,0.6200140867890171
+Differentiated Thyroid Gland Carcinoma,0.46135215877273067
+DiGeorge Syndrome,0.064133738563467
+Diphtheria,1.0828901025681519
+Disease due to Parvoviridae,0.8258567974247785
+Dissection of aorta,0.6911748572831907
+DOSAGE-SENSITIVE SEX REVERSAL,0.8272361350708779
+Drug Resistant Epilepsy,0.7496030155300412
+Dry Eye Syndromes,1.075396327303859
+Ductal Breast Carcinoma,0.5860307878847008
+Ductal Carcinoma,0.6209926834970666
+Dwarfism,1.0583329108204942
+Dysautonomia,0.7358841329028983
+Dyskinetic syndrome,1.0473367459939595
+Dysmorphic features,0.34467121392935235
+Dysmorphism,0.23909906614586066
+Dysplastic Nevus,0.37726865636748874
+Dystrophia myotonica 2,0.8994782286068078
+"EAR, PATELLA, SHORT STATURE SYNDROME",0.6642379332453497
+Early infantile epileptic encephalopathy with suppression bursts,0.18139540869890797
+Early-Stage Breast Carcinoma,0.4589334449872077
+Eclampsia,2.311473628144067
+"ECTRODACTYLY, ECTODERMAL DYSPLASIA, AND CLEFT LIP/PALATE SYNDROME 1",0.6959050765316886
+Elastosis perforans serpiginosa,0.11360258147141071
+Embryonal Carcinoma,0.4914287094896302
+Embryonal Rhabdomyosarcoma,0.6397076642293342
+Encephalitis,1.3778670627135654
+"Encephalitis, St. Louis",1.243818250724706
+Endometrial adenocarcinoma,1.5951169578991595
+Endometrial Hyperplasia,0.5520169416257562
+Endometriosis of ovary,0.8810527322003688
+Endometriosis of uterus,0.29187269625499207
+Enteritis,1.4590231574544879
+Eosinophilia,1.2233563687496904
+Eosinophilic esophagitis,1.3704126762349913
+Ependymoma,0.7737337793596936
+"Epilepsy, Temporal Lobe",1.2069021043577393
+Epileptic encephalopathy,0.32494055390964643
+Epiretinal Membrane,0.44019361134027407
+Episodic Kinesigenic Dyskinesia 1,0.881812261862913
+Epithelial hyperplasia,0.7628828920885374
+Epithelioma,0.5821057743946474
+Erythroblastosis,1.5119100353331494
+Erythroleukemia (Erythroid/Myeloid),0.5061741492782051
+Essential Hypertension,0.7760101005533696
+Essential Tremor,0.39409049073130786
+estrogen receptor-negative breast cancer,0.6265714019896952
+Ewings sarcoma-primitive neuroectodermal tumor (PNET),0.5715160452645113
+Extrahepatic Cholangiocarcinoma,0.8508810256739137
+Extrapulmonary Small Cell Carcinoma,0.5109595498620845
+Extraskeletal Myxoid Chondrosarcoma,0.15865674947933833
+Fabry Disease,0.003507965220859373
+Factor V Leiden mutation,2.7294346544371435
+Failure to Thrive,0.9446493642088231
+Familial Alzheimer Disease (FAD),1.1740282311024897
+Familial generalized lipodystrophy,0.5802996984896801
+Familial lichen amyloidosis,0.731461731414447
+Familial multiple trichoepitheliomata,0.6066256376379333
+Fanconi Anemia,0.9292491697192712
+"FANCONI ANEMIA, COMPLEMENTATION GROUP A (disorder)",0.8962666826736545
+Fetal Alcohol Syndrome,0.4878769056873457
+Fibrillation,0.53031416588063
+Fibroadenoma,0.38645374737959226
+Fibrodysplasia Ossificans Progressiva,0.11156710271045621
+Fibroid Tumor,0.6788016457472937
+Fibrolamellar Hepatocellular Carcinoma,1.1281574161312844
+Fibrosarcoma,0.8403789987058506
+Focal glomerulosclerosis,0.9997757023172607
+Folic Acid Deficiency,0.7102900353925579
+Follicular adenoma,0.5396499348010544
+Follicular neoplasm,0.16596405160918168
+Follicular thyroid carcinoma,0.7391571408010771
+Fragile X Syndrome,0.45798550020396245
+FRAGILE X TREMOR/ATAXIA SYNDROME,0.8701689116015849
+Friedreich Ataxia,0.050426728063271836
+FRIEDREICH ATAXIA 1,0.33267269184949083
+Frontotemporal dementia,0.29573540406196314
+Frontotemporal Lobar Degeneration,0.4810084641645128
+Gallbladder Carcinoma,0.49568309901457236
+Ganglioglioma,0.6084711586172055
+Gastric Adenocarcinoma,0.6195262656613699
+Gastritis,1.2804738681522443
+"Gastritis, Atrophic",0.797811711442226
+Gastroenteritis,0.28422597456514825
+Gastroesophageal reflux disease,0.498204553542405
+Gastrointestinal Carcinoid Tumor,1.158090023869913
+Gastrointestinal mucositis,0.48398074232498345
+Gastrointestinal tract vascular insufficiency,0.10210536210812454
+Gaucher Disease,0.2996610961911894
+Generalized Anxiety Disorder,0.14017410658579388
+Germ cell tumor,1.0176607010945393
+Gestational trophoblastic disease,0.35974700883478244
+Giant Cell Arteritis,1.3341983134967292
+Giant Cell Tumor of Bone,0.4239859449748247
+Gilles de la Tourette syndrome,0.3121710764392874
+"Glaucoma, Primary Open Angle",1.0057822348283403
+Glomerulonephritis,0.5559622894161239
+Glomerulosclerosis (disorder),0.3495614925302465
+Glycogen storage disease type II,2.2949645910564387
+Gonorrhea,0.8690666621409422
+Graft-vs-Host Disease,1.1127218796487168
+Granulomatosis with polyangiitis,0.04169291548632268
+GRN-related frontotemporal dementia,0.493400361946116
+Hairy Cell Leukemia,1.1658243485474573
+"Hamartoma Syndrome, Multiple",0.29202903633413574
+Hemangioma,1.48702499909227
+Hemangiosarcoma,0.8201823433393848
+Hemophilia A,2.479710433312087
+"Hemorrhagic Fever, Ebola",0.6962992006303408
+"Hemorrhagic Fevers, Viral",0.13759676715101246
+Henoch-Schoenlein Purpura,1.1554102274172091
+Hepatitis A,0.5527283262480742
+"Hepatitis B, Chronic",1.0805250408820337
+"Hepatitis C, Chronic",1.491632797581181
+Hepatitis D Infection,0.21454647375524008
+"Hepatitis, Alcoholic",0.471144325450998
+"Hepatitis, Chronic",1.0832222698077805
+Hepatoblastoma,0.604851791960794
+Hepatolenticular Degeneration,0.19266161319083613
+HER2 gene amplification,1.4695691825337411
+HER2-negative breast cancer,0.5310597853958064
+HER2-positive carcinoma of breast,0.8939749084737638
+Hereditary Breast and Ovarian Cancer Syndrome,1.973622141036611
+Hereditary hemochromatosis,0.6512202398419478
+Hereditary Leiomyomatosis and Renal Cell Cancer,0.19168560020609512
+Hereditary Malignant Neoplasm,1.039222063807226
+Hereditary Nonpolyposis Colorectal Cancer,1.69274015932542
+Hereditary pancreatitis,0.9433830870156156
+High grade serous carcinoma,0.9265253239105845
+High-Grade Prostatic Intraepithelial Neoplasia,0.6251269320534739
+High-Risk Neuroblastoma,0.7632014087015054
+Hirschsprung Disease,1.3854374644583352
+Histiocytic sarcoma,0.276397507866101
+"Histiocytoma, Angiomatoid Fibrous",0.07717862966241719
+hiv-infection/aids,0.32796581930978874
+Human papilloma virus infection,0.6891030757059362
+Hurthle Cell Tumor,0.38023921470395333
+Hydrocephalus,0.23375458770913715
+Hypercholesterolemia,0.6936366968832928
+"Hypercholesterolemia, Familial",1.7866439862661554
+Hyperhomocysteinemia,1.2409398407741328
+Hyperinsulinism,0.8177124994708755
+Hyperlipidemia,0.6150939661917029
+Hyperlipoproteinemia Type IIa,1.451452021176277
+Hyperparathyroidism,0.28011532563365255
+"Hyperparathyroidism, Primary",0.27038327459774514
+Hyperplastic Polyp,0.5922599944685888
+Hyperthyroidism,1.3748557196111468
+Hypertrophic Cardiomyopathy,0.8667779179194843
+Hypertrophic obstructive cardiomyopathy,1.0011412604267644
+Hyperuricemia,0.6599713666558737
+Hypocholesterolemia,0.463459880659968
+Hypoglycemia,1.1133512397116323
+Hypothyroidism,0.8819486056445038
+Hypoxic-Ischemic Encephalopathy,0.022922938745303684
+"Ichthyosis, X-Linked",0.9925574054913447
+Idiopathic generalized epilepsy,0.09326846110252446
+Idiopathic Inflammatory Myopathies,0.24789133363530433
+Idiopathic pulmonary hypertension,1.2441688117859488
+IGA Glomerulonephritis,0.9996985474057893
+Immune thrombocytopenic purpura,1.4210632336812896
+Impaired insulin secretion,0.9109444485056204
+"Inclusion Body Myopathy, Sporadic",0.7263355112203904
+Inclusion Body Myositis (disorder),1.1265064652262258
+Infection by Cryptococcus neoformans,0.7973962860537086
+Infection caused by Helicobacter pylori,0.6550240561795139
+Infectious Otitis Media,1.03179693043504
+Infective cystitis,0.19302862640814802
+Inflammatory Breast Carcinoma,0.9574356289812314
+Inflammatory dermatosis,1.7238355959906226
+Inflammatory Myofibroblastic Tumor,0.19314257070098861
+Inherited neuropathies,0.1791116459810866
+insulinoma,0.5824767913491724
+Intervertebral Disc Degeneration,0.7116420640390616
+Intracranial Aneurysm,0.7880723087524012
+intracranial glioma,0.31852089944727213
+Intraepithelial Neoplasia,0.5661407329389029
+Intrahepatic Cholangiocarcinoma,0.6585653598762797
+Intraocular pressure disorder,0.5413720766611386
+Invasive carcinoma of breast,0.6670830302418679
+Invasive Ductal Breast Carcinoma,0.5347558141907299
+Iron deficiency,0.17922958107593126
+Iron Overload,0.7506349055307783
+Irritable Bowel Syndrome,0.5407189553661793
+Islet Cell Tumor,-0.023033940030248716
+Japanese Encephalitis,1.113206194110836
+Juvenile arthritis,2.271399665279331
+Juvenile Myelomonocytic Leukemia,0.9712239334036511
+Kaposi Sarcoma,0.4205926606724298
+Keloid,1.2803553604980014
+Keratitis,0.9690998832027043
+Keratoconus,0.6938296530046373
+Ketosis,0.6473940622899613
+Ki-1+ Anaplastic Large Cell Lymphoma,1.1015164611165191
+Kidney Calculi,0.6636529888253268
+Kidney Failure,1.2655918982625083
+Kidney Neoplasm,0.332902171872845
+Klinefelter Syndrome,0.8656607060162518
+Lafora Disease,0.36622756773016707
+Large cell neuroendocrine carcinoma,0.27999057216212736
+Laryngeal cleft,1.1443174745029518
+Laryngeal Squamous Cell Carcinoma,0.4757793561882853
+Learning Disabilities,0.5506179456967661
+Left Ventricular Hypertrophy,0.8849718746940445
+Leigh Disease,2.6284606783324374
+leiomyosarcoma,0.5093260641005647
+Leishmaniasis,1.202701408706601
+"Leishmaniasis, Visceral",0.9102964693962708
+Leprosy,2.022511632750213
+"Leukemia, B-Cell",0.8469838552830043
+"Leukemia, Mast-Cell",0.24510002973514458
+"Leukemia, Myelomonocytic, Chronic",0.6195723527787222
+"Leukemia, T-Cell",0.8337758316167065
+Leukodystrophy,0.7862749557778173
+"Leukoencephalopathy, Progressive Multifocal",0.3788666299174702
+Leukopenia,0.6274738522126188
+Lewy Body Disease,0.7081253016227638
+Li-Fraumeni Syndrome,0.3490319350735662
+"Lichen Planus, Oral",1.491074276714934
+Limb ischemia,0.6143347496877627
+Lipodystrophy,0.8118737965608602
+liposarcoma,0.6031895927238708
+"Liposarcoma, Dedifferentiated",0.3310349707793405
+"Liposarcoma, Myxoid",0.35897053635204784
+Lissencephaly,0.5937409478077165
+Liver Failure,0.14341739820312305
+"Liver Failure, Acute",0.8451712666858698
+Lobular carcinoma in situ of breast,0.1811045183531871
+Locally advanced breast cancer,0.5119574082089271
+Luminal A Breast Carcinoma,0.44308633885541066
+Luminal B Breast Carcinoma,0.3142526322366741
+Lupus Nephritis,1.247745729108704
+Lyme Disease,0.2754442914849741
+Lymphatic Metastasis,0.6544961260578893
+Lymphocytic Choriomeningitis,1.155205485911053
+"Lymphohistiocytosis, Hemophagocytic",0.4320028179133611
+Lymphoid leukemia,0.6237701932665078
+"Lymphoma, Follicular",0.476399405335142
+"Lymphoma, Large-Cell, Follicular",0.30572230157576735
+"Lymphoma, Non-Hodgkin, Familial",0.34864554027132827
+"Lymphoma, T-Cell, Cutaneous",1.109529690173122
+Lymphopenia,1.6494419582173858
+Lynch Syndrome,2.0256222428315267
+M5b Acute differentiated monocytic leukemia,0.6814269514823343
+Machado-Joseph Disease,0.4606615958350209
+Macrocephaly,0.6042514483910819
+"Macular dystrophy, corneal type 1",0.4448531241188676
+MAJOR AFFECTIVE DISORDER 1,0.11011758257589771
+MAJOR AFFECTIVE DISORDER 2,0.1340936803418347
+MAJOR AFFECTIVE DISORDER 4,0.11222249019806098
+MAJOR AFFECTIVE DISORDER 6,0.1313761167605222
+MAJOR AFFECTIVE DISORDER 7,0.11635149143832944
+MAJOR AFFECTIVE DISORDER 8,0.12449517970895481
+MAJOR AFFECTIVE DISORDER 9,0.12847911535417225
+"Malaria, Cerebral",2.2964565478318404
+"Malaria, Falciparum",0.4349377396308749
+"Malaria, Vivax",0.409914325015607
+Malformations of Cortical Development,0.46268865833011813
+"Malformations of Cortical Development, Group II",0.288443444718459
+Malignant Childhood Neoplasm,0.5931026420986628
+Malignant Fibrous Histiocytoma,0.547491725673832
+"Malignant lymphoma, lymphocytic, intermediate differentiation, diffuse",0.3726929614303044
+Malignant mesothelioma,0.9237262817629406
+Malignant neoplasm of brain,0.16566588356569933
+Malignant neoplasm of colon stage IV,0.5224816640129278
+Malignant neoplasm of gallbladder,0.41206991372650326
+Malignant neoplasm of gastrointestinal tract,0.771208403569315
+Malignant neoplasm of larynx,0.5139674043735643
+Malignant neoplasm of nasopharynx,0.3369647377542989
+Malignant neoplasm of oropharynx,1.2036859360508962
+Malignant neoplasm of skin,0.37718716665755325
+Malignant neoplasm of stomach stage IV,0.613419830615609
+Malignant neoplasm of testis,0.2194147424964413
+Malignant Peripheral Nerve Sheath Tumor,0.9264537458990534
+Malignant Pleural Mesothelioma,0.525050698680375
+Malignant Squamous Cell Neoplasm,0.17786004845190626
+Malignant Testicular Germ Cell Tumor,1.8742641092532357
+Malnutrition,0.7098497800741951
+Mandibulofacial Dysostosis,0.16608808122315455
+Mantle cell lymphoma,0.3012882834173567
+Marfan Syndrome,1.7749927779972128
+Marginal Zone B-Cell Lymphoma,0.8328737347644745
+Marijuana Abuse,0.3381092064676318
+Marinesco-Sjogren syndrome,0.2163208455996072
+Mastocytosis,1.7809465928020507
+"Mastocytosis, Systemic",0.9011823665000026
+Maturity onset diabetes mellitus in young,0.680168948137648
+Measles,1.4269489101028734
+Medullary carcinoma,0.3238748573273676
+Medullary carcinoma of thyroid,0.8994323230846195
+Melanocytic nevus,0.22303865230053613
+Melanocytic nevus of skin,0.3718684345675665
+"Melanoma, B16",0.9202229931016348
+Membranous glomerulonephritis,0.5530754816355476
+"Meningioma, benign, no ICD-O subtype",0.4515614738045324
+"Meningitis, Pneumococcal",1.0105074022370644
+Mental Retardation,0.40084573504493776
+"Mental Retardation, X-Linked",0.08387545123355818
+Merkel cell carcinoma,0.8302255355206786
+Mesenchymal Cell Neoplasm,0.2094390565116137
+Metastasis from malignant tumor of prostate,0.4641994668111979
+Metastatic castration-resistant prostate cancer,0.11785810371730239
+Metastatic Colorectal Carcinoma,1.9577207731471786
+Metastatic malignant neoplasm to brain,0.9272101062890802
+Metastatic melanoma,0.45378053181598516
+Metastatic Prostate Carcinoma,0.5187553806654523
+Metastatic Renal Cell Cancer,1.2997839039343424
+Metastatic Renal Cell Carcinoma,1.5417715483777936
+Microcephaly,0.357372658708402
+"MICROPHTHALMIA, SYNDROMIC 7",0.0403301386389436
+Microphthalmos,0.3105268776210228
+Mild cognitive disorder,0.29494223086348376
+Mild Mental Retardation,0.1822840847336869
+Miller Dieker syndrome,0.4633910638369998
+Miscarriage,1.0888498000824698
+MiT family translocation renal cell carcinoma,0.016747143320450845
+Mitochondrial abnormalities,0.09897544237216817
+Mixed anxiety and depressive disorder,0.2442324161306555
+Mixed Connective Tissue Disease,0.1049420493058601
+MIXED LINEAGE LEUKEMIA,0.6031800125753745
+MOHR-TRANEBJAERG SYNDROME,1.4187719511102488
+Monoclonal Gammopathy of Undetermined Significance,0.952295233739321
+Monocytic leukemia,1.4425318935601699
+Monocytosis,0.11601016641182002
+Motor neuron atrophy,0.30304906364341344
+Motor Neuron Disease,1.450938268130603
+MRSA - Methicillin resistant Staphylococcus aureus infection,0.18780237022285945
+Mucinous Adenocarcinoma,0.48329567616621416
+Muckle-Wells Syndrome,1.1574753978048362
+Mucocutaneous Lymph Node Syndrome,1.357410647210202
+Mucoepidermoid Carcinoma,1.2091818174987787
+Mucosa-Associated Lymphoid Tissue Lymphoma,1.2064491696044994
+Multiple Endocrine Neoplasia Type 1,0.42839380286619
+"Multiple Sclerosis, Relapsing-Remitting",1.2144182941649777
+Muscular Dystrophy,1.109039954402618
+"Muscular Dystrophy, Duchenne",0.494660300937085
+"Muscular Dystrophy, Facioscapulohumeral",0.25807354573296803
+MUTYH-Associate Polyposis,0.5420554766642061
+Myasthenia Gravis,1.6673612882816569
+Myelodysplasia,0.7357016962106874
+Myeloid Leukemia,0.6512573644620514
+Myeloid neoplasm,0.19018513677916232
+"MYELOPROLIFERATIVE SYNDROME, TRANSIENT",0.6509523511541782
+Myocarditis,1.0791313497602726
+Myopia,0.51557740455018
+Myositis,0.38655959003780305
+Myotonic Dystrophy,0.34838911603239464
+MYOTONIC DYSTROPHY 1,0.3221013861015916
+Myxoid cyst,1.287937415427872
+Nasal Polyps,1.396998556524891
+Neointimal hyperplasia,0.6751395919871869
+Nephritis,1.521150212486095
+Neurilemmoma,0.6673096183661857
+"Neuroectodermal Tumor, Primitive",0.430009703940614
+Neuroectodermal Tumors,0.5250764872795975
+neurofibroma,1.0847239715097872
+Neurofibromatosis 1,1.0032580077048112
+Neurofibromatosis 2,0.6161259729192546
+NEUROTICISM,0.20169944387289004
+Neutropenia,0.693116686439914
+Nevus,0.48572698239940754
+Newly Diagnosed Childhood Ependymoma,0.30588322937242096
+Nicotine Dependence,2.1090457740992945
+"Niemann-Pick Disease, Type C",0.26939283042657425
+Nijmegen Breakage Syndrome,2.5543629172721807
+Non-arthropod borne lymphocytic choriomeningitis,1.3017029449414115
+Non-Metastatic Childhood Soft Tissue Sarcoma,0.9470309399014737
+NONAKA MYOPATHY,0.3637702993462093
+Nonalcoholic Steatohepatitis,0.6030485864730233
+Noninfiltrating Intraductal Carcinoma,0.4681953517607277
+Nonnuclear polymorphic congenital cataract,0.29149701483387325
+Nonorganic psychosis,0.8950374946089641
+"Obesity, Morbid",0.6632538017355302
+Obsessive-Compulsive Disorder,1.055613356923758
+Obstructive nephropathy,1.5503753137634053
+Ocular Hypertension,0.6702520204822443
+oligodendroglioma,0.1567534375659593
+Oligospermia,0.28261342678637447
+"Opitz GBBB Syndrome, X-Linked",0.1934747460034463
+Optic Atrophy,0.06582914749904145
+Optic Atrophy 1,0.36390855883296996
+Oral Cavity Carcinoma,1.0248220933894312
+Oral Submucous Fibrosis,0.8423873159376754
+Oropharyngeal Carcinoma,0.525990638056629
+Osteitis Deformans,0.34255808943025884
+"Osteoarthritis, Knee",1.1384604083951568
+"Osteoporosis, Postmenopausal",0.5241855249013591
+Otitis Media,1.155198703778736
+Ovarian clear cell carcinoma,0.707301557535769
+"Ovarian Failure, Premature",0.6080249041193229
+PACHYONYCHIA CONGENITA 3,0.6244053480441872
+Pancreatic intraepithelial neoplasia,0.8257331830647208
+Pancreatic Neoplasm,0.6655231953756383
+Pancreatitis,0.5717123989827358
+"Pancreatitis, Chronic",0.5346532159751866
+Pancytopenia,1.0500165586687527
+Papillary Renal Cell Carcinoma,0.4162378324654477
+Papilloma,0.8008463833711825
+Paraganglioma,0.7234731442388534
+Parasitemia,0.4989439063838876
+Parathyroid Adenoma,0.22973881837340393
+"Parkinson Disease, Familial, Type 1",0.07996063734316575
+"PARKINSON DISEASE, LATE-ONSET",0.3593763183081707
+Patent ductus arteriosus,0.6374721900255317
+PATENT DUCTUS ARTERIOSUS 1,0.7966752222960026
+Pelvic Organ Prolapse,0.5207004836912761
+Pemphigus Vulgaris,1.0220833078356846
+Periapical Periodontitis,0.5142744472759115
+Peripheral motor neuropathy,0.12750932776961804
+Peripheral T-Cell Lymphoma,0.6684248520851722
+Peritoneal dissemination,0.9521210648970231
+Pheochromocytoma,1.2437152718922302
+Photoreceptor degeneration,0.3798840548960017
+Phyllodes Tumor,0.30365903828173524
+Pick Disease of the Brain,0.7098575029289128
+"PIGMENTARY DISORDER, RETICULATE, WITH SYSTEMIC MANIFESTATIONS",1.7524692870652994
+Pilocytic Astrocytoma,0.9380283841489342
+Pituitary Adenoma,1.023941692429512
+Pituitary-dependent Cushing's disease,0.47685138066414023
+Plasmacytoma,0.7190816297187153
+Platinum-Resistant Ovarian Carcinoma,0.47912752399593284
+Pneumocystis jiroveci pneumonia,0.560447955295362
+Polycystic Kidney - body part,0.8189293692661134
+"Polycystic Kidney, Autosomal Dominant",0.8585272232111748
+Polycythemia,2.3478162397432523
+Polycythemia Vera,0.8601739682540916
+Polymyositis,1.2359809665766996
+Polyneuropathy,0.08452139723243167
+Post-Traumatic Stress Disorder,0.5368819546967487
+Posterior subcapsular cataract,0.036949165573846886
+Prader-Willi Syndrome,1.1734520032571647
+Pre B-cell acute lymphoblastic leukemia,0.9670686909925988
+Precursor B-cell lymphoblastic leukemia,0.6479120800499634
+Precursor B-Cell Lymphoblastic Leukemia-Lymphoma,0.28750733980384685
+Precursor cell lymphoblastic lymphoma,0.1614527802664817
+Prediabetes syndrome,0.9101183893294675
+Premature aging syndrome,0.44235939455622136
+Premature Menopause,0.635665172704598
+Primary biliary cirrhosis,0.9835113041749892
+Primary central nervous system lymphoma,1.1224951096164033
+Primary cholangiocarcinoma of intrahepatic biliary tract,0.7474053809542622
+Primary Ciliary Dyskinesia,0.13288503035612673
+Primary differentiated carcinoma of thyroid gland,0.5560414507339322
+Primary Effusion Lymphoma,0.42134355929653194
+Primary Malignant Liver Neoplasm,0.3409379155774128
+Primary Myelofibrosis,0.9064280916638338
+Primary sclerosing cholangitis,0.7595390194634863
+Primary Sjögren's syndrome,1.8200274988420044
+Progeria,0.7835864461535043
+Progression of prostate cancer,0.47655290114866633
+Progressive cGVHD,0.9860697310735274
+Progressive supranuclear palsy,0.6657769196880344
+Prolactinoma,1.76923736462246
+Proliferative vitreoretinopathy,0.8459887765052565
+Promyelocytic leukemia,0.30332497054379143
+Prostatic Intraepithelial Neoplasias,1.0342143562645785
+Protein Deficiency,0.8337307572894359
+Pseudohyperkalemia Cardiff,1.265961278818101
+Pseudolymphoma,0.12018099483003454
+Psoriasis vulgaris,1.032721179200508
+psychological distress,0.07492072223676939
+Pterygium,0.8882281825302467
+Pterygium Of Conjunctiva And Cornea,0.9123087362127834
+Pterygium of eye,0.9472510619852819
+Pulmonary arterial hypertension,0.8471993192089989
+Pulmonary Emphysema,0.7168017111790256
+Rabies (disorder),0.7937288842258646
+Rectal Carcinoma,0.6329876748921278
+Refractory anaemia with excess blasts,0.05502171756985765
+Refractory anemias,0.739618751447187
+Refractory Cytopenia of Childhood,0.6168664629521028
+Renal Insufficiency,0.8339409850821481
+"Respiratory Distress Syndrome, Adult",0.7383768149895851
+Respiratory Failure,0.1649099483923936
+Respiratory syncytial virus (RSV) infection in conditions classified elsewhere and of unspecified site,0.8748486214063385
+"Reticuloendotheliosis, X-linked",0.8302789119228137
+Retinitis Pigmentosa,0.30049579657461856
+Retinopathy of Prematurity,1.7415853992731614
+"RETINOSCHISIS 1, X-LINKED, JUVENILE",-0.02916792927686189
+Rett Syndrome,0.3460152406843372
+Rhabdoid Tumor,0.37996204974359743
+Rhabdoid Tumor of the Kidney,1.1201449157651078
+Rheumatism,1.2079946516637852
+Rhinovirus infection,1.9966738327138538
+Richter's syndrome,0.28515845053150585
+Rift Valley Fever,0.3998741461486869
+Right Ventricular Hypertrophy,0.7433957376855606
+Russell-Silver syndrome,1.219025082656982
+Sarcoidosis,1.7655179041524909
+Scleroderma,1.0688935189955266
+Scrub Typhus,0.7059588476878029
+Seckel syndrome,1.1661275274947502
+Secondary malignant neoplasm of colon and/or rectum,1.3678659482202327
+Seminoma,0.3873483916929883
+Senile Plaques,0.8319625367748439
+Sensorineural Hearing Loss (disorder),0.3426732587811585
+Sensory neuropathy,0.22419536282161132
+Severe Acute Respiratory Syndrome,0.4487649352059657
+Severe Combined Immunodeficiency,1.2976047193054991
+Severe Dengue,1.6175170072284386
+Severe intellectual disability,0.2388942362407532
+Severe Sepsis,1.4708863763298796
+Sezary Syndrome,0.8668109916160048
+Sickle Cell Trait,0.15155548265191598
+Sjogren's Syndrome,1.3399818390970004
+Skin callus,0.8020636157562395
+Skin Carcinogenesis,0.7818568036990764
+Skin Erosion,1.2328399835145207
+"Sleep Apnea, Obstructive",0.7668772349795837
+SMITH-MCCORT DYSPLASIA 1,0.05333637071607933
+Solitary fibrous tumor,0.11197151033702567
+Spastic Paraplegia,2.158239432522925
+"Spastic Paraplegia, Hereditary",1.1365728653456477
+Spina Bifida,1.298383310759174
+Spinal Muscular Atrophy,0.37016620441129594
+Spinocerebellar Ataxia Type 1,0.1825808311706808
+Sporadic Breast Carcinoma,1.1067317046937817
+Sporadic Parkinson disease,1.2114499561823586
+Squamous cell carcinoma of oropharynx,0.4664371310660145
+Squamous cell carcinoma of skin,0.5523186337877077
+Squamous cell carcinoma of the hypopharynx,0.3762198846869897
+Squamous cell carcinoma of tongue,0.4268351850423345
+ST segment elevation myocardial infarction,1.551500764899037
+Stable angina,0.9595377285253229
+Stage 0 Gallbladder Cancer AJCC v8,0.4375394762735821
+Stage IIA Gallbladder Cancer AJCC v8,0.47070697536272205
+Stage IIB Gallbladder Cancer AJCC v8,0.43954150595701835
+Stage III Gallbladder Cancer AJCC v8,0.4563398679373131
+Stage IV Gallbladder Cancer AJCC v8,0.4653330524645551
+"stage, non-small cell lung cancer",0.1150316580394224
+Status Epilepticus,0.4128348284333089
+Steroid resistant nephrotic syndrome of childhood,0.06703985481098922
+Steroid Sulfatase Deficiency Disease,1.0096872088071613
+Steroid-resistant nephrotic syndrome,0.08284185851263588
+"Stress, Psychological",1.1914394020915064
+Stromal Neoplasm,1.2244005674900398
+Subarachnoid Hemorrhage,0.8206331862466545
+Subfertility,0.0390406074286433
+Superficial ulcer,1.2272780830078474
+SVEINSSON CHORIORETINAL ATROPHY,0.5479382345400757
+Synovial Cyst,1.5375527583989697
+synovial sarcoma,0.4131607874423076
+Systemic Inflammatory Response Syndrome,0.7879359774029189
+T-Cell Lymphoma,0.5746438765840217
+TARSAL-CARPAL COALITION SYNDROME,0.7256030519748321
+TDP-43 Proteinopathies,0.27560870932830495
+Teratocarcinoma,1.332352190009192
+Teratoma,0.7809072073065062
+Testicular Germ Cell Tumor,1.5396666488698407
+Therapy-related myelodysplastic syndrome,0.28304926717335027
+Thromboangiitis Obliterans,0.374005334233543
+"Thrombocythemia, Essential",1.5037623540669647
+Thrombophilia,3.5202512007710722
+Thymic Carcinoma,0.9933895257563756
+Thymoma,0.6857628526589976
+Thyroid associated opthalmopathies,1.0892757119950025
+Thyroid Gland Follicular Adenoma,0.3910070734760004
+Tooth Attrition,0.4115259514066456
+Toxoplasmosis,0.5669556166742066
+trachomatis,0.8695024458817577
+Traditional Serrated Adenoma,0.17191896411301086
+Transitional cell carcinoma of bladder,0.33558852599663286
+Treatment related acute myeloid leukaemia,0.4448913655434161
+Trichohepatoenteric Syndrome,0.2758519284883255
+TRICHOMONAS VAGINALIS (finding),0.04989099890603584
+Trigeminal Neuralgia,0.2548283524081233
+"Tuberculosis, extrapulmonary",0.9255804609268657
+"Tuberculosis, Multidrug-Resistant",-0.02168822714104328
+"Tuberculosis, Pulmonary",1.3951047189932344
+Tuberous Sclerosis,0.599068739862502
+TUBEROUS SCLEROSIS 2 (disorder),0.4169915619267898
+Tumour budding,0.5175173068420921
+Turner Syndrome,1.339322349840989
+Undifferentiated carcinoma,0.72569350350326
+Undifferentiated leukemia,0.3971331004327702
+Uranostaphyloschisis,0.7061340156973157
+Urothelial Carcinoma,0.45637930496963636
+Uterine Cervical Neoplasm,0.36575501351192974
+Uveal melanoma,0.4190084348531082
+Uveitis,1.0683737439972232
+Van der Woude syndrome,0.5115130914980645
+Varicosity,1.115783774241535
+Vascular insufficiency of intestine,0.11208664466680548
+Vasculitis,1.2214535263132733
+Ventricular arrhythmia,0.6995011461713446
+Vesicular Stomatitis,1.399687751586505
+Viral myocarditis,0.593654888364581
+Vitelliform Macular Dystrophy,0.06997165599836584
+Vitiligo,1.036268658466209
+VITILIGO-ASSOCIATED MULTIPLE AUTOIMMUNE DISEASE SUSCEPTIBILITY 1 (finding),1.0544130479587612
+Von Hippel-Lindau Syndrome,0.6529108341320738
+Waldenstrom Macroglobulinemia,1.1510474733932785
+Well Differentiated Oligodendroglioma,0.1109476163445972
+Well Differentiated Pancreatic Endocrine Tumor,0.45898806683906873
+Werner Syndrome,0.7306710536616635
+West Nile viral infection,0.984662941530817
+West Syndrome,0.5445053246587391
+Williams Syndrome,0.34788809460933456
+Wiskott-Aldrich Syndrome,0.5107290822221556
+Xeroderma Pigmentosum,1.067377966324939
+"XERODERMA PIGMENTOSUM, COMPLEMENTATION GROUP C",0.19767254472412768
+"Xeroderma Pigmentosum, Complementation Group D",0.903266917447011
+Zika Virus Infection,1.3322146625977789
+Zinc deficiency,1.2596663407223276
