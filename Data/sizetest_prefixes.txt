@@ -1,0 +1,16 @@
+bioplex.v3.293T
+biogrid.4.4.227
+consensus_db.v35
+dip.PC
+funcoup
+giant_90
+hprd
+humannet.v3.xc
+inbio
+innatedb_all
+matrixdb
+ptmcode2
+preppi
+reactomeFI.22
+signalink
+string.v12
