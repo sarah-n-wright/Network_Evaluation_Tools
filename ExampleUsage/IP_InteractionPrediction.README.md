@@ -13,6 +13,8 @@ Identify the paths to L3, MPS and parallel executables for use in later steps.
 * For MPS: `mps_dir` - Directory containing `topological_feature_extractor`
 * For parallel: full path to `parallel` executable  
 
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+
 ## Step 1: Create cross-validation folds
 Create 10 folds from the largest connected component of a network, where 10% of the interactions are removed for each fold.
 
@@ -28,9 +30,9 @@ Outputs:
 **Usage:**
 ```
 # Run directly:
-python ~/Git/Network_Evaluation_Tools/neteval/edge_prediction.py --networkprefix <pref> --runwhat Folds --datadir <datadir> --outdir <outdir>
+python neteval/edge_prediction.py --networkprefix <pref> --runwhat Folds --datadir <datadir> --outdir <outdir>
 # Iterate over a list of network prefixes
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_createFolds.sh ~/Git/Network_Evaluation_Tools/Data/example_prefix_file.txt
+sh ExampleUsage/IP_createFolds.sh Data/example_prefix_file.txt
 ```
 
 ## Step 2: Generate predictions using L3
@@ -50,8 +52,8 @@ Outputs:
 **Usage:**
 ```
 # To run prediction for fold 1:
-python ~/Git/Network_Evaluation_Tools/neteval/edge_prediction.py --networkprefix <pref> --runwhat Predict \
-    --networksuffix .fold1 --datadir <datadir> --execdir <execdir> --outdir <outdir> --pred_method L3
+python neteval/edge_prediction.py --networkprefix <pref> --runwhat Predict --networksuffix .fold1 \
+        --datadir <datadir> --execdir <execdir> --outdir <outdir> --pred_method L3
 ```
 
 ### Run all predictions for all networks
@@ -65,7 +67,7 @@ Outputs:
 
 **Usage:**
 ```
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_run_L3.sh <pref_file> <l3_execdir> <parallel_path>
+sh ExampleUsage/IP_run_L3.sh <pref_file> <l3_execdir> <parallel_path>
 ```
 
 ## Step 3: Generate predictions using MPS
@@ -81,7 +83,7 @@ Outputs:
 
 **Usage:**
 ```
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_make_csvs.sh <pref_file> <datadir>
+sh ExampleUsage/IP_make_csvs.sh <pref_file> <datadir>
 ```
 ### Generate Topological Scores using MPS
 Inputs:
@@ -98,9 +100,9 @@ Outputs:
 ```
 # Run a single analysis
 cd ${mps_dir}/topological_feature_extractor/bin
-java -Xms12g -Xmx12g algos.TopologicalFeaturesExtractor e $datadir/csvs <pref>.csv $outdir 
+java -Xms12g -Xmx12g algos.TopologicalFeaturesExtractor e <datadir>/csvs <pref>.csv <outdir> 
 # Run for all networks and folds
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_run_MPS_topology.sh <pref_file> <datadir> <outdir> <mps_dir> <parallel_path>
+sh ExampleUsage/IP_run_MPS_topology.sh <pref_file> <datadir> <outdir> <mps_dir> <parallel_path>
 ```
 
 ## Step 4: Evaluate predictive performance for held-out self interactions
@@ -117,10 +119,10 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python ~/Git/Network_Evaluation_Tools/neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateHeldOut \
+python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateHeldOut \
         --networksuffix .fold1 --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_run_heldout.sh <pref_file> <pred_method> <parallel_path>
+sh ExampleUsage/IP_run_heldout.sh <pref_file> <pred_method> <parallel_path>
 ```
 
 ## Step 5: Perform evaluation with external interaciton sets
@@ -139,10 +141,10 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python ~/Git/Network_Evaluation_Tools/neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateExternal \
+python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateExternal \
         --benchmarks corum panther --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_run_external.sh <pref_file> <pred_method>
+sh ExampleUsage/IP_run_external.sh <pref_file> <pred_method>
 ```
 
 ## Step 6: Perform evaluation of network coverage of predicted interaction
@@ -161,8 +163,8 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python ~/Git/Network_Evaluation_Tools/neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateCoverage \
+python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateCoverage \
         --coverage_file <coverage_file> --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
-sh ~/Git/Network_Evaluation_Tools/ExampleUsage/IP_run_external.sh <pref_file> <pred_method> <coverage_file>
+sh ExampleUsage/IP_run_external.sh <pref_file> <pred_method> <coverage_file>
 ```

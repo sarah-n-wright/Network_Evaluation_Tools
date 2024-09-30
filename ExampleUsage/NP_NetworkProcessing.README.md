@@ -1,8 +1,11 @@
 # Processing and Standardization of Networks
 
-## Requirements
+## Pre-requisites
 
-* 
+* Installation of `neteval`
+* Download of raw network datasets. Three small example networks (DIP, Wan, PID2) are included in `Network_Evaluation_Tools/Data/`
+
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
 
 ## Step 1: Create config file(s) from template
 
@@ -24,8 +27,8 @@ Open the file `dip.config` in a text editor and fill out the required arguments:
 For example, for DIP we create dip.config with:
 ```
 name=dip
-input_datafile=../Data/PathwayCommons12.dip.hgnc.txt.clean.gz
-outpath=../Data/example_outputs/
+input_datafile=Data/PathwayCommons12.dip.hgnc.txt.clean.gz
+outpath=Data/example_outputs/
 nodeA_col=PARTICIPANT_A
 nodeB_col=PARTICIPANT_B
 input_id_type="Symbol Uniprot"
@@ -54,11 +57,11 @@ The processing pipeline performs the following tasks:
 
 To check the set up of the processing pipeline, first run with the flag `--testmode 1` to process only the first 10000 interactions
 ```
-sh Network_Evaluation_Tools/NP_process_data.sh dip.config 1
+sh ExampleUsage/NP_process_data.sh dip.config 1
 ```
 Then run the full processing
 ```
-sh Network_Evaluation_Tools/NP_process_data.sh dip.config 0
+sh ExampleUsage/NP_process_data.sh dip.config 0
 ```
 
 ## Step 3: Assess the outputs

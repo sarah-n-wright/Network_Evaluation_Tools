@@ -6,6 +6,8 @@
 * Processed networks (See `NP_NetworkProcessing.README.md`)
 * If evaluating large networks (>500K interactions), at least 64GB of available memory
 
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+
 ## Step 1: Download DisGeNET and GWAS Catalog data
 
 ### DisGeNET
@@ -27,7 +29,7 @@ Outputs:
 
 **Usage:**
 ```
-python $gitdir/get_disgen_associations.py -m <min_genes> -M <max_genes> -o <outdir> -E <email> -P <password> -S <source> -d <disgenfile>
+python neteval/get_disgen_associations.py -m <min_genes> -M <max_genes> -o <outdir> -E <email> -P <password> -S <source> -d <disgenfile>
 ```
 
 ### GWAS Catalog
