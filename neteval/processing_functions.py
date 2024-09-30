@@ -457,6 +457,7 @@ class NetworkData:
         self.convert_edges(node_map, unmapped_nodes)
         print("Converted")
         self.T.end("Convert nodes")
+        return unmapped
     
     def get_node_conversion_map(self, nodes, initial_id, target_id):
         """Gets a mapping of node identifiers from the initial identifier to the target identifier. First updates the identifiers to the latest version, then converts the identifiers.
@@ -570,7 +571,7 @@ class NetworkData:
         self.T.end("Write data")
         self.T.end("Total")
             
-    def write_stats(self, outpath):
+    def write_stats(self, outpath, unmapped=None):
         """Writes the processing stats to a file
         
         Args:
@@ -581,5 +582,8 @@ class NetworkData:
         """
         stats_df = pd.DataFrame.from_dict(self.stats)
         stats_df.to_csv(outpath + self.net_name + ".stats", sep="\t", index=True)
+        if unmapped is not None:
+            with open(outpath + self.net_name + "_unmapped_nodes.txt", "w") as f:
+                f.write("\n".join([str(x) for x in unmapped])+"\n")
         self.T.print_all_times()
     
