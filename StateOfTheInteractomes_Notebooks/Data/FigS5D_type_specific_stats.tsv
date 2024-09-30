@@ -1,0 +1,15 @@
+	Gene Count	Interaction Count	prefix	Network	Type
+humannet.v3.cc	18298	1081517	humannet.v3.cc	HumanNet	Citation
+humannet.v3.cx	12179	81065	humannet.v3.cx	HumanNet	Coexpression
+humannet.v3.db	8540	135328	humannet.v3.db	HumanNet	Pathway
+humannet.v3.dp	12698	73414	humannet.v3.dp	HumanNet	Domain
+humannet.v3.gi	10478	174510	humannet.v3.gi	HumanNet	Genetic
+humannet.v3.pg	2126	16466	humannet.v3.pg	HumanNet	Orthology
+humannet.v3.pi	17848	633460	humannet.v3.pi	HumanNet	Physical
+GM_colocal	10046	476023	GM_colocal	GeneMania	Colocalization
+GM_coexp_97	18080	1271771	GM_coexp_97	GeneMania	Coexpression
+GM_domain	16528	670306	GM_domain	GeneMania	Domain
+GM_pathway	6566	89645	GM_pathway	GeneMania	Pathway
+GM_physical	17653	539470	GM_physical	GeneMania	Physical
+GM_predicted	10258	91481	GM_predicted	GeneMania	Orthology
+GM_genetic_90	15112	475434	GM_genetic_90	GeneMania	Genetic
