@@ -4,6 +4,7 @@ import numpy as np
 from goatools.obo_parser import GODag
 from goatools.semantic import semantic_similarity
 from collections import defaultdict
+import networkx as nx
 
 
 def load_corum_data(corum_file, outdir):
@@ -193,3 +194,23 @@ def calculate_homogeneity(clusters, go_annotations, go_dag, go_branches):
         homogeneity_dict[cluster_id] = go_score
     
     return homogeneity_dict
+
+
+def calculate_clustering_coefficient(G, clusters):
+    """
+    Calculate the average clustering coefficient of each cluster in the graph G.
+
+    Parameters:
+    G (networkx.Graph): The graph representing the protein interactions.
+    clusters (dict): A dictionary with cluster IDs as keys and lists of proteins (nodes) as values.
+
+    Returns:
+    dict: A dictionary with cluster IDs as keys and clustering coefficient scores as values.
+    """
+    clustering_coefficient_dict = {}
+    for cluster_id, nodes in clusters.items():
+        if len(nodes) < len(G.nodes):
+            subgraph = G.subgraph(nodes)
+            clustering_coefficient = nx.average_clustering(subgraph)
+            clustering_coefficient_dict[cluster_id] = clustering_coefficient
+    return clustering_coefficient_dict
