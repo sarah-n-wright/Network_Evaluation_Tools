@@ -6,6 +6,7 @@ from goatools.semantic import semantic_similarity
 from collections import defaultdict
 import networkx as nx
 import os
+from tqdm import tqdm
 
 
 def load_corum_data(corum_file, outdir):
