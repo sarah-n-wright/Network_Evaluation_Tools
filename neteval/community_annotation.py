@@ -5,6 +5,7 @@ from goatools.obo_parser import GODag
 from goatools.semantic import semantic_similarity
 from collections import defaultdict
 import networkx as nx
+import os
 
 
 def load_corum_data(corum_file, outdir):
