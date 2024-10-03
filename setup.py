@@ -69,7 +69,7 @@ setup(
              'neteval/process_data.py', 
              'neteval/prepare_evaluation_data.py', 
              'neteval/run_network_evaluation.py',
-             'neteval/network_constructor.py'
+             'neteval/network_constructor.py',
              'neteval/edge_prediction.py',
              'neteval/alphafold_results.py'
             ],
