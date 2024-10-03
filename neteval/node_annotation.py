@@ -78,9 +78,9 @@ def get_node_database_counts(file_list, id_type="Entrez"):
     return node_dict
 
 
-def load_hgnc(datadir):
+def load_hgnc(datadir, file="HGNC_download_Dec20_2023.txt"):
     
-    hgnc = pd.read_csv(os.path.join(datadir, "HGNC_download_Dec20_2023.txt"), sep="\t")
+    hgnc = pd.read_csv(os.path.join(datadir, file), sep="\t")
     hgnc = hgnc.dropna(subset=['NCBI Gene ID(supplied by NCBI)'])
     hgnc['NCBI Gene ID(supplied by NCBI)'] = hgnc['NCBI Gene ID(supplied by NCBI)'].astype(int)
     hgnc.rename(columns={'NCBI Gene ID(supplied by NCBI)':"GeneID"}, inplace=True)
@@ -91,8 +91,8 @@ def load_hgnc(datadir):
     return hgnc
 
 
-def load_ensembl(datadir):
-    ensem = pd.read_csv(os.path.join(datadir, "Ensembl_export_Dec20_2023.txt.gz"), sep="\t")
+def load_ensembl(datadir, file="Ensembl_export_Dec20_2023.txt.gz"):
+    ensem = pd.read_csv(os.path.join(datadir, file), sep="\t")
     #ensem.drop(columns=["GO domain"], inplace=True)
     ensem.rename(columns={'NCBI gene (formerly Entrezgene) ID':"GeneID"}, inplace=True)
     ensem.drop_duplicates(inplace=True)
@@ -110,16 +110,16 @@ def load_ensembl(datadir):
     return out_df
 
 
-def load_citations(datadir):
-    cite = pd.read_csv(os.path.join(datadir, "gene_citation_counts_Dec20_2023.txt"), sep="\t", header=None)
+def load_citations(datadir, file="gene_citation_counts_Dec20_2023.txt"):
+    cite = pd.read_csv(os.path.join(datadir, file), sep="\t", header=None)
     cite.columns = ["GeneID", "CitationCount"]
     cite.set_index("GeneID", inplace=True)
     cite.index.name=None
     return cite
 
 
-def load_uniprot(datadir):
-    uni = pd.read_csv(os.path.join(datadir, "uniprot_data_id_length_mass_2023-12-20.tsv"), sep="\t", 
+def load_uniprot(datadir, file="uniprot_data_id_length_mass_2023-12-20.tsv"):
+    uni = pd.read_csv(os.path.join(datadir, file), sep="\t", 
                     names=["GeneID", "id","aa_length", "mass"], header=0)
     uni.set_index("GeneID", inplace=True)
     uni.index.name=None

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ###################################################################
 # Command line script to analyze network on node sets of interest #
 ###################################################################
