@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import neteval.data_import_export_tools as dit
 from neteval.gene_mapper import update_nodes, convert_node_ids
 import pandas as pd

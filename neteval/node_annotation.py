@@ -7,8 +7,49 @@ import re
 from datetime import datetime
 from neteval import gene_mapper
 import os
+from tqdm import tqdm
+from scipy.stats import fisher_exact
+
 
 CWD = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_nodes(nodefile):
+    nodes = pd.read_csv(nodefile, sep='\t')
+    nodes.columns = ['Node']
+    return nodes
+
+def perform_permutation_test(nodes, annotation_data, n_permutations=10000, metric='CitationCount', stat=np.mean):
+    nodes = [x for x in nodes if x in annotation_data.index]
+    all_values = annotation_data[metric].values
+    observed_values = annotation_data.loc[nodes][metric].values
+    observed_stat = stat(observed_values)
+    observed_std = np.std(observed_values)
+    permuted_stats = np.zeros(n_permutations)
+    for i in tqdm(range(n_permutations)):
+        permuted_values = np.random.choice(all_values, len(nodes))
+        permuted_stats[i] = stat(permuted_values)
+    p_value = np.sum(permuted_stats >= observed_stat) / n_permutations
+    if p_value == 0:
+        p_value = 1/n_permutations
+    return observed_stat, stat(permuted_stats), p_value
+
+def permutation_test_wrapper(stats, anno_df, anno_col):
+    nets = []
+    observed = []
+    permuted = []
+    p_values = []
+    for net in [x for x in stats.network_names]:
+        nets.append(net)
+        nodes = load_nodes(stats.node_files[net])
+        observed_stat, permuted_stat, p_value = perform_permutation_test(nodes['Node'], anno_df, metric=anno_col, stat=np.median)
+        observed.append(observed_stat)
+        permuted.append(permuted_stat)
+        p_values.append(p_value)
+    results = pd.DataFrame({'Network':nets, 'Observed': observed, 'Permuted': permuted, 'P-value': p_values})
+    results = results.sort_values(by='Observed', ascending=False)
+    results['Significant'] = results['P-value'] < 0.05/len(nets)
+    return results
 
 def parse_chrm(chr_str):
     chr_map = {'mitochondria':'MT', 'reserved':'other', "unplaced":'other', 'not on reference assembly':'other'}
@@ -37,9 +78,9 @@ def get_node_database_counts(file_list, id_type="Entrez"):
     return node_dict
 
 
-def load_hgnc(datadir):
+def load_hgnc(datadir, file="HGNC_download_Dec20_2023.txt"):
     
-    hgnc = pd.read_csv(os.path.join(datadir, "HGNC_download_Dec20_2023.txt"), sep="\t")
+    hgnc = pd.read_csv(os.path.join(datadir, file), sep="\t")
     hgnc = hgnc.dropna(subset=['NCBI Gene ID(supplied by NCBI)'])
     hgnc['NCBI Gene ID(supplied by NCBI)'] = hgnc['NCBI Gene ID(supplied by NCBI)'].astype(int)
     hgnc.rename(columns={'NCBI Gene ID(supplied by NCBI)':"GeneID"}, inplace=True)
@@ -50,8 +91,8 @@ def load_hgnc(datadir):
     return hgnc
 
 
-def load_ensembl(datadir):
-    ensem = pd.read_csv(os.path.join(datadir, "Ensembl_export_Dec20_2023.txt.gz"), sep="\t")
+def load_ensembl(datadir, file="Ensembl_export_Dec20_2023.txt.gz"):
+    ensem = pd.read_csv(os.path.join(datadir, file), sep="\t")
     #ensem.drop(columns=["GO domain"], inplace=True)
     ensem.rename(columns={'NCBI gene (formerly Entrezgene) ID':"GeneID"}, inplace=True)
     ensem.drop_duplicates(inplace=True)
@@ -69,16 +110,16 @@ def load_ensembl(datadir):
     return out_df
 
 
-def load_citations(datadir):
-    cite = pd.read_csv(os.path.join(datadir, "gene_citation_counts_Dec20_2023.txt"), sep="\t", header=None)
+def load_citations(datadir, file="gene_citation_counts_Dec20_2023.txt"):
+    cite = pd.read_csv(os.path.join(datadir, file), sep="\t", header=None)
     cite.columns = ["GeneID", "CitationCount"]
     cite.set_index("GeneID", inplace=True)
     cite.index.name=None
     return cite
 
 
-def load_uniprot(datadir):
-    uni = pd.read_csv(os.path.join(datadir, "uniprot_data_id_length_mass_2023-12-20.tsv"), sep="\t", 
+def load_uniprot(datadir, file="uniprot_data_id_length_mass_2023-12-20.tsv"):
+    uni = pd.read_csv(os.path.join(datadir, file), sep="\t", 
                     names=["GeneID", "id","aa_length", "mass"], header=0)
     uni.set_index("GeneID", inplace=True)
     uni.index.name=None
@@ -356,5 +397,98 @@ class ExpressionData:
         else:
             return tissue_df.loc[:, ("Entrez", tissue)].set_index("Entrez", drop=True)
 
-if __name__=='__main__':
-    x = load_hgnc()
+        
+def classify_genes(df, min_exp=1, ratio=5, n_group=7, exclude_cols=2):
+    tissue_columns = df.columns[exclude_cols:]  # Assuming the first three columns are 'Ensembl_ID', 'Symbol', and 'Gene_Name'
+    classifications = {}
+    tissue_genes = {tiss:{'Tissue Enriched':[], 'Group Enriched':[], 'Tissue Enhanced':[]} for tiss in tissue_columns}
+    for index, row in tqdm(df.iterrows()):
+        gene_expression = row[tissue_columns]
+        max_expression = gene_expression.max()
+        # check if gene is sufficiently expressed in any tissues
+        if max_expression <= min_exp:
+            classifications[index] = {'Low Expression': []}
+            continue
+        # Identify the tissue with the maximal expression
+        max_tissue = gene_expression.index[np.argmax(gene_expression)]
+        mean_expression = gene_expression.mean()
+        
+        #Tissue Enriched: Genes with an expression level greater than 1 that also have at least 
+        #five-fold higher expression levels in a particular tissue compared to all other tissues.
+        tissue_enriched = gene_expression[max_tissue] >= ratio * gene_expression.drop(max_tissue)
+        if tissue_enriched.all():
+            classifications[index] = {'Tissue Enriched': [max_tissue]}
+            tissue_genes[max_tissue]['Tissue Enriched'].append(index)
+            continue
+            
+        #Group Enriched: Genes with an expression level greater than 1 that also have at least five-fold higher 
+        #expression levels in a group of 2-7 tissues compared to all other tissues, and that are not considered Tissue Enriched.
+        top_tissues = list(gene_expression.sort_values(ascending=False).index[0:n_group][::-1])
+        group_found = False
+        while len(top_tissues) > 1:
+            low_tiss = top_tissues[0]
+            if gene_expression[low_tiss] < min_exp:
+                top_tissues.pop(0)
+            else:
+                if np.sum(gene_expression[low_tiss] < ratio * gene_expression.drop(low_tiss)) < (len(top_tissues)):
+                    group_found = True
+                    break
+                else:
+                    top_tissues.pop(0)
+        if group_found:
+            classifications[index] = {'Group Enriched': top_tissues}
+            for tiss in top_tissues:
+                tissue_genes[tiss]['Group Enriched'].append(index)
+            continue
+            
+            
+        #Tissue Enhanced: Genes with an expression level greater than 1 that also have at least five-fold higher 
+        #expression levels in a particular tissue compared to the average levels in all other tissues, and that 
+        #are not considered Tissue Enriched or Group Enriched.
+        tissue_enhanced = (gene_expression >= min_exp) & (gene_expression >= [ratio * gene_expression.drop(t).mean() for t in gene_expression.index])
+        enhanced_tissues = tissue_enhanced[tissue_enhanced].index.tolist()
+        if tissue_enhanced.any():
+            classifications[index] = {'Tissue Enhanced': enhanced_tissues}
+            #classifications.append(f'Tissue Enhanced in {max_tissue}')
+            for tiss in enhanced_tissues:
+                tissue_genes[tiss]['Tissue Enhanced'].append(index)
+            continue
+
+        classifications[index] = {'Not Classified':[]}
+    return classifications, tissue_genes
+
+def get_stats_tissue_enriched(data, nodes, tiss_genes, use_classes = ['Tissue Enriched', 'Group Enriched'], min_tiss_genes=10):
+    M = len(data)
+    present_nodes = [x for x in nodes if x in data.index.values]
+    n = len(present_nodes)
+    tissue_specific_genes = get_tissue_genes(tiss_genes, data.index.values, use_classes=use_classes)
+    tissue_specific_genes = {t: g for t,g in tissue_specific_genes.items() if len(g) > min_tiss_genes}
+    N_vec = pd.Series({t:len(g) for t,g in tissue_specific_genes.items()})
+    x_vec = get_shared_genes(tissue_specific_genes, nodes)
+    contingency_data = pd.DataFrame({'M': M, 'N': N_vec, 'n': n, 'x': x_vec})
+    try:
+        contingency_data['P-value'] = contingency_data.apply(lambda y: fisher_exact(np.array([[y.x, y.n - y.x],
+                                                                    [y.N - y.x, y.M-(y.n+y.N) + y.x]]))[1], axis=1)
+        contingency_data['stat'] = contingency_data.apply(lambda y: fisher_exact(np.array([[y.x, y.n - y.x],
+                                                                [y.N - y.x, y.M-(y.n+y.N) + y.x]]))[0], axis=1)
+    except ValueError:
+        print(contingency_data)
+        print(contingency_data.apply(lambda y:np.sum(np.array([[y.x, y.n - y.x],
+                                                                [y.N - y.x, y.M-(y.n+y.N) + y.x]])), axis=1))
+    return contingency_data
+
+def get_tissue_genes(tiss_genes,background_genes, use_classes=['Tissue Enriched']):
+    gene_lists = {}
+    for tiss in tiss_genes:
+        gene_lists[tiss] = []
+        for cl in tiss_genes[tiss]:
+            if cl in use_classes:
+                gene_lists[tiss] += [g for g in tiss_genes[tiss][cl] if g in background_genes]
+    return {t: set(g) for t, g in gene_lists.items()}
+
+def get_shared_genes(gene_lists, nodes):
+    out = {}
+    for tiss, genes in gene_lists.items():
+        out[tiss] = len(set(nodes).intersection(genes))
+    return pd.Series(out)
+        

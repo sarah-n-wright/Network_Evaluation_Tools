@@ -162,7 +162,6 @@ if __name__=='__main__':
     # add argument parsing
     parser = argparse.ArgumentParser(description='Get and clean latest GWAS Catalog data')
     parser.add_argument('-o', metavar='out_directory', required=True, type=str)
-    parser.add_argument('-u', action='store_true')
     parser.add_argument('-m', metavar='min_genes', default=5, type=int)
     parser.add_argument('-M', metavar='max_genes', default=500, type=int)
     parser.add_argument('-D', metavar='split_date', required=False, type=str, default=None)
@@ -170,12 +169,10 @@ if __name__=='__main__':
     parser.add_argument('-p', metavar='pval_th', required=False, type=float, default=5e-8)
     
     args = parser.parse_args()
-    update_gwas = args.u
-    if args.G is None:
-        update_gwas = True
     outdir = args.o
-    if update_gwas:
-        url = 'https://www.ebi.ac.uk/gwas/api/search/downloads/alternative'  
+    if args.G is None:
+        url = 'https://www.ebi.ac.uk/gwas/api/search/downloads/alternative'
+        gwas_file = download_file(url, outdir)
     else:
         gwas_file = args.G
     clean_gwas_catalog_data(gwas_file, gwas_file + '.cleaned', pval_th=args.p, include_intergenic=False)

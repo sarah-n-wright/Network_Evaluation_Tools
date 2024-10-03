@@ -159,7 +159,7 @@ def calculate_small_network_AUPRC(params):
         list: [node_set_name, AUPRC, recall_at_FDR]
     
     """
-    node_set_name, node_set, p, n, bg, verbose = params[0], params[1], params[2], params[3], params[4], params[5]
+    node_set_name, node_set, p, n, bg, verbose, exclude_genes = params[0], params[1], params[2], params[3], params[4], params[5], params[6]
     runtime = time.time()
     intersect = [nodes for nodes in node_set if nodes in kernel.index]
     AUPRCs = []
@@ -170,6 +170,7 @@ def calculate_small_network_AUPRC(params):
         intersect_non_sample = [node for node in intersect if node not in sample]					   	# nodes in intersect not in sample
         bg_non_sample = [node for node in bg if node not in sample]							 			# nodes in background gene list not in sample
         bg_sample_sum = kernel.loc[sample][bg_non_sample].sum().sort_values(ascending=False)				# summed prop value for all nodes in background
+        bg_sample_sum = bg_sample_sum[~bg_sample_sum.index.isin(exclude_genes)]
         y_actual = pd.Series(0, index=bg_sample_sum.index, dtype=int)									# nodes sorted by mean prop value
         y_actual.loc[intersect_non_sample]+=1															# which nodes in sorted list are in intersect_non_sample
         intersect_non_sample_sorted = y_actual[y_actual==1].index
@@ -259,7 +260,7 @@ def calculate_large_network_AUPRC(params):
     return calculate_precision_recall(geneset, intersect_non_sample_sorted, P_totals, verbose=verbose)
 
 
-def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None):
+def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None, full_genesets=None):
     """Top level function to calculate AUPRC of multiple node sets' recovery for small networks (<10k edges)
         Args:
             net_kernel (pandas.DataFrame): Network kernel to use for AUPRC analysis
@@ -285,7 +286,10 @@ def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
     # genesets_p (float): Proportion of nodes in geneset to sample
     # n (int): Number of sub-sampling iterations to perform
     # bg_intersect (list): List of nodes to use as background for AUPRC analysis
-    AUPRC_Analysis_params = [[geneset, genesets[geneset], genesets_p[geneset], n, bg_intersect, verbose] for geneset in genesets]
+    if full_genesets is not None:
+        AUPRC_Analysis_params = [[geneset, genesets[geneset], genesets_p[geneset], n, bg_intersect, verbose, [n for n in full_genesets[geneset] if n not in genesets[geneset]]] for geneset in genesets]
+    else:
+        AUPRC_Analysis_params = [[geneset, genesets[geneset], genesets_p[geneset], n, bg_intersect, verbose, []] for geneset in genesets]
     # Determine parallel calculation status
     if cores == 1:
         # Set network kernel
@@ -309,7 +313,7 @@ def small_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
     return AUPRCs_table, FDRs_table
 
 
-def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None):
+def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1, bg=None, verbose=True, min_nodes=None, full_genesets=None):
     """ Wrapper to calculate AUPRC of multiple node sets' recovery for large networks (>=250k edges)
     
     Args:
@@ -361,6 +365,10 @@ def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
     # Construct parameter list to be passed
     AUPRC_Analysis_params = []
     for i in range(len(geneset_list)):
+        if full_genesets is not None:
+            exclude_genes = [n for n in full_genesets[geneset_list[i]] if n not in genesets[geneset_list[i]]]
+        else:
+            exclude_genes = []
         for j in range(n):
             row = (i*n)+j
             prop_result_full = pd.DataFrame(np.array((subsample_mat[row], y_actual_mat[row], prop_subsamples[row])), 
@@ -376,6 +384,7 @@ def large_network_AUPRC_wrapper(net_kernel, genesets, genesets_p, n=30, cores=1,
                 print("SUM", sum(subsample_mat[row]))
                 print("INDEXER:", int(sum(subsample_mat[row])))			
                 prop_result = prop_result.iloc[int(sum(subsample_mat[row])):]['Non-Sample']
+            prop_result = prop_result[~prop_result.index.isin(exclude_genes)]
             intersect_non_sample_sorted = prop_result[prop_result==1].index
             P_totals = {node:float(prop_result.loc[:node].shape[0]) for node in intersect_non_sample_sorted}
             AUPRC_Analysis_params.append([geneset_list[i], intersect_non_sample_sorted, P_totals, verbose])

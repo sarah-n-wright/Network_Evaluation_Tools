@@ -1,0 +1,4 @@
+partial	baseAUPRC	AUPRC	P@k	Present	Possible
+p@500	0	0	0.0	67	1405
+p@test	0	0	0.0	67	1405
+p@1%	0	0	0.0	67	1405

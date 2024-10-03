@@ -15,12 +15,12 @@ hi.union:HuRI
 hint.updated.combined:HINT
 hippie.2.3:HIPPIE
 hprd:HPRD
-humannet.v3.xc:HumanNet-XC
+humannet.v3.xc:HumanNet
 humannet.v3.fn:HumanNet-FN
 humap_90:huMAP
 iid:IID
 inbio:InBio
-innatedb_all:InnateDB All
+innatedb_all:InnateDB
 innatedb_curated:InnateDB Curated
 intact.245:IntAct
 irefindex.v20:iRefIndex
@@ -29,7 +29,7 @@ mentha.23.11.6:Mentha
 mint:MINT
 multinet:MultiNet
 pathway_commons.12:PathwayCommons
-phosphosite:Phosphosite
+phosphosite:PhosphoSitePlus
 pid2:PID2
 pips:PIPs
 preppi:PrePPI
@@ -37,11 +37,11 @@ proper_all:PROPER
 proteomehd:ProteomeHD
 ptmcode2:PTMCode2
 reactome.v86:Reactome
-reactomeFI.21:ReactomeFI
-reactomeFI.22:ReactomeFI(2022)
+reactomeFI.21:ReactomeFI(21)
+reactomeFI.22:ReactomeFI
 signalink:SignaLink
 signor:SIGNOR
-spike:Spike
+spike:SPIKE
 string.v12:STRING
 tflink:TFLink
 wan:Wan

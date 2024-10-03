@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import subprocess
 import os
 import pandas as pd
@@ -128,7 +129,7 @@ class RankMPS:
         pred_df = pd.DataFrame(top_items, columns=['Entrez_A', 'Entrez_B', self.name_feature_1, self.name_feature_2])
         return pred_df
 
-    def rank_n(self, predict_n, exclude=None):
+    def rank_n(self, predict_n, exclude=[], subset_nodes=[]):
         """Rank the top n predictions from the MPS prediction file. Rather than attempt to sort the entire file,
         we use a heap to keep track of the top n predictions."""
         with open(self.filename, 'r', buffering=1) as input_file:
@@ -145,15 +146,18 @@ class RankMPS:
             if index_feature_1 < 0 or index_feature_2 < 0:
                 return None
 
-            for record in csv_reader:
-                self.process_record(record, index_feature_1, index_feature_2, 
-                        predict_n, exclude=exclude)
-
+            for j, record in enumerate(csv_reader):
+                try:
+                    self.process_record(record, index_feature_1, index_feature_2, 
+                        predict_n, exclude=exclude, subset_nodes=subset_nodes)
+                except TypeError as e:
+                    print(f"Error in record:{record}\nRecord number:{j}")
+                    raise e
             top_items = [(score, item) for score, item in self.ranked_items]
             top_items.sort(reverse=True)  # This sorts by score in descending order
             return [item for score, item in top_items]
         
-    def process_record(self, record, index_feature_1, index_feature_2, k, exclude=[]):
+    def process_record(self, record, index_feature_1, index_feature_2, k, exclude=[], subset_nodes=[]):
         """Process a record from the MPS prediction file, and add it to the heap if it is in the top k predictions."""
         if record[0] == "0":
             return 
@@ -166,7 +170,9 @@ class RankMPS:
 
         item = (u, v, value_feature_1, value_feature_2)
         score = (value_feature_1, value_feature_2)
-        
+        if len(subset_nodes) > 0:
+            if (int(v) not in subset_nodes) or (int(u) not in subset_nodes):
+                return
         if (int(u), int(v)) not in exclude and (int(v), int(u)) not in exclude:
             # Use a tuple (negative score, item) to keep the smallest scores at the top of the heap
             if len(self.ranked_items) < k:
@@ -247,13 +253,14 @@ class EdgePredictionResults:
         return test_edges, present, possible
     
     def get_top_k_predictions(self, k=500):
-        """Extract teh top k predictions from the prediction file."""
+        """Extract the top k predictions from the prediction file."""
         if self.pred_method == 'L3':
             pred_df = pd.read_csv(self.resultdir+'L3_predictions_'+self.net_name+self.suffix+'.dat', sep='\t', header=None, names=['Entrez_A', 'Entrez_B', 'Score'], nrows=k)
         if self.pred_method == 'MPS':
             files = os.listdir(self.resultdir+self.net_name+'/Topological/')
-            pred_files = [f for f in files if self.suffix+'.csv' in f]
+            pred_files = [f for f in files if self.net_name+self.suffix+'.csv' in f]
             if len(pred_files) > 1:
+                print(pred_files)
                 warnings.warn("Multiple prediction files found. Taking the first one.")
             use_file= pred_files[0]
             mps_pred = RankMPS(self.resultdir+self.net_name+'/Topological/'+use_file, 'sim__jac__MAX__sum','Preferential_Attachment')
@@ -332,45 +339,7 @@ class EdgePredictionResults:
         results_df = pd.DataFrame.from_dict(all_results, orient='index')
         results_df.reset_index(inplace=True)
         results_df.rename(columns={'index':'partial'}, inplace=True)
-        return results_df
-
-
-    def run_10_fold_cv(self, pred_method, nfolds=10, verbose=True):
-        """Perform interaction prediction for a network using L3 across nfolds"""
-        shuffled_idx = random.sample([i for i in range(self.edge_count)], self.edge_count)
-        folds = [shuffled_idx[i::nfolds] for i in range(nfolds)]
-        net_data = load_edge_list(self.edgefile)
-        if pred_method == 'L3':
-            prediction_files = []
-            test_files = []
-            input_files = []
-            for i in tqdm(range(nfolds)):
-                net_data.loc[folds[i]].to_csv(self.edgefile+".fold"+str(i+1)+"_test", sep='\t', index=False)
-                test_files.append(self.edgefile+".fold"+str(i+1)+"_test")
-                net_data.drop(index=folds[i]).to_csv(self.edgefile+".fold"+str(i+1), sep='\t', index=False)
-                prediction_files.append(self.resultdir + "L3_predictions_" + self.net_name + ".fold"+str(i+1) + ".dat")
-                input_files.append(self.edgefile+".fold"+str(i+1))
-            if verbose:    
-                print("Running prediction on", mp.cpu_count(), "cores.")
-            with mp.Pool(3) as pool:
-                pool.map(process_prediction_job, [(self.edgefile+".fold"+str(i+1), self.net_name + ".fold"+str(i+1), self.resultdir, self.execdir) for i in range(nfolds)])
-
-        return prediction_files, test_files, input_files
-    
-
-    def evaluate_10_fold_cv_performance(self, prediction_files, test_files, metrics = ["AUROC", "AUPRC", "P@500", "NDCG"], verbose=True):
-        """Calculate performance metrics for a 10-fold cross validation of held out self edge predictions"""
-        assert len(prediction_files) == len(test_files), "There must be the same number of performance files as test files."
-
-        nfolds = len(prediction_files)
-        results = []
-        for i in range(nfolds):
-            results.append(process_evaluation_job((i, load_edge_list(test_files[i], edge_tuples=True), load_prediction_file(prediction_files[i]), metrics)))
-        results_df = pd.DataFrame(results)
-        results_df['network'] = self.net_name
-        results_df['baselineAUPRC'] = self.calculate_baseline_AUPRC(folds = nfolds)
-        return results_df
-    
+        return results_df        
 
     def evaluate_gold_standard_performance(self, input_edge_files, prediction_files, standard_file, metrics = ["AUROC", "AUPRC", "P@500", "NDCG"], verbose=True):
         """Calculate performance metrics recovery of gold standard interactions"""
@@ -396,7 +365,7 @@ class EdgePredictionResults:
         all_possible = (self.node_count * (self.node_count - 1) / 2) - (self.edge_count - positives)
         return positives/all_possible
             
-    def get_top_k_predictions_not_in_test(self, test_edges, k=100):
+    def get_top_k_predictions_not_in_test(self, test_edges, k=100, subset_nodes=[]):
         """Identify the top k predictions that are not in the test set.
         
         Args: 
@@ -412,20 +381,29 @@ class EdgePredictionResults:
             with open(self.resultdir+'L3_predictions_'+self.net_name+self.suffix+'.dat', 'r') as f:
                 for line in f:
                     edge = line.strip().split('\t')
-                    if (int(edge[0]), int(edge[1])) not in test_edges and (int(edge[1]), int(edge[0])) not in test_edges:
-                        top_k_edges_not_in_test.append((int(edge[0]), int(edge[1])))
+                    if len(subset_nodes) == 0:
+                        if (int(edge[0]), int(edge[1])) not in test_edges and (int(edge[1]), int(edge[0])) not in test_edges:
+                            top_k_edges_not_in_test.append((int(edge[0]), int(edge[1])))
+                    else:
+                        if (int(edge[0]) in subset_nodes) and (int(edge[1]) in subset_nodes):
+                            if (int(edge[0]), int(edge[1])) not in test_edges and (int(edge[1]), int(edge[0])) not in test_edges:
+                                top_k_edges_not_in_test.append((int(edge[0]), int(edge[1])))
                     if len(top_k_edges_not_in_test) > k:
                         break
         elif self.pred_method == 'MPS':
             # edges first need to be ranked, then check for those not in the test set
             files = os.listdir(self.resultdir+self.net_name+'/Topological/')
-            pred_files = [f for f in files if self.suffix+'.csv' in f]
+            pred_files = [f for f in files if self.net_name+self.suffix+'.csv' in f]
             if len(pred_files) > 1:
-                warnings.warn("Multiple prediction files found. Taking the first one.")
+                print(pred_files)
+                warnings.warn("Multiple !!! prediction files found. Taking the first one.")
             use_file= pred_files[0]
             mps_pred = RankMPS(self.resultdir+self.net_name+'/Topological/'+use_file, 'sim__jac__MAX__sum','Preferential_Attachment')
-            top_k_edges_not_in_test = mps_pred.rank_n(k, exclude=test_edges)
-            top_k_edges_not_in_test = [(int(x[0]), int(x[1])) for x in top_k_edges_not_in_test]
+            top_k_edges_not_in_test = mps_pred.rank_n(k, exclude=test_edges, subset_nodes=subset_nodes)
+            if len(subset_nodes) == 0:
+                top_k_edges_not_in_test = [(int(x[0]), int(x[1])) for x in top_k_edges_not_in_test]
+            else:
+                top_k_edges_not_in_test = [(int(x[0]), int(x[1])) for x in top_k_edges_not_in_test if (int(x[0]) in subset_nodes) and (int(x[1]) in subset_nodes)]
         return top_k_edges_not_in_test
     
     def get_k_random_edges_not_in_G(self, G, test_edges,  k=100):
@@ -479,7 +457,7 @@ class EdgePredictionResults:
         coverage = [max(coverage_dict[edge], coverage_dict[edge[::-1]]) for edge in edges]
         return coverage
     
-    def evaluate_network_coverage(self, coverage_file, k=100, permutations=100):
+    def evaluate_network_coverage(self, coverage_file, k=100, permutations=100, subset_nodes=[]):
         """Assess the network coverage of predicted edges. First identifies predicted edges not present in the network, then calculate the network coverage of these edges.
         Also calculates the network coverage of k random edges not in the network.
         
@@ -494,22 +472,27 @@ class EdgePredictionResults:
         """
         # get top predictions not in the network
         G = self.load_prediction_network_lcc()
-        test_edges = load_edge_list(self.edgefile+"_test", edge_tuples=True)
+        try:
+            test_edges = load_edge_list(self.edgefile+"_test", edge_tuples=True)
+        except FileNotFoundError:
+            print('Not test file found.')
+            test_edges = []
         top_k_edges_not_in_G = self.get_top_k_predictions_not_in_test(test_edges, k)
         edge_coverage = self.load_edge_network_coverage(coverage_file)
         random_means = []
         random_medians = []
         for _ in range(permutations):
             random_edges = self.get_k_random_edges_not_in_G(G, test_edges, k)
-            random_coverage = self.evaluate_network_coverage_for_edge_set(random_edges)
+            random_coverage = self.evaluate_network_coverage_for_edge_set(random_edges, edge_coverage)
             random_means.append(np.mean(random_coverage))
             random_medians.append(np.median(random_coverage))
         top_k_coverage = {edge:max(edge_coverage[edge], edge_coverage[edge[::-1]]) for edge in top_k_edges_not_in_G}
         top_k_mean = np.mean([x for x in top_k_coverage.values()])
         top_k_median = np.median([x for x in top_k_coverage.values()])
-        unverified_edges = [edge for edge in top_k_edges_not_in_G if top_k_coverage[edge] < 2]
+        #unverified_edges = [edge for edge in top_k_edges_not_in_G if top_k_coverage[edge] < 1]
+        unverified_edges = self.get_top_k_predictions_not_in_test(edge_coverage, 50, subset_nodes=subset_nodes)
         df = pd.DataFrame({'random_means':random_means, 'random_medians':random_medians, 'top_k_mean':top_k_mean, 'top_k_median':top_k_median, 'k':k,
-                            '0-1':len([x for x in top_k_coverage.values() if x <= 1]), '2-5': len([x for x in top_k_coverage.values() if 2 <= x <= 5]), 
+                            '0':len([x for x in top_k_coverage.values() if x < 1]), '1':len([x for x in top_k_coverage.values() if x == 1]), '2-5': len([x for x in top_k_coverage.values() if 2 <= x <= 5]), 
                             '6-10': len([x for x in top_k_coverage.values() if 6 <= x <= 10]), '11-20': len([x for x in top_k_coverage.values() if 11 <= x <= 20]),
                             '21+': len([x for x in top_k_coverage.values() if x > 20])})
         return df, unverified_edges
@@ -536,7 +519,8 @@ def load_edge_list(filepath, edge_tuples=False):
         return set(df.itertuples(index=False, name=None))
     else:
         return df
-    
+
+
 def filter_test_edges(raw_test_edge_df, edgefile):
     base_edges_df = load_edge_list(edgefile, edge_tuples=False)
     nodes = set(base_edges_df.Entrez_A.values).union(set(base_edges_df.Entrez_B.values))
@@ -547,7 +531,6 @@ def filter_test_edges(raw_test_edge_df, edgefile):
     return edge_filtered
 
 
-    
 def process_evaluation_job(args):
     i, test_edges, predicted_edges, metrics = args
     metric_funcs = {"AUROC":calculate_AUROC, "AUPRC":calculate_AUPRC, "P@500":calculate_Pk, "NDCG":calculate_NDCG}
@@ -556,6 +539,7 @@ def process_evaluation_job(args):
         if metric in metric_funcs:
             results[metric] = metric_funcs[metric](test_edges, predicted_edges)
     return results
+
 
 def calculate_pAUPRC(test, total_possible, pred_df):
     pred_edges = pred_df[['Entrez_A', 'Entrez_B']].itertuples(index=False, name=None)
@@ -568,13 +552,14 @@ def calculate_pAUPRC(test, total_possible, pred_df):
     baseline = (len(test)/total_possible) * max(recall)
     pAUPRC = auc(recall, precision)
     return pAUPRC, baseline, pAUPRC/baseline
-    
-            
+
+
 def calculate_AUROC(test_edges, predicted_edges):
     y_true = [edge in test_edges for edge in predicted_edges[['Entrez_A', 'Entrez_B']].itertuples(index=False, name=None)]
     scores = predicted_edges['Score'].values
     auroc = roc_auc_score(y_true, scores)
     return auroc
+
 
 def calculate_AUPRC(test_edges, predicted_edges):
     y_true = [edge in test_edges for edge in predicted_edges[['Entrez_A', 'Entrez_B']].itertuples(index=False, name=None)]
@@ -582,20 +567,24 @@ def calculate_AUPRC(test_edges, predicted_edges):
     precision, recall, _ = precision_recall_curve(y_true, scores)
     return auc(recall, precision)
 
+
 def calculate_Pk(test_edges, predicted_edges, k=500):
     top_k_preds = predicted_edges.nlargest(k, 'Score')[['Entrez_A', 'Entrez_B']].itertuples(index=False, name=None)
     relevant_at_k = np.sum([(x in test_edges) or (x[::-1] in test_edges) for x in top_k_preds])
     return relevant_at_k / k
+
 
 def calculate_NDCG(test_edges, predicted_edges):
     y_true = np.array([edge in test_edges for edge in predicted_edges[['Entrez_A', 'Entrez_B']].itertuples(index=False, name=None)])
     scores = predicted_edges['Score'].values
     return ndcg_at_k(y_true, scores)
 
+
 def ndcg_at_k(y_true, scores, k=None):
     actual = dcg_at_k(y_true, scores, k)
     best = dcg_at_k(y_true, y_true, k)
     return actual / best
+
 
 def dcg_at_k( y_true, scores, k=None):
     order = np.argsort(scores)[::-1]
@@ -604,62 +593,35 @@ def dcg_at_k( y_true, scores, k=None):
     discounts = np.log2(np.arange(len(y_true)) + 2)
     return np.sum(gain / discounts)
 
-def evaluation_wrapper(args, predicted_files, test_files, input_files=None, benchmarks=['self'], verbose=True, outdir=DIRPATH+"../Data/example_outputs/"):
-    print('>>>BENCHMARKS:', benchmarks)
-    if 'self' in benchmarks:
-        out = epr.evaluate_10_fold_cv_performance(predicted_files, test_files)
-        out.to_csv(outdir +args.networkprefix + "_L3_results.tsv", sep="\t", index=False)
-        if verbose:
-            print("Self evaluation complete.")
-    if 'corum' in benchmarks:
-        assert input_files is not None, "Must provide input files to evaluate against corum."
-        corum_file = os.path.join(DIRPATH, "../Data/corum.pc_net.txt")
-        corum = epr.evaluate_gold_standard_performance(input_files, predicted_files, corum_file)
-        corum.to_csv(outdir +args.networkprefix + "_L3_corum_results.tsv", sep="\t", index=False)
-        if verbose: 
-            print("Corum evaluation complete.")
-    if 'panther' in benchmarks:
-        panther_file = os.path.join(DIRPATH, "../Data/panther.pc_net.txt")
-        panther = epr.evaluate_gold_standard_performance(input_files, predicted_files, panther_file)
-        panther.to_csv(outdir+args.networkprefix + "_L3_panther_results.tsv", sep="\t", index=False)
-        if verbose:
-            print("Panther evaluation complete.")
-        
-    
-
 
 if __name__ == "__main__":
     #edgefile = '/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_fixed/bioplex.v3.293T_net.txt'
     #create_network_folds(edgefile, nfolds=10, lcc=True)
     # Run the edge prediction script
     parser = argparse.ArgumentParser(description='Run edge prediction on a network.')
-    parser.add_argument("--networkprefix", type=str, 
-		help='Prefix of network to be evaluated. File must be 2-column edge list where each line is a gene interaction separated by a tab delimiter.')
-    parser.add_argument("--runwhat", type=str, default="Both", choices=["Prediction", "Evaluation", "Both", "Folds", 'PredictFolds','GoldStandard', 'Coverage'])
-    parser.add_argument('--benchmarks',nargs='+', default=['self'], choices=['self', 'corum', 'kegg', 'panther'])
+    parser.add_argument("--networkprefix", type=str, help='Prefix of network to be evaluated. File must be 2-column edge list where each line is a gene interaction separated by a tab delimiter.')
+    parser.add_argument("--runwhat", type=str, default="Both", choices=["CreateFolds", 'Predict', 'EvaluateHeldOut', 'EvaluateExternal', 'EvaluateCoverage'], help='What analysis to run.')
+    parser.add_argument('--benchmarks',nargs='+', default=['self'], choices=['corum', 'panther'])
     parser.add_argument('--networksuffix', type=str, default="")
-    parser.add_argument('--outdir', type=str, default='/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/L3/L3_outputs_fixed/')
+    parser.add_argument('--outdir', type=str, default=os.path.join(DIRPATH, '../Data/example_outputs'))
     parser.add_argument('--pred_method', type=str, default='L3' )
-    parser.add_argument('--datadir', type=str, default='/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_fixed/')
-    parser.add_argument('--execdir', type=str, default="/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/kpisti-L3-ed6b18f/", help='Location of the L3.out executable.')
+    parser.add_argument('--datadir', type=str, default=os.path.join(DIRPATH, '../Data/example_outputs'))
+    parser.add_argument('--execdir', type=str, default=os.path.join(DIRPATH, '../Data/kpisti-L3-ed6b18f/'), help='Location of the L3.out executable.')
+    parser.add_argument('--coverage_file', type=str, default=os.path.join(DIRPATH, '../Data/example_outputs/mapped_edge_counts.pkl'))
+    parser.add_argument('--uniprot_file', type=str, default=None)
     args = parser.parse_args()
     
     if args.pred_method == 'MPS':
-        assert args.runwhat in ['Evaluation', 'GoldStandard', 'Coverage'], "MPS is only implemented for evaluation and gold standard evaluation."
+        assert args.runwhat in ['EvaluateHeldOut', 'EvaluateExternal', 'EvaluateCoverage' ], "MPS is only implemented for evaluation. Prediction must be performed separately."
 
     print('>>ARGS:', args)
     
-    if args.runwhat in ["Folds"]:
+    if args.runwhat in ["CreateFolds"]:
         create_network_folds(args.datadir+ args.networkprefix+"_net.txt", nfolds=10, lcc=True)
-    if args.runwhat in ["PredictFolds"]:
+    if args.runwhat in ["Predict"]:
         epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
         epr.run_single_prediction()
-    if args.runwhat in ["Prediction", "Both"]:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
-        predicted_files, test_files, input_files = epr.run_10_fold_cv("L3", nfolds=10)
-    # save the prediciton and test file paths
-        pd.DataFrame({"prediction_files":predicted_files, "test_files":test_files, "input_files": input_files}).to_csv(args.outdir +args.networkprefix + "_L3_filepaths.tsv", sep="\t", index=False)
-    if args.runwhat in ['Evaluation']:
+    if args.runwhat in ['EvaluateHeldOut']:
         print('Creating EdgePredictionResults object')
         epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         print('Calculating statistics')
@@ -669,7 +631,7 @@ if __name__ == "__main__":
             results_df.to_csv(args.outdir +args.networkprefix+args.networksuffix +'_'+args.pred_method + "_results.tsv", sep='\t', index=False)
         elif args.pred_method=='MPS':
             results_df.to_csv(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_results.tsv", sep='\t', index=False)
-    if args.runwhat in ['GoldStandard']:
+    if args.runwhat in ['EvaluateExternal']:
         epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
         for bench in args.benchmarks:
             print('Evaluating', bench)
@@ -678,31 +640,20 @@ if __name__ == "__main__":
                 results_df.to_csv(args.outdir +args.networkprefix+args.networksuffix +'_'+args.pred_method + "_"+bench+"_results.tsv", sep='\t', index=False)
             elif args.pred_method == 'MPS':
                 results_df.to_csv(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_"+bench+"_results.tsv", sep='\t', index=False)
-    if args.runwhat in ['Coverage']:
+    if args.runwhat in ['EvaluateCoverage']:
         epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt"+args.networksuffix, args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method=args.pred_method, execdir=args.execdir)
-        coverage_file = os.path.join(DIRPATH, '../Data/mapped_edge_counts.pkl')
-        results_df, unverified_edges = epr.evaluate_network_coverage(coverage_file, k=100)
+        coverage_file = args.coverage_file
+        if args.uniprot_file is not None:
+            uni_df = pd.read_csv(args.uniprot_file, sep='\t', index_col=0)
+            include_nodes = uni_df.index.tolist()
+        results_df, unverified_edges = epr.evaluate_network_coverage(coverage_file, k=100, subset_nodes=include_nodes)
         if args.pred_method == 'L3':
             results_df.to_csv(args.outdir +args.networkprefix+args.networksuffix +'_'+args.pred_method + "_coverage_results.tsv", sep='\t', index=False)
-            with open(args.outdir +args.networkprefix+args.networksuffix +'_'+args.pred_method + "_unverified_edges.txt", 'w') as f:
+            with open(args.outdir +args.networkprefix+args.networksuffix +'_'+args.pred_method + "_unverified_top50_edges.txt", 'w') as f:
                 edge_strings = ['\t'.join([str(edge[0]), str(edge[1])]) for edge in unverified_edges]
                 f.write('\n'.join(edge_strings) + '\n')
         if args.pred_method == 'MPS':
             results_df.to_csv(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_coverage_results.tsv", sep='\t', index=False)
-            with open(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_unverified_edges.txt", 'w') as f:
+            with open(args.outdir +args.networkprefix+'/Predictions/'+args.networkprefix+args.networksuffix +'_'+args.pred_method + "_unverified_top50_edges.txt", 'w') as f:
                 edge_strings = ['\t'.join([str(edge[0]), str(edge[1])]) for edge in unverified_edges]
                 f.write('\n'.join(edge_strings) + '\n')
-    if args.runwhat in ["Both"]:
-        epr = EdgePredictionResults(args.datadir+ args.networkprefix+"_net.txt", args.networkprefix, suffix=args.networksuffix, resultdir=args.outdir, pred_method='L3', execdir=args.execdir)
-        if args.runwhat == "Evaluation":
-            files_df = pd.read_csv(args.outdir+args.networkprefix + "_L3_filepaths.tsv", sep="\t")
-            predicted_files = list(files_df['prediction_files'].values)
-            test_files = list(files_df['test_files'].values)
-            input_files = list(files_df['input_files'].values)
-            evaluation_wrapper(args, predicted_files, test_files, input_files, benchmarks=args.benchmarks, outdir=args.outdir)
-        #out = pd.read_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_results.tsv", sep="\t")
-        #out = epr.evaluate_10_fold_cv_performance(predicted_files, test_files)
-        #out.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_results.tsv", sep="\t", index=False)
-        #corum_file = "/cellar/users/snwright/Data/Network_Analysis/Reference_Data/corum.pc_net.txt"
-        #corum = epr.evaluate_gold_standard_performance(input_files, predicted_files, corum_file)
-        #corum.to_csv("/cellar/users/snwright/Data/Network_Analysis/Edge_Prediction/" +args.networkprefix + "_L3_corum_results.tsv", sep="\t", index=False)

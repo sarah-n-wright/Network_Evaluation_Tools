@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ###################################################################
 # Command line script to analyze network on node sets of interest #
 ###################################################################
@@ -53,6 +54,32 @@ def valid_outfile(out_file):
         return out_file
     else:
         raise argparse.ArgumentTypeError("{0} is not a writable output directory".format(outdir))
+    
+def parse_output_paths(netpath, nodesetfile, outdir, auprc, null_auprc, perf, perf_gain, null_net):
+    net_pref = os.path.basename(netpath).split('_net')[0]
+    set_name = os.path.basename(nodesetfile).split('.genesets')[0]
+    if auprc is None:
+        assert outdir is not None, "Output directory must be given if no AURPC file is specified"
+        auprc = os.path.join(outdir, f'AUPRCs/{net_pref}.{set_name}.auprcs.csv')
+        # make sure the directory exists
+        os.makdirs(os.path.join(outdir, 'AUPRCs'), exist_ok=True)
+    if null_auprc is None:
+        assert outdir is not None, "Output directory must be given if no null AURPC file is specified"
+        null_auprc = os.path.join(outdir, f'AUPRCs/Null_AUPRCs/{net_pref}.{set_name}.null_auprcs.csv')
+        os.makdirs(os.path.join(outdir, 'AUPRCs/Null_AUPRCs'), exist_ok=True)
+    if perf is None:
+        assert outdir is not None, "Output directory must be given if no performance file is specified"
+        perf = os.path.join(outdir, f'Performance/{net_pref}.{set_name}.performance.csv')
+        os.makdirs(os.path.join(outdir, 'Performance'), exist_ok=True)
+    if perf_gain is None:
+        assert outdir is not None, "Output directory must be given if no performance gain file is specified"
+        perf_gain = os.path.join(outdir, f'Performance_Gain/{net_pref}.{set_name}.performance_gain.csv')
+        os.makdirs(os.path.join(outdir, 'Performance_Gain'), exist_ok=True)
+    if null_net is None:
+        assert outdir is not None, "Output directory must be given if no null network file is specified"
+        null_net = os.path.join(outdir, f'Null_Networks/')
+        os.makdirs(os.path.join(outdir, 'Null_Networks'), exist_ok=True)
+    return {'AUPRC':auprc, 'NullAUPRC': null_auprc, 'Performance': perf, 'Gain':perf_gain, 'NullNets': null_net}
 
 if __name__ == "__main__":
     # Network Evaluation Setup Variables
@@ -61,8 +88,8 @@ if __name__ == "__main__":
         help='Path to file of network to be evaluated. File must be 2-column edge list where each line is a gene interaction separated by a common delimiter.')
     parser.add_argument("node_sets_file", type=valid_infile, 
         help='Path to file of node sets. Each line is a list, separated by a common delimiter. The first item in each line will be the name of the node set.')
-    parser.add_argument("actual_AUPRCs_save_path", type=valid_outfile, 
-        help='CSV file path of network evaluation result scores (AUPRCs). This script minimally returns these values to save. Must have a writable directory.')		
+    parser.add_argument('-o', '--output_dir', type=str, default=None, required=False, 
+        help='Path to directory to save output files. Default is current working directory.')
     parser.add_argument('-v', '--verbose', default=False, action="store_true", required=False,
         help='Verbosity flag for reporting on patient similarity network construction steps.')	
     parser.add_argument('-netd', '--net_file_delim', type=str, default='\t', required=False,
@@ -81,11 +108,14 @@ if __name__ == "__main__":
         help='Establishes the background gene set to calculate AUPRC over. Default is to use all genes in the network, can change to use only genes from the union of all gene sets tested (i.e. disease genes only).')	
     parser.add_argument('-ming', '--min_genes', type=int, default=None, required=False,
         help='Enforce a minimum number of nodes from the network in each geneset. Any genesets without sufficient seed genes will be removed from the analysis')
-    parser.add_argument('-w', '--weighted',default=False, action="store_true", required=False,
-        help='Should weighted network propagation be performed?')
+    parser.add_argument('-ref', '--reference_sets_file', type=valid_infile, default=None, required=False)
     # Network performance score calculations (with null networks)
     parser.add_argument("-i", "--null_iter", type=positive_int, default=30, required=False,
         help='Number of times to perform degree-preserved shuffling of network to construct performance value null distribution. Default is 30. If this value is >0, --null_AUPRCs_save_path will be required')
+    
+    # save path arguments for backwards compatibility
+    parser.add_argument("actual_AUPRCs_save_path", type=valid_outfile, default=None, nargs="?", 
+        help='CSV file path of network evaluation result scores (AUPRCs). This script minimally returns these values to save. Must have a writable directory.')		
     parser.add_argument('-nno', '--null_network_outdir', type=valid_outfile, default=None, required=False,
         help='File directory to save null networks after generation.')
     parser.add_argument('-nsp', '--null_AUPRCs_save_path', type=valid_outfile, default=None, required=False,
@@ -96,13 +126,16 @@ if __name__ == "__main__":
         help='CSV file path of where to save network evaluation results as gain in AUPRC over median null AUPRCs.')
     
     args = parser.parse_args()
-
+    
+    outfiles = parse_output_paths(args.network_path, args.node_set_file, args.output_dir, args.actual_AUPRCs_save_path, args.null_AUPRCs_save_path, 
+                                args.performance_save_path, args.performance_gain_save_path, args.null_network_outdir)
+    
     ####################################
     ##### Network Evaluation Setup #####
     ####################################
     if args.null_iter > 0:
     # A file path must be given to either save the null networks or the null network performance
-        if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None):
+        if (args.null_AUPRCs_save_path is None) and (args.null_network_outdir is None) and (args.output_dir is None):
             parser.error('Save path required for null network edge lists or null network evaluation results.')
     # Load Network
     network = dit.load_edgelist_to_networkx(args.network_path, verbose=args.verbose)
@@ -110,6 +143,10 @@ if __name__ == "__main__":
 
     # Load Gene sets
     genesets = dit.load_node_sets(args.node_sets_file, verbose=args.verbose, id_type="Entrez")
+    if args.reference_sets_file is not None:
+        full_genesets = dit.load_node_sets(args.reference_sets_file, verbose=args.verbose, id_type="Entrez")
+    else:
+        full_genesets = None
 
     # Calculate gene set sub-sample rate with network (if not set)
     if args.sample_p is None:
@@ -139,13 +176,15 @@ if __name__ == "__main__":
     # Calculate AUPRC for each gene set on actual network (large networks are >=10k nodes)
     if network_size < 10000:
         #TODO take background variable again
-        actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+        actual_AUPRC_values, actual_FDR_values = nef.small_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, 
+                                                                                    verbose=True, min_nodes=args.min_genes, full_genesets=full_genesets)
     else:
         #TODO take backgrond variable again
-        actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+        actual_AUPRC_values, actual_FDR_values = nef.large_network_AUPRC_wrapper(kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, 
+                                                                                    verbose=True, min_nodes=args.min_genes, full_genesets=full_genesets)
 
     # Save the actual network's AUPRC values
-    actual_AUPRC_values.to_csv(args.actual_AUPRCs_save_path)
+    actual_AUPRC_values.to_csv(outfiles['AUPRC'])
 
     #################################################
     ##### Null Network Performance Calculations #####
@@ -158,19 +197,19 @@ if __name__ == "__main__":
         for i in range(args.null_iter):
             print('Null iteration:', i+1)
             # Construct null networks and calculate AUPRCs for each gene set on each null network
-            if args.null_network_outdir is not None:
+            if outfiles['NullNets'] is not None:
                 # check if samed netowrk exists
                 try:
-                    shuffNet = shuf.load_shuffled_network(datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                    shuffNet = shuf.load_shuffled_network(datafile=args.network_path, outpath=os.path.join(outfiles['NullNets'], 'shuffNet_'+repr(i+1)+'_'))
                 except FileNotFoundError:
                     shuffNet = shuf.shuffle_network(network, n_swaps=1)
-                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=os.path.join(outfiles['NullNets'], 'shuffNet_'+repr(i+1)+'_'))
                     print('Shuffled Network', i+1, 'written to file')
             else:
                 shuffNet = shuf.shuffle_network(network, n_swaps=1)
             # Save null network if null network output directory is given
-                if args.null_network_outdir is not None:
-                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=args.null_network_outdir+'shuffNet_'+repr(i+1)+'_')
+                if outfiles['NullNets'] is not None:
+                    shuf.write_shuffled_network(shuffNet, datafile=args.network_path, outpath=os.path.join(outfiles['NullNets'], 'shuffNet_'+repr(i+1)+'_'))
                     if args.verbose:
                         print('Shuffled Network', i+1, 'written to file')
             # Construct null network kernel
@@ -178,10 +217,12 @@ if __name__ == "__main__":
             # Calculate null network AUPRCs
             if network_size < 10000:
                 #TODO make background an input again
-                shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+                shuffNet_AUPRCs, shuffNet_FDRs = nef.small_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, 
+                                                                                    verbose=True, min_nodes=args.min_genes, full_genesets=full_genesets)
             else:
                 #TODO make background an input again
-                shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, verbose=True, min_nodes=args.min_genes)
+                shuffNet_AUPRCs, shuffNet_FDRs = nef.large_network_AUPRC_wrapper(shuffNet_kernel, genesets, genesets_p, n=args.sub_sample_iter, cores=args.cores, 
+                                                                                    verbose=True, min_nodes=args.min_genes, full_genesets=full_genesets)
             null_AUPRCs.append(shuffNet_AUPRCs)
             null_FDRs.append(shuffNet_FDRs)
         # Construct table of null AUPRCs
@@ -193,14 +234,14 @@ if __name__ == "__main__":
         if args.verbose:
             print('All null network gene set AUPRCs calculated')
         # Save null network AUPRCs if save path is given
-        if args.null_AUPRCs_save_path is not None:
-            null_AUPRCs_table.to_csv(args.null_AUPRCs_save_path)
+        if outfiles['NullAUPRC'] is not None:
+            null_AUPRCs_table.to_csv(outfiles['NullAUPRC'])
         # Calculate performance score for each gene set's AUPRC if performance score save path is given
-        if args.performance_save_path is not None:
+        if outfiles['Performance'] is not None:
             network_performance = nef.calculate_network_performance_score(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
-            network_performance.to_csv(args.performance_save_path)
+            network_performance.to_csv(outfiles['Performance'])
         # Calculate network performance gain over median null AUPRC if AUPRC performance gain save path is given
-        if args.performance_gain_save_path is not None:
+        if outfiles['Gain'] is not None:
             network_perf_gain = nef.calculate_network_performance_gain(actual_AUPRC_values, null_AUPRCs_table, verbose=args.verbose)			
-            network_perf_gain.to_csv(args.performance_gain_save_path)
+            network_perf_gain.to_csv(outfiles['Gain'])
     

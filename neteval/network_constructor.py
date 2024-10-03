@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import networkx as nx
 import pandas as pd
 from collections import defaultdict

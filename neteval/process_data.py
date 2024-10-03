@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 from neteval.processing_functions import *
 
@@ -103,7 +104,7 @@ if __name__=="__main__":
                     prefixes=prefixes)
         # clean the data and convert gene identifiers
         nd.clean_data()
-        nd.convert_nodes()
+        unmapped = nd.convert_nodes()
         try:
             final_nodes = nd.get_unique_nodes()
         except:
@@ -113,6 +114,6 @@ if __name__=="__main__":
         nd.remove_self_edges()
         # write the processed network (including score subset if applicable)
         nd.write_network_data(args.o, percentile=90)
-        nd.write_stats(args.o)
+        nd.write_stats(args.o, unmapped)
         print("Processing of", args.N, "completed.")
     
