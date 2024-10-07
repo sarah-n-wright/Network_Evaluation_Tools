@@ -54,7 +54,7 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
     ],
-    description="TODO",
+    description="Package for standardization and evaluation of biological networks",
     install_requires=requirements,
     python_requires='>=3.10',
     license="MIT license",
