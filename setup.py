@@ -72,6 +72,5 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/sarah-n-wright/Network_Evaluation_Tools',
-    version=version,
     zip_safe=False)
 
