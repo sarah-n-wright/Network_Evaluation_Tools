@@ -37,7 +37,7 @@ setup_requirements = []
 test_requirements = []
 
 setup(
-    version='0.2.1',
+    version='0.2.2',
     author="Sarah Wright",
     author_email='snwright@ucsd.edu',
     classifiers=[
