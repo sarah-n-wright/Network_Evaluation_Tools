@@ -66,7 +66,8 @@ setup(
              'neteval/run_network_evaluation.py',
              'neteval/network_constructor.py',
              'neteval/edge_prediction.py',
-             'neteval/alphafold_results.py'
+             'neteval/alphafold_results.py',
+	     'neteval/L3_prediction.sh'
             ],
     setup_requires=setup_requirements,
     test_suite='tests',
