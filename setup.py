@@ -6,12 +6,6 @@ import os
 import re
 from setuptools import setup, find_packages
 
-
-with open(os.path.join('neteval', '__init__.py')) as ver_file:
-    for line in ver_file:
-        if line.startswith('__version__'):
-            version=re.sub("'", "", line[line.index("'"):])
-
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
@@ -43,6 +37,7 @@ setup_requirements = []
 test_requirements = []
 
 setup(
+    version='0.2.2',
     author="Sarah Wright",
     author_email='snwright@ucsd.edu',
     classifiers=[
@@ -54,7 +49,7 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
     ],
-    description="TODO",
+    description="Package for standardization and evaluation of biological networks",
     install_requires=requirements,
     python_requires='>=3.10',
     license="MIT license",
@@ -71,12 +66,12 @@ setup(
              'neteval/run_network_evaluation.py',
              'neteval/network_constructor.py',
              'neteval/edge_prediction.py',
-             'neteval/alphafold_results.py'
+             'neteval/alphafold_results.py',
+	     'neteval/L3_prediction.sh'
             ],
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/sarah-n-wright/Network_Evaluation_Tools',
-    version=version,
     zip_safe=False)
 
