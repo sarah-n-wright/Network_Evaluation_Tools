@@ -49,8 +49,8 @@ This will create lists of chromosome files chr{chr#}_files.txt
 
 For each chromosome run:
 ```
-# e.g. for chromosome 22
-sh phyloP_run_CDS.sh 22
+# e.g. for chromosome 22, where datadir is the path to the data
+sh phyloP_run_cds.sh 22 <datadir>
 ```
 This will loop through every gene assigned to the chromosome and summarize the  
 conservation scores per gene using `bedmap`, creating [GENE].bed.summary.bed

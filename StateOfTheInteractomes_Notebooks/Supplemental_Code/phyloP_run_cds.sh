@@ -1,8 +1,7 @@
 #!/bin/bash
 chr=$1
-
+datadir=$2
 chr_files=($(cat perGene_CDS/${chr}_files.txt))
-datadir=/cellar/users/snwright/Data/Network_Analysis/Reference_Data/conservation/perGene_CDS
 
 task_start=$((SLURM_ARRAY_TASK_ID * 100))
 task_end=$((task_start + 100))

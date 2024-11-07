@@ -1,7 +1,8 @@
 # State of the Interactomes: Notebooks
 
 This directory contains code and guidelines for reproducing data and figures contained 
-in the manuscript [insert manuscript].
+in the manuscript Wright SN, et al. **State of the Interactomes: an evaluation of 
+molecular networks for generating biological insights.** *Molecular Systems Biology* (2024). 
 
 Due to the computational requirements of the underlying analyses, these notebooks 
 leverage pre-computed data and example implementations with small networks. Much 
@@ -26,7 +27,7 @@ To run Supplemental Code, see additional dependencies in the associated README f
 ## Inputs/Outputs
 
 * `StateOfTheInteractomes/Notebooks/Data/` contains pre-computed data for visualization
-and analysis, including Supplemental Tables 2-5 
+and analysis, including Datasets EV1-6
 * Other data neccessary for analysis is contained in `Data/`
 * Generated figures are saved to `StateOfTheInteractomes_Notebooks/Figures`
 * Generated data is saved to `Data/example_outputs/`

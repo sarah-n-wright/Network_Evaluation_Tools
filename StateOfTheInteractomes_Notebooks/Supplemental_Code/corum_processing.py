@@ -20,20 +20,17 @@ def process_corum_file(corum_file, outdir):
 
 
 if __name__=="__main__":
-    # argparser = argparse.ArgumentParser(description='Calculate the similarity between two networks')
-    # argparser.add_argument('--corum-file', help='Path to the file containing the CORUM network')
-    # argparser.add_argument('--netdir', help='Path to the directory containing the networks')    
-    # argparser.add_argument('--prefix-file', help='Path to the file containing the prefix of the networks')
-    # argparser.add_argument('--outdir', help='Path to the output directory')
+    argparser = argparse.ArgumentParser(description='Calculate the similarity between two networks')
+    argparser.add_argument('--corum-file', help='Path to the file containing the CORUM network')
+    argparser.add_argument('--outdir', help='Path to the output directory')
     
-    # args = argparser.parse_args()
-    
-    corum_file='/cellar/users/snwright/Data/Network_Analysis/Reference_Data/humanComplexes.txt'
-    process_corum_file(corum_file, '')
+    args = argparser.parse_args()
     
     # if processed corum file os.path.join(outdir,'corum_processed.tsv') exists
     if os.path.exists(os.path.join(args.outdir,'corum_processed.tsv')):
         corum_df = pd.read_csv(os.path.join(args.outdir,'corum_processed.tsv'), sep='\t')
+    elif os.path.exists(os.path.join(args.outdir,'corum_processed.tsv.gz')):    
+        corum_df = pd.read_csv(os.path.join(args.outdir,'corum_processed.tsv.gz'), sep='\t')
     else:
         corum_df = process_corum_file(args.corum_file, args.outdir)
     
