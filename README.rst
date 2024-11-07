@@ -145,6 +145,7 @@ Modules:
 
 * ``edge_prediction.py``: Script for performing edge prediciton evaluation.
 * ``alphafold_results.py``: Script for parsing and analyzing AlphaFold results.
+* ``complex_evaluation.py``: Script for evaluating hierarchical complex prediction results.
 
 For detailed usage see ``ExampleUsage/IP_InteractionPrediction.README.md`` and ``ExampleUsage/AF_AlphaFold.README.md``
 

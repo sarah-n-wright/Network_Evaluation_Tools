@@ -2,7 +2,13 @@
 History
 =======
 
-0.2.1, 0.2.2 (2024-10-)
+0.2.2 (2024-11-07)
+-----------------------
+* Final versions of notebooks associated with State of the Interactomes manuscript
+* Fixed redundant python requirement in setup.py
+* Updated documentation
+
+0.2.1 (2024-10-07)
 -----------------------
 * Updated documentation
 
