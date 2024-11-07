@@ -6,7 +6,7 @@
 * Processed networks (See `NP_NetworkProcessing.README.md`)
 * If evaluating large networks (>500K interactions), at least 64GB of available memory
 
-All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`. All python scripts should be installed automatically in bin/ after installaion via PyPi.  
 
 ## Step 1: Download DisGeNET and GWAS Catalog data
 
@@ -29,7 +29,7 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/get_disgen_associations.py -m <min_genes> -M <max_genes> -o <outdir> -E <email> -P <password> -S <source> -d <disgenfile>
+python get_disgen_associations.py -m <min_genes> -M <max_genes> -o <outdir> -E <email> -P <password> -S <source> -d <disgenfile>
 ```
 
 ### GWAS Catalog
@@ -52,7 +52,7 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/get_gwas_associations.py -m <min_genes> -M <max_genes> -o <outdir> -p <p_th> -D <split_date> -G <gwas_file> 
+python get_gwas_associations.py -m <min_genes> -M <max_genes> -o <outdir> -p <p_th> -D <split_date> -G <gwas_file> 
 ```
 
 ## Step 2: Preprocess downloaded genesets
@@ -78,7 +78,7 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/prepare_evaluation_data.py -s <geneset_file> -n <prefix_file> -o <out_file> -d <datadir> -i <id_type> \ 
+python prepare_evaluation_data.py -s <geneset_file> -n <prefix_file> -o <out_file> -d <datadir> -i <id_type> \ 
                 -m <min_genes> -M <max_genes> [-F] [-C] [--strict]
 ```
 
@@ -106,13 +106,13 @@ Outputs:
 **Usage:**
 To run a single evaluation with a network a geneset file:
 ```
-python neteval/run_network_evaluation.py \
+python run_network_evaluation.py \
     --cores 2 -i <nshuffle> -n <nsamples> -a <alpha> -p <sampp> --min_genes <min_genes> \
     -o <outdir> <net_path> <node_sets_file>
 ```
 e.g. for DIP with DisGeNET genesets:
 ```
-python neteval/run_network_evaluation.py \
+python run_network_evaluation.py \
     --cores 2 -i 50 -n 50 -a 0.64 -p 0.3 --min_genes 20 \
     -o Data/example_outputs/GeneSetRecovery/ Data/example_outputs/dip_net.txt Data/disgen.genesets
 ```

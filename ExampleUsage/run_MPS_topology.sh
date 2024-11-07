@@ -23,11 +23,9 @@ if [ "$type" = "external" ]; then
 
 #for i in {1..10}; do
 
-  #source activate MPS2
   process_fold() {
     i=$1
     echo 'FOLD:' $i
-    #sh /cellar/users/snwright/Git/Network_Evaluation_Tools/run_files/fold_to_csv.sh $input_dir $name $i
     cd "${mps_dir}/topological_feature_extractor/bin"
     java -Xms12g -Xmx12g algos.TopologicalFeaturesExtractor e $input_dir/csvs ${name}.fold$i.csv $top_dir
 
@@ -37,7 +35,6 @@ if [ "$type" = "external" ]; then
 
   ~/anaconda3/bin/parallel process_fold ::: {1..4}
 
-#done
 fi
 
 if [ "$type" = "internal" ]; then

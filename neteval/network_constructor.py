@@ -81,11 +81,6 @@ def create_network_subset(edges, edge_data, outpath ,min_dbs=2, node_pref="Entre
 
 if __name__=="__main__":
     args = parse_arguments(sys.argv[1:])
-    # args = parse_arguments(['-d', '/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/',
-    #                         '-o', '/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_2022/',
-    #                         '-n', '2', '--name', 'test', '--nodepref', 'Entrez_',
-    #                         '/cellar/users/snwright/Git/Network_Evaluation_Tools/Data/v2_net_prefixes.txt'
-    #                         ])
     print(args)
     node_f, edge_f, nets = get_node_edge_files(args.d, args.prefix_file)
     print(node_f)

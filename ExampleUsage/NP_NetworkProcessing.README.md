@@ -5,7 +5,7 @@
 * Installation of `neteval`
 * Download of raw network datasets. Three small example networks (DIP, Wan, PID2) are included in `Network_Evaluation_Tools/Data/`
 
-All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`. All python scripts should be installed automatically in bin/ after installaion via PyPi
 
 ## Step 1: Create config file(s) from template
 

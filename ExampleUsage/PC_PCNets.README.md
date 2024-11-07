@@ -3,6 +3,8 @@
 ## Pre-requisites
 * For the creation of *Ranked* composites, you will need a metric to rank the networks (e.g. from Gene Set Recovery)
 
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`. All python scripts should be installed automatically in bin/ after installaion via PyPi.
+
 ## Step 2: Create *Global* composite networks
 
 Inputs:
@@ -20,11 +22,11 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/network_constructor.py -n <n> -d <netdir> -o <outdir> -m parsimonious --name <name> --nodepref <nodepref> <pref_file>
+python network_constructor.py -n <n> -d <netdir> -o <outdir> -m parsimonious --name <name> --nodepref <nodepref> <pref_file>
 ```
 E.g. for the example prefixes
 ```
-python neteval/network_constructor.py -n 1 2 3 -d Data/example_outputs -o Data/example_outputs/Composites -m parsimonious \
+python network_constructor.py -n 1 2 3 -d Data/example_outputs -o Data/example_outputs/Composites -m parsimonious \
     --name Global --nodepref Entrez_ Data/example_prefix_file.txt
 ```
 
@@ -52,11 +54,11 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/network_constructor.py -n <n> -d <netdir> -o <outdir> -m ordered --name <name> --nodepref <nodepref> <pref_file>
+python network_constructor.py -n <n> -d <netdir> -o <outdir> -m ordered --name <name> --nodepref <nodepref> <pref_file>
 ```
 E.g. for the example prefixes (assuming these are in rank order)
 ```
-python neteval/network_constructor.py -n 2 -d Data/example_outputs -o Data/example_outputs/Composites -m ordered \
+python network_constructor.py -n 2 -d Data/example_outputs -o Data/example_outputs/Composites -m ordered \
     --name Ranked --nodepref Entrez_ Data/example_prefix_file.txt
 ```
 

@@ -178,8 +178,6 @@ if __name__=='__main__':
         
     create_disgenet_genesets(args.o+'gda_'+args.S+current_date+'.tsv', args.o + 'disease_list_'+args.S+current_date+'.tsv.genesets', 
                             min_genes=args.m)
-    
-    # email='snwright@ucsd.edu'
-    # password='MyDisGenPW'
+
 
 

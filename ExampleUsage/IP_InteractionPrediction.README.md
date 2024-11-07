@@ -13,7 +13,7 @@ Identify the paths to L3, MPS and parallel executables for use in later steps.
 * For MPS: `mps_dir` - Directory containing `topological_feature_extractor`
 * For parallel: full path to `parallel` executable  
 
-All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`. All pyhton scripts should be installed automatically in bin/ after installaion via PyPi
 
 ## Step 1: Create cross-validation folds
 Create 10 folds from the largest connected component of a network, where 10% of the interactions are removed for each fold.
@@ -30,7 +30,7 @@ Outputs:
 **Usage:**
 ```
 # Run directly:
-python neteval/edge_prediction.py --networkprefix <pref> --runwhat Folds --datadir <datadir> --outdir <outdir>
+python edge_prediction.py --networkprefix <pref> --runwhat Folds --datadir <datadir> --outdir <outdir>
 # Iterate over a list of network prefixes
 sh ExampleUsage/IP_createFolds.sh Data/example_prefix_file.txt
 ```
@@ -52,7 +52,7 @@ Outputs:
 **Usage:**
 ```
 # To run prediction for fold 1:
-python neteval/edge_prediction.py --networkprefix <pref> --runwhat Predict --networksuffix .fold1 \
+python edge_prediction.py --networkprefix <pref> --runwhat Predict --networksuffix .fold1 \
         --datadir <datadir> --execdir <execdir> --outdir <outdir> --pred_method L3
 ```
 
@@ -119,7 +119,7 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateHeldOut \
+python edge_prediction.py --networkprefix <pref> --runwhat EvaluateHeldOut \
         --networksuffix .fold1 --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
 sh ExampleUsage/IP_run_heldout.sh <pref_file> <pred_method> <parallel_path>
@@ -141,7 +141,7 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateExternal \
+python edge_prediction.py --networkprefix <pref> --runwhat EvaluateExternal \
         --benchmarks corum panther --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
 sh ExampleUsage/IP_run_external.sh <pref_file> <pred_method>
@@ -163,7 +163,7 @@ Outputs:
 **Usage:**
 ```
 # Single Evaluation (e.g. for fold1)
-python neteval/edge_prediction.py --networkprefix <pref> --runwhat EvaluateCoverage \
+python edge_prediction.py --networkprefix <pref> --runwhat EvaluateCoverage \
         --coverage_file <coverage_file> --datadir <datadir> --outdir <outdir> --pred_method <pred_method>
 # All Evalutations
 sh ExampleUsage/IP_run_external.sh <pref_file> <pred_method> <coverage_file>

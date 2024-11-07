@@ -6,7 +6,7 @@
 
 It is recommended to install `localcolabfold` in a separate environment from `neteval`.
 
-All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`
+All example code below is intended to be run from the base directory of `Network_Evaluation_Tools/`. All python scripts should be installed automatically in bin/ after installaion via PyPi.
 
 ## Step 1: Download protein sequences
 Environment: `neteval`
@@ -76,5 +76,5 @@ Outputs:
 
 **Usage:**
 ```
-python neteval/alphafold_results.py <pair_file> <datadir> <outdir>
+python alphafold_results.py <pair_file> <datadir> <outdir>
 ```

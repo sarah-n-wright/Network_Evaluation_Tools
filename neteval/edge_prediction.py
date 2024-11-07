@@ -595,8 +595,6 @@ def dcg_at_k( y_true, scores, k=None):
 
 
 if __name__ == "__main__":
-    #edgefile = '/cellar/users/snwright/Data/Network_Analysis/Processed_Data/v2_fixed/bioplex.v3.293T_net.txt'
-    #create_network_folds(edgefile, nfolds=10, lcc=True)
     # Run the edge prediction script
     parser = argparse.ArgumentParser(description='Run edge prediction on a network.')
     parser.add_argument("--networkprefix", type=str, help='Prefix of network to be evaluated. File must be 2-column edge list where each line is a gene interaction separated by a tab delimiter.')
