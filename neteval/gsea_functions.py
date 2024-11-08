@@ -7,7 +7,9 @@ from goatools.base import download_ncbi_associations
 from goatools.anno.genetogo_reader import Gene2GoReader
 from collections import defaultdict
 import networkx as nx
-from fuzzywuzzy import fuzz, process
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore")
+    from fuzzywuzzy import fuzz, process
 from scipy.stats import fisher_exact
 import os
 
