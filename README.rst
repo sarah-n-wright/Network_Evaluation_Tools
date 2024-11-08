@@ -20,7 +20,7 @@ This package updates and expands the work developed as part of
 
 
 Installation
-------------
+============
 To install the package, run the following command:
 
    .. code-block:: bash
@@ -40,20 +40,20 @@ For example usage of command line scripts see `Example Usage <https://github.com
 For example usage of all other funcitonality see `State of the Interactomes Notebooks <https://github.com/sarah-n-wright/Network_Evaluation_Tools/StateOfTheInteractomes_Notebooks>`__.  
 
 Optional External Packages
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 Interaction Prediction algorithms
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""
 * **L3:** The L3 algorithm can be installed from `https://github.com/kpisti/L3 <https://github.com/kpisti/L3>`_. The path to the executable can then be used with `edge_prediction.py`.
 
 * **MPS(T):** The MPS(T) algorithm can be installed from `https://github.com/spxuw/PPI-Prediction-Project <https://github.com/spxuw/PPI-Prediction-Project>`_, and should be installed and run from a separate environment.
 
 AlphaFold Multimer
-^^^^^^^^^^^^^^^^^^
+""""""""""""""""""
 * **AlphaFold-Multimer** can be installed from `https://github.com/YoshitakaMo/localcolabfold <https://github.com/YoshitakaMo/localcolabfold>`_, and should be installed and run from a separate environment.
 
 Dependencies
-------------
+============
 
 * `goatools >=1.3.1 <https://pypi.org/project/goatools>`__
 * `hidef >=1.1.5 <https://pypi.org/project/hidef>`__
@@ -74,10 +74,10 @@ Dependencies
 
 
 Modules in this package
------------------------
+=======================
 
 Interactome processing, standardization and annotation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------------------
 Modules:
 
 * ``processing_functions``: Module utilized by process_data, contains the NetworkData class.__
@@ -93,9 +93,10 @@ Modules:
 For detailed usage see ``ExampleUsage/NP_NetworkProcessing.README.md``
 
 Gene set recovery performance evaluation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------
+
 Evaluation data collection and processing
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""""""""
 
 Modules:
 
@@ -109,7 +110,7 @@ Modules:
 For detailed usage, see ``ExampleUsage/GSR_GeneSetRecovery.README.md``
 
 Gene set recovery
-^^^^^^^^^^^^^^^^^
+"""""""""""""""""
 
 Modules:
 
@@ -125,7 +126,7 @@ Modules:
 For detailed usage, see ``ExampleUsage/GSR_GeneSetRecovery.README.md``
 
 Parsimonious Composite Networks (PCNets)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------------
 
 **Script(s):**
 
@@ -134,7 +135,7 @@ Parsimonious Composite Networks (PCNets)
 For detailed usage see ``ExampleUsage/PC_PCNets.README.md``
 
 Interaction & complex prediction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 Modules:
 
@@ -150,17 +151,17 @@ Modules:
 For detailed usage see ``ExampleUsage/IP_InteractionPrediction.README.md`` and ``ExampleUsage/AF_AlphaFold.README.md``
 
 General utilities
-~~~~~~~~~~~~~~~~~
+-----------------
 
 * ``data_import_export_tools``: Module of functions for importing and exporting the various data formats used by this package.
 * ``Timer``: Class that measures the elapsed time of various processing steps and outputs a summary.
 
 
 Provided Data and Implementation Examples
----------------------------------------------
+=========================================
 
 ExampleUsage
-~~~~~~~~~~~~
+------------
 
 This directory contains README and bash scripts for implemenation of each stage of the network evaluation pipeline. 
 All examples utilize three small interactomes (DIP, PID2, and Wan). While most of the pipeline is designed to run in a 
@@ -173,7 +174,7 @@ high-performance computing environment, most of these examples can be run on a l
 * ``AF_AlphaFold.README.md``
 
 Data
-~~~~
+----
 
 This directory contains key data sets used for the evaluation of interactomes for prosperity, including: 
 
@@ -185,13 +186,13 @@ This directory contains key data sets used for the evaluation of interactomes fo
 
 
 StateOfTheInteractomes_Notebooks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 This directory contains code and guidelines for reproducing data and figures contained
 in the manuscript.
 
 Notebooks
-^^^^^^^^^
+"""""""""
 
 * 1_Statistics_and_Representation.ipynb
 * 2_GO_analysis.ipynb
@@ -221,12 +222,12 @@ To run the State Of the Interactomes Notebooks, install the required dependencie
 * Generated data is saved to `Data/example_outputs/`
 
 StateOfTheInteractomes_Notebooks/Data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""""
 
 This directory contains data necessary for recreating the manuscript figures, including *Supplemental Tables 2-5,7-8*, and other precomputed results.
 
 StateOfTheInteractomes_Notebooks/Supplemental_Code
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
 This directory contains code used in the generation of the manuscript results that is not included in the primary ``neteval`` package. 
 This includes implementation of EGAD (Extending Guilt by Association by Degree) and HiDeF (Hierarchical community Decoding Framework), as well 
@@ -238,13 +239,13 @@ To run Supplemental Code, see additional dependencies in the associated README f
 * Processing of Gene Conservation Scores (``phyloP_README.md``)
 
 Compatibility
--------------
+=============
 
 * Python 3.10+
 
 
 Citing neteval
---------------
+==============
 
 If you use neteval in your research, please cite the following publication:
 
@@ -252,7 +253,10 @@ Wright, SN., et al. *State of The Interactomes: an evaluation of molecular netwo
 
 
 Credits
--------
+=======
+
+This package is built from the original `Network Evaluation Tools <https://github.com/idekerlab/Network_Evaluation_Tools>`_ developed by `Huang and Carlin et al. 2018 <http://www.cell.com/cell-systems/fulltext/S2405-4712(18)30095-4>`_.
+
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
