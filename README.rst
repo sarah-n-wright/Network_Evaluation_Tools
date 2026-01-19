@@ -58,13 +58,13 @@ Dependencies
 * `goatools >=1.3.1 <https://pypi.org/project/goatools>`__
 * `hidef >=1.1.5 <https://pypi.org/project/hidef>`__
 * `httplib2 >=0.20.2 <https://pypi.org/project/httplib2>`__
-* `matplotlib >=3.5.0,<3.7 <https://pypi.org/project/matplotlib>`__
+* `matplotlib >=3.5.0 <https://pypi.org/project/matplotlib>`__
 * `mygene >=3.2.2 <https://pypi.org/project/mygene>`__
 * `ndex2 >=3.5.0 <https://pypi.org/project/ndex2>`__
 * `networkx >=2.6.3,<3.0 <https://pypi.org/project/networkx/2.6.3>`__
-* `numpy >=1.21.4,<2.0 <https://pypi.org/project/numpy>`__
+* `numpy >=1.21.4 <https://pypi.org/project/numpy>`__
 * `obonet >=1.0.0 <https://pypi.org/project/obonet>`__
-* `pandas >=1.3.4,<2.0 <https://pypi.org/project/pandas/1.3.4>`__
+* `pandas >=1.3.4 <https://pypi.org/project/pandas/1.3.4>`__
 * `requests >=2.26.0 <https://pypi.org/project/requests>`__
 * `scikit-learn >=1.0.1 <https://pypi.org/project/scikit-learn>`__
 * `scipy >=1.7.2 <https://pypi.org/project/scipy>`__

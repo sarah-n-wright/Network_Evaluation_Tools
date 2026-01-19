@@ -404,7 +404,7 @@ def process_go_slim_terms(go_category, go_data, go_branches, min_genes=100, max_
     assert go_category in ['CC', 'MF', 'BP'], "go_category must be one of ['CC', 'MF', 'BP']"
     # get the slim terms
     branch_dict = {'CC':'cellular_component', 'MF':'molecular_function', 'BP':'biological_process'}
-    with open(os.path.join(os.path.basename(__file__),'../Data/', go_category.lower()+'_ids.txt'), 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__),'../Data/', go_category.lower()+'_ids.txt'), 'r') as f:
         slim_terms = [x.strip() for x in f.readlines()]
     slim_terms = go_branches[branch_dict[go_category]]
     

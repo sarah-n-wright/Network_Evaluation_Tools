@@ -6,7 +6,7 @@ import logging
 import logging.config
 
 import neteval
-from neteval.runner import NetevalRunner
+#from neteval.runner import NetevalRunner
 
 logger = logging.getLogger(__name__)
 

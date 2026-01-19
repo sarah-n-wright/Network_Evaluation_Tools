@@ -4,7 +4,7 @@
 
 __author__ = """Sarah Wright"""
 __email__ = 'snwright@ucsd.edu'
-__version__ = '0.2.2'
+__version__ = '0.2.3a1'
 
 from .data_import_export_tools import load_public_network_from_ndex, load_private_network_from_ndex, create_networkx_for_export, create_pcnet_networkx_for_export, export_networkx_to_ndex, load_edgelist_to_networkx, write_networkx_to_file, load_node_sets, write_node_sets
 from .gene_mapper import update_nodes, convert_node_ids, query_mygene
