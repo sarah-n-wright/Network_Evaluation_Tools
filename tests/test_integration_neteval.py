@@ -6,7 +6,7 @@
 import os
 
 import unittest
-from neteval import netevalcmd
+#from neteval import netevalcmd
 
 SKIP_REASON = 'NETEVAL_INTEGRATION_TEST ' \
               'environment variable not set, cannot run integration ' \

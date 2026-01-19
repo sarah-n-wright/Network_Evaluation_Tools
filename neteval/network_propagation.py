@@ -1,7 +1,10 @@
 #######################################################
 # ---------- Network Propagation Functions ---------- #
 #######################################################
-import networkx as nx
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings('ignore', category=DeprecationWarning)
+    import networkx as nx
 import time
 import numpy as np
 import scipy
@@ -10,6 +13,7 @@ import pandas as pd
 
 # Normalize network (or network subgraph) for random walk propagation
 def normalize_network(network, symmetric_norm=False):
+
     adj_mat = nx.adjacency_matrix(network)
     adj_array = np.array(adj_mat.todense())
     if symmetric_norm:
@@ -24,7 +28,7 @@ def normalize_network(network, symmetric_norm=False):
 # transposed adjacency array, it is already in the correct orientation
 
 # Calculate optimal propagation coefficient (updated model)
-def calculate_alpha_OLD(network, avg_coverage, m=-0.02935302, b=0.74842057):
+def calculate_alpha_OLD(network, m=-0.02935302, b=0.74842057):
     log_edge_count = np.log10(len(network.edges()))
     alpha_val = round(m*log_edge_count+b,3)
     if alpha_val <=0:

@@ -1,6 +1,10 @@
 History
 =======
 
+0.2.3 (2026-01-19)
+------------------
+* Removed dependency restrictions on later releases of `numpy`, `matplotlib`, and `pandas`
+
 0.2.2 (2024-11-07)
 ------------------
 * Final versions of notebooks associated with State of the Interactomes manuscript

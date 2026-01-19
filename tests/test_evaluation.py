@@ -1,22 +1,26 @@
 from neteval.shuffle_networks import shuffle_network
 from neteval.data_import_export_tools import load_node_sets
 from neteval.network_evaluation_functions import calculate_p, small_network_AUPRC_wrapper, construct_prop_kernel, calculate_network_performance_score, calculate_network_performance_gain, calculate_precision_recall
-from neteval.network_propagation import closed_form_network_propagation, calculate_alpha, normalize_network
+from neteval.network_propagation import closed_form_network_propagation, calculate_alpha, normalize_network, calculate_alpha_OLD
 import unittest
 import pandas as pd
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings('ignore', category=DeprecationWarning)
+    import networkx as nx
 import networkx as nx
 import os
 import numpy as np
-import warnings
-warnings.filterwarnings(action='ignore', category=DeprecationWarning)
+
 
 class Test(unittest.TestCase):
     def setUp(self):
         self.dir_path = os.path.dirname(os.path.realpath(__file__))
+        self.data_path = os.path.join(self.dir_path, 'data')
         G_df = pd.read_csv(self.dir_path + "/data/example_graph.txt", sep="\t")
         self.G = nx.from_pandas_edgelist(G_df, source="A", target="B")
         self.shuff_G = nx.from_pandas_edgelist(G_df, source="A", target="B")
-        self.genesets = load_node_sets('/cellar/users/snwright/Git/Network_Evaluation_Tools/tests/data/example_genesets.txt', id_type='Entrez')
+        self.genesets = load_node_sets(os.path.join(self.data_path, 'example_genesets.txt'), id_type='Entrez')
         
         # Set up test environment before running tests
     
@@ -31,13 +35,13 @@ class Test(unittest.TestCase):
         pass
     
     def test_calculate_p(self):
-        genesets_p = calculate_p(self.G, self.genesets, id_type='Entrez')
+        genesets_p, _ = calculate_p(self.G, self.genesets, id_type='Entrez')
         self.assertEqual(len(genesets_p), len(self.genesets))
     
     def test_calculate_alpha(self):
         m=-0.02935302
         b=0.74842057
-        alpha = calculate_alpha(self.G, m=m, b=b)
+        alpha = calculate_alpha_OLD(self.G, m=m, b=b)
         self.assertEqual(alpha, 0.656)
     
     def test_closed_form_propagation(self):
@@ -56,18 +60,18 @@ class Test(unittest.TestCase):
         self.assertEqual(array_norm.shape, array_sym_norm.shape)
         
     def test_small_network_AUPRC_wrapper(self):
-        genesets_p = calculate_p(self.G, self.genesets, id_type='Entrez')
+        genesets_p, _ = calculate_p(self.G, self.genesets, id_type='Entrez')
         m=-0.02935302
         b=0.74842057
-        alpha = calculate_alpha(self.G, m=m, b=b)
+        alpha = calculate_alpha_OLD(self.G, m=m, b=b)
         kernel = construct_prop_kernel(self.G, alpha=alpha, verbose=True)
-        AUPRC_values = small_network_AUPRC_wrapper(kernel, self.genesets, genesets_p, n=30, cores=4, verbose=True)
+        AUPRC_values, _ = small_network_AUPRC_wrapper(kernel, self.genesets, genesets_p, n=30, cores=4, verbose=True)
         null_AUPRCs = []
         print("loop")
         for i in range(10):
             shuffNet = shuffle_network(self.G, n_swaps=1)
             shuffNet_kernel = construct_prop_kernel(shuffNet, alpha=alpha, verbose=False)
-            shuffNet_AUPRCs = small_network_AUPRC_wrapper(shuffNet_kernel, self.genesets, genesets_p, n=30, cores=4, verbose=False)
+            shuffNet_AUPRCs, _ = small_network_AUPRC_wrapper(shuffNet_kernel, self.genesets, genesets_p, n=30, cores=4, verbose=False)
             null_AUPRCs.append(shuffNet_AUPRCs)
             print('shuffNet', repr(i+1), 'AUPRCs calculated')
         null_AUPRCs_table = pd.concat(null_AUPRCs, axis=1)
