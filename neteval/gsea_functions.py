@@ -7,7 +7,9 @@ from goatools.base import download_ncbi_associations
 from goatools.anno.genetogo_reader import Gene2GoReader
 from collections import defaultdict
 import networkx as nx
-from fuzzywuzzy import fuzz, process
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore")
+    from fuzzywuzzy import fuzz, process
 from scipy.stats import fisher_exact
 import os
 
@@ -402,7 +404,7 @@ def process_go_slim_terms(go_category, go_data, go_branches, min_genes=100, max_
     assert go_category in ['CC', 'MF', 'BP'], "go_category must be one of ['CC', 'MF', 'BP']"
     # get the slim terms
     branch_dict = {'CC':'cellular_component', 'MF':'molecular_function', 'BP':'biological_process'}
-    with open(os.path.join(os.path.basename(__file__),'../Data/', go_category.lower()+'_ids.txt'), 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__),'../Data/', go_category.lower()+'_ids.txt'), 'r') as f:
         slim_terms = [x.strip() for x in f.readlines()]
     slim_terms = go_branches[branch_dict[go_category]]
     
