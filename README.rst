@@ -12,9 +12,9 @@ Network Evaluations Tools v2
 
 
 Network Evaluation Tools 2 is a Python 3.10 package accompanying the manuscript:
-*State of the Interactomes: an evaluation of molecular networks for generating biological insights.* Sarah N Wright et al. biorxiv.org (2024).
+*State of the Interactomes: an evaluation of molecular networks for generating biological insights.* Wright, S.N., Colton, S., Schaffer, L.V. et al. Mol Syst Biol 21, 1–29 (2025). `DOI: doi.org/10.1038/s44320-024-00077-y <https://doi.org/10.1038/s44320-024-00077-y>`_
 
-This repository contains all python code used in the study, as well as example usage on a small network example. 
+This repository contains all Python code used in the study, as well as example usage on a small network example. 
 This package updates and expands the work developed as part of 
 `Huang and Carlin et al. 2018 <http://www.cell.com/cell-systems/fulltext/S2405-4712(18)30095-4>`_.
 
@@ -37,7 +37,7 @@ To install the package from source, clone the repository and run the following c
       pip install dist/netevalcmd*whl
 
 For example usage of command line scripts see `Example Usage <https://github.com/sarah-n-wright/Network_Evaluation_Tools/ExampleUsage>`__.  
-For example usage of all other funcitonality see `State of the Interactomes Notebooks <https://github.com/sarah-n-wright/Network_Evaluation_Tools/StateOfTheInteractomes_Notebooks>`__.  
+For example usage of all other functionality see `State of the Interactomes Notebooks <https://github.com/sarah-n-wright/Network_Evaluation_Tools/StateOfTheInteractomes_Notebooks>`__.  
 
 Optional External Packages
 --------------------------
@@ -76,15 +76,15 @@ Dependencies
 Modules in this package
 =======================
 
-Interactome processing, standardization and annotation
+Interactome processing, standardization, and annotation
 ------------------------------------------------------
 Modules:
 
 * ``processing_functions``: Module utilized by process_data, contains the NetworkData class.__
-* ``gene_mapper``: Includes query_hgnc, query_ensembl, query_uniprot. Modules to map identifiers to NCBI Gene IDs from a variety of identifier types including: Uniprot, Ensembl, EnsemblProtein, RefSeq, Symbol. Incorporates methods to handle out of date identifiers.
+* ``gene_mapper``: Includes query_hgnc, query_ensembl, query_uniprot. Modules to map identifiers to NCBI Gene IDs from a variety of identifier types including: Uniprot, Ensembl, EnsemblProtein, RefSeq, Symbol. Incorporates methods to handle out-of-date identifiers.
 * ``node_annotation``: Module for downloading and extracting gene annotation data from HGNC, NCBI, Uniprot and Ensembl. Includes the class ExpressionData for loading and analyzing mRNA and protein expression data.
-* ``network_statistics``: Module to extract summary statistics for a set of network, such as node and edge counts.
-* ``gsea_functions``: Module for performing downloading, processing and analyzing Gene Ontology data.
+* ``network_statistics``: Module to extract summary statistics for a set of networks, such as node and edge counts.
+* ``gsea_functions``: Module for performing downloading, processing, and analyzing Gene Ontology data.
 
 **Script(s):**
 
@@ -100,8 +100,8 @@ Evaluation data collection and processing
 
 Modules:
 
-* ``get_disgen_associations``: Module to download DisGeNET associations and generate genesets
-* ``get_gwas_associations``: Module to download GWAS Catalog associations and generate genesets
+* ``get_disgen_associations``: Module to download DisGeNET associations and generate gene sets
+* ``get_gwas_associations``: Module to download GWAS Catalog associations and generate gene sets
 
 **Script(s):**
 
@@ -144,7 +144,7 @@ Modules:
 
 **Script(s):**
 
-* ``edge_prediction.py``: Script for performing edge prediciton evaluation.
+* ``edge_prediction.py``: Script for performing edge prediction evaluation.
 * ``alphafold_results.py``: Script for parsing and analyzing AlphaFold results.
 * ``complex_evaluation.py``: Script for evaluating hierarchical complex prediction results.
 
@@ -163,7 +163,7 @@ Provided Data and Implementation Examples
 ExampleUsage
 ------------
 
-This directory contains README and bash scripts for implemenation of each stage of the network evaluation pipeline. 
+This directory contains README and bash scripts for the implementation of each stage of the network evaluation pipeline. 
 All examples utilize three small interactomes (DIP, PID2, and Wan). While most of the pipeline is designed to run in a 
 high-performance computing environment, most of these examples can be run on a local machine.
 
@@ -188,7 +188,7 @@ This directory contains key data sets used for the evaluation of interactomes fo
 StateOfTheInteractomes_Notebooks
 --------------------------------
 
-This directory contains code and guidelines for reproducing data and figures contained
+This directory contains code and guidelines for reproducing the data and figures contained
 in the manuscript.
 
 Notebooks
@@ -202,12 +202,12 @@ Notebooks
 * 6_AlphaFold_Assessment.ipynb
 
 Due to the computational requirements of the underlying analyses, these notebooks
-leverage pre-computed data and example implementations with small networks. Much
+leverage precomputed data and example implementations with small networks. Much
 of the State of the Interactomes pipeline is designed to run in a high-performance
 computing environment. Please see ``ExampleUsage`` for guidelines on implementing
 each stage of the pipeline.
 
-To run the State Of the Interactomes Notebooks, install the required dependencies:
+To run the State of the Interactomes Notebooks, install the required dependencies:
 
    .. code-block:: bash
 
@@ -216,8 +216,8 @@ To run the State Of the Interactomes Notebooks, install the required dependencie
 
 **Inputs/Outputs**
 
-* `StateOfTheInteractomes_Notebooks/Data/` contains pre-computed data for visualization
-* Other data neccessary for analysis is contained in `Data/`
+* `StateOfTheInteractomes_Notebooks/Data/` contains precomputed data for visualization
+* Other data necessary for analysis is contained in `Data/`
 * Generated figures are saved to `StateOfTheInteractomes_Notebooks/Figures`
 * Generated data is saved to `Data/example_outputs/`
 
@@ -230,7 +230,7 @@ StateOfTheInteractomes_Notebooks/Supplemental_Code
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 This directory contains code used in the generation of the manuscript results that is not included in the primary ``neteval`` package. 
-This includes implementation of EGAD (Extending Guilt by Association by Degree) and HiDeF (Hierarchical community Decoding Framework), as well 
+This includes the implementation of EGAD (Extending Guilt by Association by Degree) and HiDeF (Hierarchical community Decoding Framework), as well 
 as processing of PDB files and gene conservation scores. 
 
 To run Supplemental Code, see additional dependencies in the associated README files:
@@ -249,7 +249,7 @@ Citing neteval
 
 If you use neteval in your research, please cite the following publication:
 
-Wright, SN., et al. *State of The Interactomes: an evaluation of molecular networks for generating biological insights.*
+Wright, S.N., Colton, S., Schaffer, L.V. et al. State of the interactomes: an evaluation of molecular networks for generating biological insights. *Mol Syst Biol* 21, 1–29 (2025). https://doi.org/10.1038/s44320-024-00077-y
 
 
 Credits
